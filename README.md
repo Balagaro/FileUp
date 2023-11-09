@@ -1,5 +1,6 @@
 # FileUp
 
+![FileUp logo](/docs/logo/fileuplogomini.png)
 
 | Dátum, Idő | Esemény | Kb mit szeretnénk |
 |-------------|---------------------|-------------------|
@@ -24,4 +25,21 @@ Megpróbáljuk definiálni, milyen iterációkbna fogunk elérni az alkalmazás 
     3. A kódot átdobom valakinek, akkor ő egy felületen be tudja írni és ezzel létrejön a handshake
 
 ## FileUp v2.0
+1. A frontendet közel készre elkészíti
+    1. Ez azt jelenti, hogy persze apró módosítások, talán plusz mellék-oldalak még lesznek később
+        de azért nagyjából elnyeri a végső formáját
+    2. Feltérképezzük, hogyan lehet fájlt fel, és letölteni
 ## FileUp v3.0
+1. A deployment
+    1. Az alkalmazás kikerül a végső helyére: bérlünk egy szervert
+        1. Itt fel kell majd venni linuxos, szerveres kompetenciát
+2. A feltérképezett tudás alapján, a fájlmegosztást beépítjük az alkalmazásba
+3. Véglegesítés
+    1. Esetleges bugok megoldása
+    2. Tesztelés
+    3. Refaktorálás
+    4. Dokumentáció review
+    5. Github commitok, branchek review
+    6. Readme véglegesítés
+4. Plusz funkcionalitások
+    1. Majd az idő függvényében bevesszük a feladatokat (pl.: telefonos nézet stb.)
