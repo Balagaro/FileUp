@@ -7,44 +7,58 @@ import java.util.Scanner;
 
 public class Server {
     public static void main(String[] args) throws IOException {
-        System.out.print("Adjon meg egy Ninckname-t: ");
-        String Nickname= new BufferedReader(new InputStreamReader(System.in)).readLine();
         ServerSocket Server = new ServerSocket(55555);
+        System.out.print("Adjon meg egy Ninckname-t: ");
+        String Nickname = new BufferedReader(new InputStreamReader(System.in)).readLine();
         Socket Client = Server.accept();
-        System.out.println(Client);
-        class recive extends Thread{
+        PrintWriter guest = new PrintWriter(new OutputStreamWriter(Client.getOutputStream()), true);
+        guest.println(Nickname);
+        String Guestname = null;
+        while (true) {
+            String in = new BufferedReader(new InputStreamReader(Client.getInputStream())).readLine();
+            if (in != "") {
+                Guestname = in;
+                break;
+            }
+        }
+        System.out.println(Guestname + " has connected!");
+        String finalGuestname = Guestname;
+        class recive extends Thread {
+
             @Override
-            public void run(){
-                while (true){
+            public void run() {
+                while (true) {
                     try {
-                        String text = new BufferedReader( new InputStreamReader(Client.getInputStream())).readLine();
-                        if(text!=""){
+                        String text = new BufferedReader(new InputStreamReader(Client.getInputStream())).readLine();
+                        if (text != "") {
                             System.out.println(text);
                         }
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        System.out.println(finalGuestname + " has left!");
+                        System.exit(0);
                     }
                 }
             }
         }
-        class send extends Thread{
+        class send extends Thread {
             @Override
             public void run() {
-                while (true){
+                while (true) {
                     try {
                         String text = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                        if(text!=""){
+                        if (text != "") {
                             PrintWriter out = new PrintWriter(new OutputStreamWriter(Client.getOutputStream()), true);
-                            out.println("<"+Nickname+">: "+text);
+                            out.println("<" + Nickname + ">: " + text);
                         }
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        System.out.println(finalGuestname + " has left!");
+                        System.exit(0);
                     }
                 }
             }
         }
-        recive t1 = new recive();
-        send t2 = new send();
+            recive t1 = new recive();
+            send t2 = new send();
         t1.start();
         t2.start();
     }

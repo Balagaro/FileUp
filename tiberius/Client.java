@@ -6,9 +6,19 @@ import java.net.Socket;
 public class Client {
     public static void main(String[] args) throws IOException{
         Socket Server = new Socket("127.0.0.1", 55555);
-        System.out.println("Connected");
         System.out.print("Adjon meg egy Ninckname-t: ");
         String Nickname= new BufferedReader(new InputStreamReader(System.in)).readLine();
+        PrintWriter guest = new PrintWriter(new OutputStreamWriter(Server.getOutputStream()), true);
+        guest.println(Nickname);
+        String servername= null;
+        while (true) {
+            String in = new BufferedReader( new InputStreamReader(Server.getInputStream())).readLine();
+            if(in!=""){
+                servername=in;
+                break;
+            }
+        }
+        System.out.println("Successfully connected!");
         class recive extends Thread{
             @Override
             public void run(){
@@ -19,7 +29,8 @@ public class Client {
                             System.out.println(text);
                         }
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("Lecsatlakoztatva a szerverről");
+                        break;
                     }
                 }
             }
@@ -35,7 +46,8 @@ public class Client {
                             out.println("<"+Nickname+">: "+text);
                         }
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("Lecsatlakoztatva a szerverről");
+                        break;
                     }
                 }
             }
