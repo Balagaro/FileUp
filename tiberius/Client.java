@@ -6,7 +6,7 @@ import java.net.Socket;
 public class Client {
     public static void main(String[] args) throws IOException{
         Socket Server = new Socket("127.0.0.1", 55555);
-        System.out.print("Adjon meg egy Ninckname-t: ");
+        System.out.print("Write a nickname: ");
         String Nickname= new BufferedReader(new InputStreamReader(System.in)).readLine();
         PrintWriter guest = new PrintWriter(new OutputStreamWriter(Server.getOutputStream()), true);
         guest.println(Nickname);
@@ -29,7 +29,7 @@ public class Client {
                             System.out.println(text);
                         }
                     } catch (IOException e) {
-                        System.out.println("Lecsatlakoztatva a szerverről");
+                        System.out.println("Disconnected from the server");
                         break;
                     }
                 }
@@ -46,7 +46,7 @@ public class Client {
                             out.println("<"+Nickname+">: "+text);
                         }
                     } catch (IOException e) {
-                        System.out.println("Lecsatlakoztatva a szerverről");
+                        System.out.println("Disconnected from the serverr");
                         break;
                     }
                 }

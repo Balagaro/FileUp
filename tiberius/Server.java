@@ -8,12 +8,12 @@ import java.util.Scanner;
 public class Server {
     public static void main(String[] args) throws IOException {
         ServerSocket Server = new ServerSocket(55555);
-        System.out.print("Adjon meg egy Ninckname-t: ");
+        System.out.print("Write a nickname: ");
         String Nickname = new BufferedReader(new InputStreamReader(System.in)).readLine();
         Socket Client = Server.accept();
         PrintWriter guest = new PrintWriter(new OutputStreamWriter(Client.getOutputStream()), true);
         guest.println(Nickname);
-        String Guestname = null;
+        String Guestname;
         while (true) {
             String in = new BufferedReader(new InputStreamReader(Client.getInputStream())).readLine();
             if (in != "") {
@@ -22,7 +22,6 @@ public class Server {
             }
         }
         System.out.println(Guestname + " has connected!");
-        String finalGuestname = Guestname;
         class recive extends Thread {
 
             @Override
@@ -34,7 +33,7 @@ public class Server {
                             System.out.println(text);
                         }
                     } catch (IOException e) {
-                        System.out.println(finalGuestname + " has left!");
+                        System.out.println(Guestname + " has left!");
                         System.exit(0);
                     }
                 }
@@ -51,7 +50,7 @@ public class Server {
                             out.println("<" + Nickname + ">: " + text);
                         }
                     } catch (IOException e) {
-                        System.out.println(finalGuestname + " has left!");
+                        System.out.println(Guestname + " has left!");
                         System.exit(0);
                     }
                 }
