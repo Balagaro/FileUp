@@ -1,0 +1,31 @@
+body{
+    height: 500px;
+}
+.outer-container{
+    width: 100%;
+}
+.inner-container{
+    width: 100%;
+    display: flex;
+}
+.leftdiv, .rightdiv{
+    flex-grow: 1.5;
+}
+
+.rightdiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+}
+.maindiv{
+    flex-grow: 7;
+    display: flex;
+    justify-content: center;
+
+}
+#mainlogo{
+    width: 100px;
+}
