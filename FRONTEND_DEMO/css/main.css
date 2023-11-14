@@ -2,22 +2,75 @@
     font-family: Arial;
 
 }
-body{
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
     height: 500px;
     background-image: url("/docs/logo/background.png");
     margin: 0px;
 }
+.dropdown {
+    display: inline-block;
+    cursor: pointer;
+    padding: 15px;
+    position: absolute;
+}
+
+.menuoszlop{
+    height: 100%;
+    position: absolute;
+    background-color: white;
+
+    width: 0px;
+    overflow: hidden;
+    transition-duration: 0.5s;
+
+}
+
+.activeoszlop{
+    position: absolute;
+    width: 70px;
+    display: block;
+    background-color: white;
+    border-right: 1px solid #efefef;
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.change .bar1 {
+    transform: translate(0, 11px) rotate(-45deg);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+    transform: translate(0, -11px) rotate(45deg);
+}
+
 .outer-container{
     width: 100%;
     background: rgba(255, 255, 255, 0.8);
-    padding: 10px;
+    height: 100%;
 }
 .inner-container{
     width: 100%;
+    height: 100%;
     display: flex;
 }
 .leftdiv, .rightdiv{
     width: 15%;
+}
+.leftdiv{
+    height: 100%;
+
 }
 
 .rightdiv{
@@ -76,6 +129,7 @@ bevezetok *{
     align-items: center;
     border-radius: 25%;
     border: 1px solid black;
+    transition-duration: 0.5s;
 }
 
 .loadlogo{
@@ -83,15 +137,20 @@ bevezetok *{
 }
 .loadlogo img{
     width: 100%;
-    color: rgb(255, 255, 255);
+
 }
 
 .subtype{
-    font-size: 100%;
+    font-size: 40px;
     padding-top: 20px;
+
 }
 
-.upload *:hover  .upload{
-    color: red;
-
+.upload:hover {
+    filter: invert(95%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
+    cursor: pointer;
+}
+.download:hover {
+    filter: invert(95%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
+    cursor: pointer;
 }

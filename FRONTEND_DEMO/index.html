@@ -10,8 +10,16 @@
     <div class="outer-container">
         <div class="inner-container">
             <div class="leftdiv">
+                <div id="menuoszlop" class="menuoszlop">
 
-                -<br>-<br>-
+                </div>
+
+                <div class="dropdown" onclick="togleMenu(this)">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+
             </div>
 
             <div class="maindiv">
@@ -65,5 +73,13 @@
 
         </div>
     </div>
+
+
+    <script>
+        function togleMenu(x) {
+            x.classList.toggle("change");
+            document.getElementById('menuoszlop').classList.toggle('activeoszlop');
+        }
+    </script>
 </body>
 </html>
