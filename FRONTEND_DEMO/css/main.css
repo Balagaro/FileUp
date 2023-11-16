@@ -97,13 +97,13 @@ bevezetok *{
     width: 200px;
 }
 .bevezetoszoveg{
-    text-justify: auto;
+    text-align: justify;
 }
 
 .box{
     background-color: #ffffff;
     border: 1px solid black;
-    border-radius: 60px;
+    border-radius: 80px;
     padding: 50px;
 }
 .out-choose{
@@ -130,6 +130,7 @@ bevezetok *{
     border-radius: 25%;
     border: 1px solid black;
     transition-duration: 0.5s;
+
 }
 
 .loadlogo{
@@ -153,4 +154,9 @@ bevezetok *{
 .download:hover {
     filter: invert(95%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
     cursor: pointer;
+}
+
+.connection-logo{
+    width: 60px;
+    padding-bottom: 10px;
 }
