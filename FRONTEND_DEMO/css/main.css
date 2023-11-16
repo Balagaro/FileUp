@@ -103,4 +103,9 @@ body {
     padding-bottom: 0px;
 }
 
-
+.rightdiv img{
+    width: 50px;
+}
+.rightdiv div{
+    padding-bottom: 10px;
+}
