@@ -87,20 +87,12 @@ body {
     align-items: center;
 
 }
-.bevezetok *{
-    color: #656565;
-    font-weight: normal;
-}
-
 .in-box{
     width: 100%;
 }
+
 #mainlogo{
     width: 200px;
-}
-.bevezetoszoveg{
-    text-justify: auto;
-
 }
 
 .box{
@@ -110,78 +102,6 @@ body {
     padding: 50px;
     padding-bottom: 0px;
 }
-.out-choose{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding-top: 5%;
 
-}
-.choose{
 
-    width: 70%;
-    display: flex;
-    justify-content: space-between;
-}
 
-.download, .upload{
-    filter: invert(36%) sepia(0%) saturate(20%) hue-rotate(332deg) brightness(94%) contrast(94%);}
-
-.cbox{
-    width: 45%;
-    padding-top: 7%;
-    padding-bottom: 7%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 25%;
-    border: 1px solid black;
-    transition-duration: 0.5s;
-}
-
-.loadlogo{
-    width: 40%;
-}
-.loadlogo img{
-    width: 100%;
-
-}
-
-.subtype{
-    font-size: 40px;
-    padding-top: 20px;
-
-}
-
-.upload:hover {
-    filter: invert(76%) sepia(0%) saturate(20%) hue-rotate(332deg) brightness(94%) contrast(94%);
-    cursor: pointer;
-}
-.download:hover{
-    filter: invert(76%) sepia(0%) saturate(20%) hue-rotate(332deg) brightness(94%) contrast(94%);
-    cursor: pointer;
-}
-.welcome{
-    color: #2d2d2d;
-}
-.outsimplelogodiv{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    filter: invert(65%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
-}
-
-.simplelogodiv{
-    width: 100px;
-}
-.simplelogodiv img {
-    width: 100%;
-
-}
-.conditions, .conditions p{
-    filter: invert(65%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
-    width: 100%;
-    text-align: center;
-    margin-bottom: 1px;
-    font-size: 10px;}
