@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 *{
-    font-family: Arial;
+    font-family: 'Source Sans 3', sans-serif;
 
 }
 html {
@@ -86,8 +87,9 @@ body {
     align-items: center;
 
 }
-bevezetok *{
-    color: #606060;
+.bevezetok *{
+    color: #656565;
+    font-weight: normal;
 }
 
 .in-box{
@@ -98,6 +100,7 @@ bevezetok *{
 }
 .bevezetoszoveg{
     text-justify: auto;
+
 }
 
 .box{
@@ -105,6 +108,7 @@ bevezetok *{
     border: 1px solid black;
     border-radius: 60px;
     padding: 50px;
+    padding-bottom: 0px;
 }
 .out-choose{
     width: 100%;
@@ -119,6 +123,9 @@ bevezetok *{
     display: flex;
     justify-content: space-between;
 }
+
+.download, .upload{
+    filter: invert(36%) sepia(0%) saturate(20%) hue-rotate(332deg) brightness(94%) contrast(94%);}
 
 .cbox{
     width: 45%;
@@ -147,10 +154,34 @@ bevezetok *{
 }
 
 .upload:hover {
-    filter: invert(95%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
+    filter: invert(76%) sepia(0%) saturate(20%) hue-rotate(332deg) brightness(94%) contrast(94%);
     cursor: pointer;
 }
-.download:hover {
-    filter: invert(95%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
+.download:hover{
+    filter: invert(76%) sepia(0%) saturate(20%) hue-rotate(332deg) brightness(94%) contrast(94%);
     cursor: pointer;
 }
+.welcome{
+    color: #2d2d2d;
+}
+.outsimplelogodiv{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    filter: invert(65%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
+}
+
+.simplelogodiv{
+    width: 100px;
+}
+.simplelogodiv img {
+    width: 100%;
+
+}
+.conditions, .conditions p{
+    filter: invert(65%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1px;
+    font-size: 10px;}
