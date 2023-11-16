@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/frontpage.css">
 </head>
 <body>
 
@@ -14,7 +15,7 @@
 
                 </div>
 
-                <div class="dropdown" onclick="togleMenu(this)">
+                <div class="dropdown" onclick="toggleMenu(this)">
                     <div class="bar1"></div>
                     <div class="bar2"></div>
                     <div class="bar3"></div>
@@ -44,17 +45,31 @@
                             <div class="out-choose">
                             <div class="choose">
                                 <div class="cbox upload">
-                                    <div class="loadlogo"><img src="/docs/assets/uploadbutton.png"></div>
-                                    <div class="subtype">Küldés</div>
+                                    <button onclick="window.alert('UTALOM A CIGANYOKAT')" id="uploadbutt">
+                                        <div class="loadlogo"><img src="/docs/assets/uploadbutton.png"></div>
+                                        <div class="subtype">Küldés</div>
+                                    </button>
+
                                 </div>
                                 <div class="cbox download">
-                                    <div class="loadlogo"><img src="/docs/assets/downloadbutton.png" alt=""></div>
-                                    <div class="subtype">Fogadás</div>
+                                    <button onclick="window.alert('UTALOM A CIGANYOKAT')" id="downloadbutt">
+                                        <div class="loadlogo"><img src="/docs/assets/downloadbutton.png" alt=""></div>
+                                        <div class="subtype">Fogadás</div>
+                                    </button>
+
                                 </div>
                             </div>
                             </div>
-
-
+                            <div class="outsimplelogodiv">
+                            <div class="simplelogodiv">
+                                <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
+                            </div>
+                            </div>
+                            <div class="conditions">
+                                <p>A szolgálatás igénybevételével elfogadja annak
+                                    általános használati feltételeit,
+                                    és adatkezelési nyilatkozatát.</p>
+                            </div>
 
                         </div>
                     </div>
@@ -76,7 +91,7 @@
 
 
     <script>
-        function togleMenu(x) {
+        function toggleMenu(x) {
             x.classList.toggle("change");
             document.getElementById('menuoszlop').classList.toggle('activeoszlop');
         }
