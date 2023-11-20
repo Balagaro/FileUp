@@ -4,3 +4,9 @@
 .out-box{
     width: 60%;
 }
+.backbutton{
+    position: relative;
+}
+.backbutton img{
+    width: 70px;
+}
