@@ -1,23 +1,13 @@
+const http = require('http');
+const fs = require('fs');
+const express=require('express')
+const path = require('path')
 
-var io   = require('socket.io'),
-    url  = require('url'),
-    sys  = require('sys'),
-    fs = require('fs'),
-    express = require('express'),
-    http=require('http');
+const app=express()
+app.use(express.static(__dirname));
 
-var app = express();
-var path = require('path')
-
-app.use(express.static(path.join(__dirname, 'public')));
-fs.readFile('./front.html', function (err, html) {
-
-    if (err) throw err;
-
-    http.createServer(function(request, response) {
-        response.writeHeader(200, {"Content-Type": "text/html"});
-        response.write(html);
-        response.end();
-    }).listen(5555)
-    ;
+app.get('/', function (req, res){
+    res.sendFile(path.join('/FRONTEND_DEMO/index.html'))
 });
+app.listen(8080)
+console.log('fasza')
