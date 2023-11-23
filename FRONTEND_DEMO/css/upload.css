@@ -2,11 +2,18 @@
     width: 100%;
 }
 .out-box{
-    width: 60%;
+    width: 100%;
 }
 .backbutton{
-    position: relative;
+    width: min-content;
+
 }
+
 .backbutton img{
     width: 70px;
+    opacity: 50%;
+}
+.box{
+    padding: 0px;
+    padding-left: 10px;
 }
