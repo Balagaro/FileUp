@@ -109,3 +109,7 @@ body {
 .rightdiv div{
     padding-bottom: 10px;
 }
+
+.choose a{
+    text-decoration: none ;
+}

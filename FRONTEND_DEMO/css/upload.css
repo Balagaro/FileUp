@@ -1,19 +1,49 @@
 .box{
     width: 100%;
+    padding: 20px;
+
 }
 .out-box{
     width: 100%;
 }
 .backbutton{
     width: min-content;
-
+    position: absolute;
 }
 
 .backbutton img{
     width: 70px;
     opacity: 50%;
 }
-.box{
-    padding: 0px;
-    padding-left: 10px;
+
+.topline{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.innertopline{
+    display: flex;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.codeline{
+    width: 68%;
+
+}
+.copylink{
+    width: 30%;
+    background-color: rgb(189, 255, 255);
+
+}
+
+.codeline, .copylink{
+    border: 1px solid black;
+    border-radius: 20px;
+    height: 40px;
+    opacity: 50%;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
