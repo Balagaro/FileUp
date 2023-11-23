@@ -10,4 +10,4 @@ app.get('/', function (req, res){
     res.sendFile(path.join('index.html'))
 });
 app.listen(8080)
-console.log('fasza')
+console.log('megyunk elore hajra Szilard')
