@@ -7,7 +7,7 @@ const app=express()
 app.use(express.static(__dirname+'/FRONTEND_DEMO'));
 
 app.get('/', function (req, res){
-    res.sendFile(path.join('index.html'))
+    res.render('index', { title: 'Hey', message: 'Hello there!' })
 });
-app.listen(8080)
-console.log('megyunk elore hajra Szilard')
+app.listen(3000)
+console.log('hajra Szilard')
