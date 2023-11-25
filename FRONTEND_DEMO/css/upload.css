@@ -47,3 +47,28 @@
     justify-content: center;
     align-items: center;
 }
+.outwaiting-box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.inwaiting-box{
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 50px;
+    margin-top:50px;
+    height: 200px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.tick{
+    width: 50px;
+    opacity: 50%;
+    margin-top: 30px;
+}
+.waitingtext{
+    font-size: 20px;
+}
