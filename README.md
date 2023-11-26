@@ -1,6 +1,6 @@
 # FileUp
 
-![FileUp logo](/docs/logo/fileuplogomini.png)
+![FileUp logo](/probaaa/docs/logo/fileuplogomini.png)
 
 | Dátum, Idő | Esemény | Kb mit szeretnénk |
 |-------------|---------------------|-------------------|
