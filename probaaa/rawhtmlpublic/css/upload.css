@@ -6,14 +6,18 @@
 .out-box{
     width: 100%;
 }
+
 .backbutton{
     width: min-content;
     position: absolute;
+
 }
 
 .backbutton img{
     width: 70px;
     opacity: 50%;
+
+
 }
 
 .topline{
@@ -25,27 +29,33 @@
     display: flex;
     width: 70%;
     justify-content: space-between;
+    align-items: center;
 }
 
-.codeline{
+#codeline{
     width: 68%;
 
 }
-.copylink{
+#copylink{
     width: 30%;
     background-color: rgb(189, 255, 255);
 
 }
+#copylink:hover{
+    cursor: pointer;
+}
 
-.codeline, .copylink{
+#codeline, #copylink{
     border: 1px solid black;
     border-radius: 20px;
     height: 40px;
     opacity: 50%;
     font-size: 25px;
     display: flex;
-    justify-content: center;
+    text-align: center;
     align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 .outwaiting-box{
     width: 100%;

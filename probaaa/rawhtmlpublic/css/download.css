@@ -1,0 +1,116 @@
+.box{
+    width: 100%;
+    padding: 1%;
+
+}
+.out-box{
+    width: 94%;
+}
+
+.backbutton2{
+    position: absolute;
+}
+.backbutton2 img{
+
+    width: 70px;
+}
+
+.recievefiles{
+    font-size: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+.recievefiles div{
+    opacity: 60%;
+}
+.out-recievewindow{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.recievewindow{
+    width: 50%;
+    min-width: 200px;
+    height: 250px;
+    border-radius: 40px;
+    border: 1px solid black
+}
+.out-recievebutt{
+    width: 100%;
+    display: flex;
+    margin-top:20px;
+    opacity: 30%;
+    justify-content: center;
+}
+.recievebutt{
+    border-radius: 40px;
+    border: 1px solid black;
+    width: 70%;
+    height: 50px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#recieve{
+    visibility: hidden;
+}
+.outcode{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 60px;
+    align-items: center;
+}
+.incode{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.codeform{
+    width: 60%;
+    display: flex;
+
+    justify-content: space-between;
+}
+.codebar{
+width: 80%;
+}
+.codesubmit{
+    width: 18%;
+    height: 30px;
+    border: 1px solid black;
+    background-color: rgb(189, 255, 255);
+    border-radius: 30px;
+    font-size: 20px;
+}
+.incode div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#code{
+
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+    border: 1px solid black;
+    height: 30px;
+    border-radius: 30px;
+}
+#submit{
+    visibility: hidden;
+    position: absolute;
+}
+.codeok{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.codeok:hover{
+    cursor: pointer;
+}

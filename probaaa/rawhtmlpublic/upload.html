@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>FileUp</title>
-    <link rel="icon" type="image/x-icon" href="./docs/logo/fileuplogomini.png">
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" href="./css/upload.css">
+    <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/upload.css">
 
 </head>
 
@@ -29,7 +29,7 @@
 
         <div class="maindiv">
 
-            <div class="logoline"><a href="./index.html">
+            <div class="logoline"><a href="index.html">
                 <img id="mainlogo" src="/docs/logo/fileuplogo.png" alt=FileUP></a>
             </div>
 
@@ -38,17 +38,15 @@
                     <div class="in-box">
 
                         <div class="backbutton">
-                            <a href="./index.html"><img src="/docs/assets/backwards.png" alt="Visszagomb">
+                            <a href="index.html"><img src="/docs/assets/backwards.png" alt="Visszagomb">
                             </a>
                         </div>
                         <div class="topline">
                             <div class="innertopline">
-                                <div class="codeline">
-                                    AH34ASD86KGHB4546DSAD
-                                </div>
-                                <div class="copylink">
+                                <input id="codeline" value="Betöltés..." readonly>
+                                <button onclick="Masolas()" id="copylink">
                                     másolás linkként
-                                </div>
+                                </button>
                             </div>
                         </div>
                         <div class="outwaiting-box">
@@ -134,6 +132,41 @@
             });
         }
     }
+
+    function Masolas(){
+        // Get the text field
+        var copyText = document.getElementById("codeline");
+
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+
+        // Alert the copied text
+        console.log("Copied the text: " + copyText.value);
+    }
+
+    const io = require("socket.io")(server);
+    let reciverID;
+    const socket=io();
+
+    function generateID() {
+        return `${Math.trunc(Math.random()*999)}-${Math.trunc(Math.random()*999)}-${Math.trunc(Math.random()*999)}` ;
+    }
+
+    let joinID = generateID();
+    document.getElementById('codeline').value="asdasdasd";
+    console.log('jo')
+
+    socket.emit("sender-join",{
+        uid:joinID
+    });
+
+
+
+
 </script>
 </body>
 

@@ -1,0 +1,163 @@
+.box{
+    width: 100%;
+    padding: 20px;
+
+}
+.out-box{
+    width: 100%;
+}
+
+.backbutton{
+    width: min-content;
+    position: absolute;
+
+}
+
+.backbutton img{
+    width: 70px;
+    opacity: 50%;
+
+
+}
+
+.topline{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.innertopline{
+    display: flex;
+    width: 70%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#codeline{
+    width: 68%;
+
+}
+#copylink{
+    width: 30%;
+    background-color: rgb(189, 255, 255);
+
+}
+#copylink:hover{
+    cursor: pointer;
+}
+
+#codeline, #copylink{
+    border: 1px solid black;
+    border-radius: 20px;
+    height: 40px;
+    opacity: 50%;
+    font-size: 25px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.outwaiting-box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.inwaiting-box{
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 50px;
+    margin-top:50px;
+    height: 200px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contbox{
+    display: none;
+}
+.tickgreen{
+    filter: invert(54%) sepia(96%) saturate(3131%) hue-rotate(91deg) brightness(123%) contrast(125%);
+}
+.tick{
+    width: 50px;
+    opacity: 50%;
+    margin-top: 30px;
+}
+.waitingtext{
+    font-size: 20px;
+
+}
+.outdrag{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+#file-input{
+    visibility: hidden;
+    position: absolute;
+}
+
+#drop_zone {
+    border: 2px dashed black;
+    background-color: #b2b2b2;
+    width: 60%;
+    border-radius: 50px;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.openfile{
+    width: 100px;
+    height: 80px;
+    border: 1px solid black;
+    border-radius: 50px;
+    margin-right: 10px;
+    background-color: #656565;
+}
+
+.folder img{
+    width: 65px;
+}
+.folder{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.folder:hover{
+    cursor: pointer;
+}
+.dragthefiles{
+    width: 80%;
+    font-size: 30px;
+    opacity: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.fileok{
+    width: 100%;
+}
+
+.active{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item{
+    display: flex;
+    width: 90%;
+
+    justify-content: space-between;
+}
+

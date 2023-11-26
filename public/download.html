@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FileUp</title>
+    <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/download.css">
+</head>
+
+<body>
+
+<div class="outer-container">
+    <div class="inner-container">
+        <div class="leftdiv">
+            <div id="menuoszlop" class="menuoszlop">
+
+            </div>
+
+            <div class="dropdown" onclick="toggleMenu(this)">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+
+        </div>
+
+        <div class="maindiv">
+
+            <div class="logoline"><a href="index.html">
+                <img id="mainlogo" src="/docs/logo/fileuplogo.png" alt="FileUP"></a>
+            </div>
+
+            <div class="out-box">
+                <div class="box">
+                    <div class="in-box">
+                        <div class="backbutton2">
+                            <a href="index.html"><img src="/docs/assets/backwards.png" alt="Visszagomb">
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div class="recievefiles">
+                        <div>
+                            Fájlok fogadása
+                        </div>
+                        </div>
+                    <div class="out-recievewindow">
+                    <div class="recievewindow">
+                    <div class="receivebox">
+
+                    </div>
+
+                    </div></div>
+                    <div class="out-recievebutt">
+                        <div class="recievebutt">
+                            <label for="recieve" class="reclab">Fogadás</label>
+                            <button onclick="console.log('clicked')" id="recieve"  type="file"></button>
+                        </div>
+                    </div>
+                    <div class="outcode">
+                        <div class="incode">
+                            <div class="codeform" action="">
+                            <div class="codebar" ><input type="text" placeholder="Adja meg a kódot!" id="code" name="code" size="10" > </div>
+                            <div class="codesubmit">
+                                <label for="submit" class="codeok">Ok</label>
+                                <input type="submit" id="submit"  value="OK">
+
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="rightdiv">
+
+        <div><a target=”_blank” href="https://discord.gg/9Gyp4gutVN"><img class="connection-logo"
+                                                                          src="/docs/assets/connections/discord.png" alt=""></a></div>
+        <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
+                                                                               src="/docs/assets/connections/github.png" alt=""></a></div>
+
+
+    </div>
+
+</div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.1/download.min.js"></script>
+<script type="text/javascript" src="socket.io/socket.io.js"></script>
+<script type="text/javascript" src="receiver.js"></script>
+
+<script>
+    function toggleMenu(x) {
+        x.classList.toggle("change");
+        document.getElementById('menuoszlop').classList.toggle('activeoszlop');
+    }
+</script>
+</body>
+
+</html>

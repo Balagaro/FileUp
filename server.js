@@ -30,4 +30,4 @@ io.on("connection", function(socket){
 
 })
 
-server.listen(5050);
+server.listen(5000);

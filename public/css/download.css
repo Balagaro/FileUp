@@ -1,25 +1,28 @@
 .box{
     width: 100%;
-    padding: 20px;
+    padding: 1%;
 
 }
 .out-box{
-    width: 100%;
-}
-.backbutton{
-    width: min-content;
-    position: absolute;
+    width: 94%;
 }
 
-.backbutton img{
-    width: 70px;
-    opacity: 50%;
+.backbutton2{
+    position: absolute;
 }
+.backbutton2 img{
+    opacity: 50%;
+    width: 70px;
+}
+
 .recievefiles{
     font-size: 30px;
     width: 100%;
     display: flex;
     justify-content: center;
+
+}
+.recievefiles div{
     opacity: 60%;
 }
 .out-recievewindow{
@@ -33,7 +36,18 @@
     min-width: 200px;
     height: 250px;
     border-radius: 40px;
-    border: 1px solid black
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+.receivebox{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .out-recievebutt{
     width: 100%;
@@ -41,6 +55,11 @@
     margin-top:20px;
     opacity: 30%;
     justify-content: center;
+}
+.item{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
 }
 .recievebutt{
     border-radius: 40px;

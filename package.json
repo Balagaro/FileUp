@@ -1,18 +1,16 @@
 {
-  "name": "javacript",
+  "name": "fileshare",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node server.js"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "keywords": [],
-  "description": "![FileUp logo](/docs/logo/fileuplogomini.png)",
   "dependencies": {
     "express": "^4.18.2",
     "socket.io": "^4.7.2"
-  },
-  "devDependencies": {}
+  }
 }
