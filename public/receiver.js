@@ -16,7 +16,7 @@
 
     document.querySelector("#submit").addEventListener("click",function(){
         senderID = document.querySelector("#code").value;
-        if(senderID.length == 0){
+        if(senderID.length === 0){
             return;
         }
         let joinID = generateID();
@@ -27,7 +27,7 @@
         /*
         document.querySelector(".join-screen").classList.remove("active");
         document.querySelector(".fs-screen").classList.add("active");*/
-        console.log('2323')
+
     });
 
     let fileShare = {};
@@ -48,19 +48,28 @@
         fileShare.progress_node = el.querySelector(".progress");
         let thebutton=document.querySelector('#recieve')
         thebutton.disabled=false;
+        document.querySelector('.out-recievebutt').classList.add('activerecbutt')
+        const promise = new Promise((resolve) => {
+            thebutton.addEventListener('click', resolve)
+        })
+        async function waitClick () {
+            return await promise
+        }
+        waitClick()
+            .then(() => {
+                socket.emit("fs-start",{
+                    uid:senderID
+                });
+            })
 
 
-
-        socket.emit("fs-start",{
-            uid:senderID
-        });
     });
 
     socket.on("fs-share",function(buffer){
         fileShare.buffer.push(buffer);
         fileShare.transmitted += buffer.byteLength;
         fileShare.progress_node.innerText = Math.trunc(fileShare.transmitted / fileShare.metadata.total_buffer_size * 100) + "%";
-        if(fileShare.transmitted == fileShare.metadata.total_buffer_size){
+        if(fileShare.transmitted === fileShare.metadata.total_buffer_size){
             download(new Blob(fileShare.buffer), fileShare.metadata.filename);
             fileShare={};
         }else{

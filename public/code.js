@@ -57,12 +57,25 @@ function dropHandler(ev) {
             return;
         }
         let reader = new FileReader();
+        console.log(file.name.length)
+        let filename=file.name;
+        if (file.name.length>30) {
+            filename="";
+            let oldname=file.name;
+            for (i=0; i<25; i++){
+                filename+=oldname.charAt(i)
+
+            }
+            filename+="(...)."+((file.name.split('.')).pop());
+        }
+        console.log(filename)
+
         reader.onload = function(e){
             let buffer = new Uint8Array(reader.result);
             let el =document.createElement("div");
             el.classList.add("item");
             el.innerHTML = `
-                <div class="filename">${file.name}</div>
+                <div class="filename">${filename}</div>
                 <div class="progress">0%</div>
                 
             `;
