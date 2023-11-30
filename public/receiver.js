@@ -3,7 +3,15 @@
     const socket = io();
 
     function generateID() {
-        return `${Math.trunc(Math.random()*999)}-${Math.trunc(Math.random()*999)}-${Math.trunc(Math.random()*999)}` ;
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < 25) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        return result;
     }
 
     document.querySelector("#submit").addEventListener("click",function(){
@@ -38,6 +46,11 @@
         `;
         document.querySelector(".receivebox").appendChild(el);
         fileShare.progress_node = el.querySelector(".progress");
+        let thebutton=document.querySelector('#recieve')
+        thebutton.disabled=false;
+
+
+
         socket.emit("fs-start",{
             uid:senderID
         });

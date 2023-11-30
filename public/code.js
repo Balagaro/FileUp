@@ -1,11 +1,31 @@
- (function(){
+function dropHandler(ev) {
+    const socket = io();
+    console.log("File(s) dropped");
+    ev.preventDefault();
+    [...ev.dataTransfer.items].forEach((item, i) => {
+        const file = item.getAsFile();
+        console.log('jou')
+
+    });
+
+}
+
+(function() {
     let receiverID;
     const socket = io();
 
-    function generateID() {
-        return `${Math.trunc(Math.random()*999)}-${Math.trunc(Math.random()*999)}-${Math.trunc(Math.random()*999)}` ;
-    }
 
+    function generateID() {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < 25) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        return result;
+    }
 
     let joinID = generateID();
     document.querySelector("#codeline").value=joinID;
@@ -26,8 +46,13 @@
 
     });
 
+
+
+
+
     document.querySelector("#drop_zone").addEventListener("change",function(e){
         let file = e.target.files[0];
+        console.log(e.target.files[0])
         if (!file){
             return;
         }
@@ -50,7 +75,55 @@
             },buffer,el.querySelector(".progress"));
         }
         reader.readAsArrayBuffer(file);
-    })
+    });
+
+    const initApp = () => {
+        const droparea = document.querySelector('#drop_zone');
+        const active = () => droparea.classList.add("dropping");
+        const inactive = () => droparea.classList.remove("dropping");
+        const prevents = (e) => e.preventDefault();
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evtName => {
+            droparea.addEventListener(evtName, prevents);
+        });
+        ['dragenter', 'dragover'].forEach(evtName => {
+            droparea.addEventListener(evtName, active);
+        });
+        ['dragleave', 'drop'].forEach(evtName => {
+            droparea.addEventListener(evtName, inactive);
+        });
+        droparea.addEventListener("drop", handleDrop);
+    }
+    document.addEventListener("DOMContentLoaded", initApp);
+    const handleDrop = (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        let dropped=files[0]
+        console.log(files[0]); // FileList
+        if (!dropped){
+            return;
+        }
+        let reader = new FileReader();
+        reader.onload = function(e){
+            let buffer = new Uint8Array(reader.result);
+            let el =document.createElement("div");
+            el.classList.add("item");
+            el.innerHTML = `
+                <div class="filename">${dropped.name}</div>
+                <div class="progress">0%</div>
+                
+            `;
+
+            document.querySelector(".fileok").appendChild(el);
+            shareFile({
+                filename:dropped.name,
+                total_buffer_size:buffer.length,
+                buffer_size:1024
+            },buffer,el.querySelector(".progress"));
+        }
+        reader.readAsArrayBuffer(dropped);
+
+    }
+
 
     function shareFile(metadata,buffer,progress_node){
         socket.emit("file-meta",{
@@ -71,3 +144,6 @@
     }
 
  })();
+
+
+

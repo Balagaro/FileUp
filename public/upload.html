@@ -74,8 +74,8 @@
                         </div>
 
                         <div class="outdrag">
-                            <div id="drop_zone" ondrop="dropHandler(event)" ondragover="dragOverHandler(event);">
-                                <div class="dragthefiles">
+                            <section id="drop_zone" class="drop_zonec"><!--ondragover="dragOverHandler(event);"-->
+                                <div class="dragthefiles"> <!--ondrop="dropHandler(event)" -->
                                     Húzza ide a fájlokat!
                                 </div>
 
@@ -84,7 +84,7 @@
                                     <input  id="file-input"  type="file">
                                 </div>
 
-                            </div>
+                            </section>
                         </div>
 
 
@@ -123,6 +123,23 @@
         ev.preventDefault();
     }
 
+
+
+    function Masolas(){
+        // Get the text field
+        let copyText = document.getElementById("codeline");
+
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+
+        // Alert the copied text
+        console.log("Copied the text: " + copyText.value);
+    }
+
     function dropHandler(ev) {
         console.log("File(s) dropped");
 
@@ -145,23 +162,6 @@
             });
         }
     }
-
-    function Masolas(){
-        // Get the text field
-        var copyText = document.getElementById("codeline");
-
-        // Select the text field
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); // For mobile devices
-
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(copyText.value);
-
-        // Alert the copied text
-        console.log("Copied the text: " + copyText.value);
-    }
-
-
 
 </script>
 </body>

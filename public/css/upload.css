@@ -103,7 +103,7 @@
 
 #drop_zone {
     border: 2px dashed black;
-    background-color: #b2b2b2;
+
     width: 60%;
     border-radius: 50px;
     height: 100px;
@@ -118,6 +118,8 @@
     border: 1px solid black;
     border-radius: 50px;
     margin-right: 10px;
+
+
     background-color: #656565;
 }
 
@@ -160,4 +162,13 @@
 
     justify-content: space-between;
 }
+.drop_zonec{
+    background-color: #b2b2b2;
+    z-index: 2;
 
+}
+.dropping {
+    cursor: pointer;
+    background-color: rgba(42, 42, 42, 0.66);
+    z-index: 3;
+}
