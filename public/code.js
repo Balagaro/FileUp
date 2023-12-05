@@ -46,10 +46,10 @@ function dropHandler(ev) {
 
     });
 
+//koros retek
 
 
-
-
+//koros retek vege
     document.querySelector("#drop_zone").addEventListener("change",function(e){
         let file = e.target.files[0];
         console.log(e.target.files[0])
@@ -76,7 +76,9 @@ function dropHandler(ev) {
             el.classList.add("item");
             el.innerHTML = `
                 <div class="filename">${filename}</div>
-                <div class="progress">0%</div>
+                <div class="progress2">0%</div>
+                <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
+                
                 
             `;
 
@@ -89,7 +91,7 @@ function dropHandler(ev) {
         }
         reader.readAsArrayBuffer(file);
     });
-
+    document.querySelector()
     const initApp = () => {
         const droparea = document.querySelector('#drop_zone');
         const active = () => droparea.classList.add("dropping");
@@ -122,7 +124,8 @@ function dropHandler(ev) {
             el.classList.add("item");
             el.innerHTML = `
                 <div class="filename">${dropped.name}</div>
-                <div class="progress">0%</div>
+                <div class="progress2">0%</div>
+                <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
                 
             `;
 

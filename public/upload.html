@@ -7,7 +7,39 @@
     <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/upload.css">
-
+    <style>
+        .out-circle{
+            display: flex;
+            border-radius: 8px;
+            row-gap: 30px;
+            flex-direction: column;
+            align-items: center;
+        }
+        .in-circle{
+            position: relative;
+            height: 250px;
+            width: 250px;
+            border-radius: 50%;
+            background: conic-gradient(#7d2ae8 3.6deg, #ededed00 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .in-circle::before{
+            content: "";
+            position: absolute;
+            height: 210px;
+            width: 210px;
+            border-radius: 50%;
+            background-color: #fff;
+        }
+        .progress{
+            position: relative;
+            font-size: 40px;
+            font-weight: 600;
+            color: #7d2ae8;
+        }
+    </style>
 </head>
 
 <body>
@@ -55,6 +87,7 @@
                                 <label class="waitingtext" >
                                     Várakozás a csatlakozásra...
                                 </label>
+
                                 <label class="tick" >
                                     <img src="/docs/assets/tick.svg" alt="pipa">
                                 </label></div>
@@ -162,6 +195,12 @@
             });
         }
     }
+    let circularProgress = document.querySelector(".in-circle");
+    let progressValue = document.querySelector(".progress");
+
+    let progress = setInterval(() => {
+        circularProgress.style.background = `conic-gradient(#7d2ae8 ${progressValue * 3.6}deg, #ededed 0deg)`
+    }, 100);
 
 </script>
 </body>
