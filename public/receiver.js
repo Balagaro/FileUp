@@ -66,7 +66,6 @@
 
 
     });
-
     socket.on("fs-share",function(buffer){
         fileShare.buffer.push(buffer);
         fileShare.transmitted += buffer.byteLength;
@@ -74,6 +73,8 @@
         if(fileShare.transmitted === fileShare.metadata.total_buffer_size){
             download(new Blob(fileShare.buffer), fileShare.metadata.filename);
             fileShare={};
+            console.log("alma")
+
         }else{
             socket.emit("fs-start",{
                 uid:senderID
