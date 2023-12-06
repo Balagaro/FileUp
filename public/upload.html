@@ -7,39 +7,7 @@
     <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/upload.css">
-    <style>
-        .out-circle{
-            display: flex;
-            border-radius: 8px;
-            row-gap: 30px;
-            flex-direction: column;
-            align-items: center;
-        }
-        .in-circle{
-            position: relative;
-            height: 250px;
-            width: 250px;
-            border-radius: 50%;
-            background: conic-gradient(#7d2ae8 3.6deg, #ededed00 0deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .in-circle::before{
-            content: "";
-            position: absolute;
-            height: 210px;
-            width: 210px;
-            border-radius: 50%;
-            background-color: #fff;
-        }
-        .progress{
-            position: relative;
-            font-size: 40px;
-            font-weight: 600;
-            color: #7d2ae8;
-        }
-    </style>
+
 </head>
 
 <body>
@@ -76,7 +44,7 @@
                         <div class="topline">
                             <div class="innertopline">
                                 <input id="codeline" value="Betöltés..." readonly>
-                                <button onclick="Masolas()" id="copylink">
+                                <button onclick="unsecuredCopyToClipboard(document.getElementById('codeline').value)" id="copylink">
                                     másolás
                                 </button>
                             </div>
@@ -150,14 +118,14 @@
     }
 
     function dragOverHandler(ev) {
-        console.log("File(s) in drop zone");
+        //console.log("File(s) in drop zone");
 
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
     }
 
 
-
+/*
     function Masolas(){
         // Get the text field
         let copyText = document.getElementById("codeline");
@@ -173,8 +141,26 @@
         console.log("Copied the text: " + copyText.value);
     }
 
+
+*/
+    function unsecuredCopyToClipboard(text) {
+        //console.log(text)
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+        } catch (err) {
+            console.error('Unable to copy to clipboard', err);
+        }
+        document.body.removeChild(textArea);
+    }
+
+
     function dropHandler(ev) {
-        console.log("File(s) dropped");
+        //console.log("File(s) dropped");
 
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
@@ -185,22 +171,17 @@
                 // If dropped items aren't files, reject them
                 if (item.kind === "file") {
                     const file = item.getAsFile();
-                    console.log(`… file[${i}].name = ${file.name}`);
+                    //console.log(`… file[${i}].name = ${file.name}`);
                 }
             });
         } else {
             // Use DataTransfer interface to access the file(s)
             [...ev.dataTransfer.files].forEach((file, i) => {
-                console.log(`… file[${i}].name = ${file.name}`);
+                //console.log(`… file[${i}].name = ${file.name}`);
             });
         }
     }
-    let circularProgress = document.querySelector(".in-circle");
-    let progressValue = document.querySelector(".progress");
 
-    let progress = setInterval(() => {
-        circularProgress.style.background = `conic-gradient(#7d2ae8 ${progressValue * 3.6}deg, #ededed 0deg)`
-    }, 100);
 
 </script>
 </body>
