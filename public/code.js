@@ -1,10 +1,10 @@
 function dropHandler(ev) {
     const socket = io();
-    console.log("File(s) dropped");
+    //console.log("File(s) dropped");
     ev.preventDefault();
     [...ev.dataTransfer.items].forEach((item, i) => {
         const file = item.getAsFile();
-        console.log('jou')
+        //console.log('jou')
 
     });
 
@@ -52,12 +52,11 @@ function dropHandler(ev) {
 //koros retek vege
     document.querySelector("#drop_zone").addEventListener("change",function(e){
         let file = e.target.files[0];
-        console.log(e.target.files[0])
+        //(e.target.files[0])
         if (!file){
             return;
         }
         let reader = new FileReader();
-        console.log(file.name.length)
         let filename=file.name;
         if (file.name.length>30) {
             filename="";
@@ -68,7 +67,7 @@ function dropHandler(ev) {
             }
             filename+="(...)."+((file.name.split('.')).pop());
         }
-        console.log(filename)
+
 
         reader.onload = function(e){
             let buffer = new Uint8Array(reader.result);
@@ -76,22 +75,20 @@ function dropHandler(ev) {
             el.classList.add("item");
             el.innerHTML = `
                 <div class="filename">${filename}</div>
-                <div class="progress2">0%</div>
                 <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
-                
-                
             `;
 
             document.querySelector(".fileok").appendChild(el);
             shareFile({
                 filename:file.name,
                 total_buffer_size:buffer.length,
-                buffer_size:1024
+                buffer_size:1024,
             },buffer,el.querySelector(".progress"));
         }
         reader.readAsArrayBuffer(file);
     });
-    document.querySelector()
+
+
     const initApp = () => {
         const droparea = document.querySelector('#drop_zone');
         const active = () => droparea.classList.add("dropping");
@@ -113,18 +110,32 @@ function dropHandler(ev) {
         const dt = e.dataTransfer;
         const files = dt.files;
         let dropped=files[0]
-        console.log(files[0]); // FileList
+        //console.log(files[0]); // FileList
         if (!dropped){
             return;
         }
+
+
         let reader = new FileReader();
+        let filename=dropped.name;
+        if (dropped.name.length>30) {
+            filename="";
+            let oldname=dropped.name;
+            for (i=0; i<25; i++){
+                filename+=oldname.charAt(i)
+
+            }
+            filename+="(...)."+((dropped.name.split('.')).pop());
+        }
+
+
+
         reader.onload = function(e){
             let buffer = new Uint8Array(reader.result);
             let el =document.createElement("div");
             el.classList.add("item");
             el.innerHTML = `
-                <div class="filename">${dropped.name}</div>
-                <div class="progress2">0%</div>
+                <div class="filename">${filename}</div>
                 <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
                 
             `;
@@ -140,7 +151,35 @@ function dropHandler(ev) {
 
     }
 
+/*
+    function shareFile(metadata,buffer,progress_node, circle){
 
+
+        socket.emit("file-meta",{
+            uid:receiverID,
+            metadata:metadata
+        });
+        socket.on("fs-share",function(){
+            let rad=0;
+            let chunk = buffer.slice(0,metadata.buffer_size);
+            buffer = buffer.slice(metadata.buffer_size,buffer.length);
+            //szazalek=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100);
+            //rad=szazalek*3.6
+            //progress_node.innerText=(szazalek + "%")
+            //circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
+            progress_node.innerText=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100 )+ "%";
+
+
+
+            if(chunk.length !=0){
+                socket.emit("file-raw",{
+                    uid:receiverID,
+                    buffer:chunk
+                });
+            }
+        });
+    }
+*/
     function shareFile(metadata,buffer,progress_node){
         socket.emit("file-meta",{
             uid:receiverID,
@@ -158,7 +197,6 @@ function dropHandler(ev) {
             }
         });
     }
-
  })();
 
 
