@@ -75,7 +75,10 @@ function dropHandler(ev) {
             el.classList.add("item");
             el.innerHTML = `
                 <div class="filename">${filename}</div>
+                <div>
                 <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
+                <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
+                </div>
             `;
 
             document.querySelector(".fileok").appendChild(el);
@@ -83,7 +86,7 @@ function dropHandler(ev) {
                 filename:file.name,
                 total_buffer_size:buffer.length,
                 buffer_size:1024,
-            },buffer,el.querySelector(".progress"));
+            },buffer,el.querySelector(".progress"), el.querySelector('.in-circle'),el.querySelector('.keszpipa'));
         }
         reader.readAsArrayBuffer(file);
     });
@@ -136,8 +139,10 @@ function dropHandler(ev) {
             el.classList.add("item");
             el.innerHTML = `
                 <div class="filename">${filename}</div>
+                <div>
                 <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
-                
+                <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
+                </div>
             `;
 
             document.querySelector(".fileok").appendChild(el);
@@ -145,30 +150,34 @@ function dropHandler(ev) {
                 filename:dropped.name,
                 total_buffer_size:buffer.length,
                 buffer_size:1024
-            },buffer,el.querySelector(".progress"));
+            },buffer,el.querySelector(".progress"), el.querySelector('.in-circle'), el.querySelector('.keszpipa'));
         }
         reader.readAsArrayBuffer(dropped);
 
     }
 
-/*
-    function shareFile(metadata,buffer,progress_node, circle){
 
+    function shareFile(metadata,buffer,progress_node, circle, tick){
+        let szazalek=0;
 
         socket.emit("file-meta",{
             uid:receiverID,
             metadata:metadata
         });
         socket.on("fs-share",function(){
+
             let rad=0;
             let chunk = buffer.slice(0,metadata.buffer_size);
             buffer = buffer.slice(metadata.buffer_size,buffer.length);
-            //szazalek=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100);
-            //rad=szazalek*3.6
-            //progress_node.innerText=(szazalek + "%")
-            //circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
-            progress_node.innerText=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100 )+ "%";
-
+            szazalek=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100);
+            rad=szazalek*3.6
+            progress_node.innerText=(szazalek + "%")
+            circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
+            //progress_node.innerText=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100 )+ "%";
+            if (szazalek===100){
+                circle.classList.add('readycircle')
+                tick.classList.add('readytick')
+            }
 
 
             if(chunk.length !=0){
@@ -179,7 +188,7 @@ function dropHandler(ev) {
             }
         });
     }
-*/
+/*
     function shareFile(metadata,buffer,progress_node){
         socket.emit("file-meta",{
             uid:receiverID,
@@ -196,7 +205,7 @@ function dropHandler(ev) {
                 });
             }
         });
-    }
+    }*/
  })();
 
 

@@ -225,9 +225,27 @@
     background-color: #fff;
 }
 .progress{
-
+    display:none;
     position: absolute;
     font-size: 10px;
     font-weight: 600;
     color: #000000;
+}
+
+.readycircle{
+    z-index: 3;
+    display: none;
+    position: absolute;
+}
+
+.keszpipa{
+    display: none;
+    position: absolute;
+}
+
+.readytick{
+    z-index: 3;
+    display: block;
+    position: relative;
+
 }
