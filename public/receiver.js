@@ -26,11 +26,21 @@
             uid:joinID,
             sender_uid:senderID
         });
+
+        console.log('1')
+        socket.on("init", function (sender_uid){
+            console.log("2")
+        })
+
+
+
         /*
         document.querySelector(".join-screen").classList.remove("active");
         document.querySelector(".fs-screen").classList.add("active");*/
 
     });
+
+
 
     let fileShare = {};
 

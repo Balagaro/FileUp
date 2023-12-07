@@ -15,18 +15,21 @@ body {
 .dropdown {
     display: inline-block;
     cursor: pointer;
-    padding: 15px;
+    padding: 25px;
+
+
     position: absolute;
 }
 
 .menuoszlop{
-    height: 100%;
+    height: 50%;
     position: absolute;
     background-color: white;
-
+    border-radius: 20px;
     width: 0px;
     overflow: hidden;
     transition-duration: 0.5s;
+    border: 3px solid #efefef;
 
 }
 
@@ -35,7 +38,8 @@ body {
     width: 70px;
     display: block;
     background-color: white;
-    border-right: 1px solid #efefef;
+    border: 3px solid #efefef;
+    margin: 5px;
 }
 
 .bar1, .bar2, .bar3 {
@@ -59,7 +63,7 @@ body {
 .outer-container{
     width: 100%;
     background: rgba(255, 255, 255, 0.8);
-    height: 100%;
+    min-height: 100%;
 }
 .inner-container{
     width: 100%;
