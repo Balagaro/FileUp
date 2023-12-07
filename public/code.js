@@ -43,8 +43,11 @@ function dropHandler(ev) {
 
         }, 1000);
 
-
+        socket.emit("reveive-joined",{
+            uid:receiverID
+        });
     });
+
 
 //koros retek
 

@@ -17,11 +17,16 @@ io.on("connection", function(socket){
     socket.on("receiver-join", function(data){
         socket.join(data.uid);
         socket.in(data.sender_uid).emit("init",data.uid);
-        console.log("meta2")
+        console.log("ikstde")
+    });
+    socket.on("reveive-joined", function(data){
+        console.log("folyamatban")
+       socket.in(data.uid).emit("fogadjadma",data.uid)
+        console.log("atfolyt")
     });
     socket.on("file-meta", function(data){
         socket.in(data.uid).emit("fs-meta",data.metadata);
-        console.log("meta3")
+
     });
     socket.on("fs-start", function(data){
         socket.in(data.uid).emit("fs-share",{});
@@ -35,5 +40,5 @@ io.on("connection", function(socket){
 
 })
 
-server.listen(80);
+server.listen(5050);
 console.log("SziaSzilard")

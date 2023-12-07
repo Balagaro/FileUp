@@ -27,10 +27,7 @@
             sender_uid:senderID
         });
 
-        console.log('1')
-        socket.on("init", function (sender_uid){
-            console.log("2")
-        })
+
 
 
 
@@ -40,7 +37,9 @@
 
     });
 
-
+    socket.on("fogadjadma",function(e){
+        document.querySelector('.waitingtorecieve').innerHTML="Csatlakozva"
+    });
 
     let fileShare = {};
 
@@ -48,13 +47,17 @@
         fileShare.metadata = metadata;
         fileShare.transmitted =0;
         fileShare.buffer = [];
-
+        document.querySelector('.waitingtorecieve').classList.add('notwaitinganymore')
         let el =document.createElement("div");
         el.classList.add("item");
         el.innerHTML = `
             
             <div class="filename">${metadata.filename}</div>
-            <div class="progress">0%</div>
+            <div class="progress2">0%</div>
+            <div>
+                <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
+                <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
+            </div>
         `;
         document.querySelector(".receivebox").appendChild(el);
         fileShare.progress_node = el.querySelector(".progress");
@@ -76,14 +79,24 @@
 
 
     });
+
+    function recieveFile(buffer,progressnode,circle){
+        let szazalek=0;
+
+    }
+
+
     socket.on("fs-share",function(buffer){
+
         fileShare.buffer.push(buffer);
+        console.log(fileShare);
         fileShare.transmitted += buffer.byteLength;
-        fileShare.progress_node.innerText = Math.trunc(fileShare.transmitted / fileShare.metadata.total_buffer_size * 100) + "%";
+        let szazalek=Math.trunc(fileShare.transmitted / fileShare.metadata.total_buffer_size * 100)
+        fileShare.progress_node.innerText = szazalek + "%";
         if(fileShare.transmitted === fileShare.metadata.total_buffer_size){
             download(new Blob(fileShare.buffer), fileShare.metadata.filename);
             fileShare={};
-            console.log("alma")
+            //ezvanhavege
 
         }else{
             socket.emit("fs-start",{
