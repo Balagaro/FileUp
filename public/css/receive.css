@@ -36,7 +36,7 @@
     min-width: 200px;
     height: 250px;
     border-radius: 40px;
-    border: 1px solid black;
+    border: 2px solid black;
     display: flex;
     align-items: center;
 
@@ -150,11 +150,96 @@ width: 80%;
 
 .waitingtorecieve{
     font-size: 30px;
-    opacity: 60%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .notwaitinganymore{
     z-index: 3;
     display: none;
     position: absolute;
+}
+.progress{
+    display:none;
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.waitingtext{
+    font-size: 20px;
+    color: black;
+
+}
+
+.contbox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.tick img{
+    width: 50px;
+}
+.tick{
+
+    opacity: 50%;
+    margin-top: 30px;
+}
+.tickgreen{
+    z-index: 4;
+    filter: invert(54%) sepia(96%) saturate(3131%) hue-rotate(91deg) brightness(123%) contrast(125%);
+}
+
+.out-circle{
+    display: flex;
+    border-radius: 8px;
+    row-gap: 30px;
+    flex-direction: column;
+    align-items: center;
+}
+.in-circle{
+    position: relative;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: conic-gradient(#000000 3.6deg, #ededed00 0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.in-circle::before{
+    content: "";
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+.progress{
+    display:none;
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.readycircle{
+    z-index: 3;
+    display: none;
+    position: absolute;
+}
+
+.keszpipa{
+    display: none;
+    position: absolute;
+}
+
+.readytick{
+    z-index: 3;
+    display: block;
+    position: relative;
+
 }

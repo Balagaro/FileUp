@@ -38,7 +38,10 @@
     });
 
     socket.on("fogadjadma",function(e){
-        document.querySelector('.waitingtorecieve').innerHTML="Csatlakozva"
+        document.querySelector('.tickvagyok').classList.add("tickgreen")
+        setTimeout(function (){
+            document.querySelector('.waitingtorecieve').classList.add('notwaitinganymore')
+        }, 1000);
     });
 
     let fileShare = {};
@@ -47,13 +50,13 @@
         fileShare.metadata = metadata;
         fileShare.transmitted =0;
         fileShare.buffer = [];
-        document.querySelector('.waitingtorecieve').classList.add('notwaitinganymore')
+
         let el =document.createElement("div");
         el.classList.add("item");
         el.innerHTML = `
             
             <div class="filename">${metadata.filename}</div>
-            <div class="progress2">0%</div>
+
             <div>
                 <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
                 <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
@@ -61,6 +64,7 @@
         `;
         document.querySelector(".receivebox").appendChild(el);
         fileShare.progress_node = el.querySelector(".progress");
+
         let thebutton=document.querySelector('#recieve')
         thebutton.disabled=false;
         document.querySelector('.out-recievebutt').classList.add('activerecbutt')

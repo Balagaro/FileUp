@@ -79,6 +79,7 @@ function dropHandler(ev) {
             el.innerHTML = `
                 <div class="filename">${filename}</div>
                 <div>
+                <div class="loader"></div>  
                 <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
                 <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
                 </div>
@@ -89,7 +90,7 @@ function dropHandler(ev) {
                 filename:file.name,
                 total_buffer_size:buffer.length,
                 buffer_size:1024,
-            },buffer,el.querySelector(".progress"), el.querySelector('.in-circle'),el.querySelector('.keszpipa'));
+            },buffer,el.querySelector(".progress"), el.querySelector('.in-circle'),el.querySelector('.keszpipa'),el.querySelector(".loader"));
         }
         reader.readAsArrayBuffer(file);
     });
@@ -143,6 +144,7 @@ function dropHandler(ev) {
             el.innerHTML = `
                 <div class="filename">${filename}</div>
                 <div>
+                <div class="loader"></div>  
                 <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
                 <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
                 </div>
@@ -153,14 +155,15 @@ function dropHandler(ev) {
                 filename:dropped.name,
                 total_buffer_size:buffer.length,
                 buffer_size:1024
-            },buffer,el.querySelector(".progress"), el.querySelector('.in-circle'), el.querySelector('.keszpipa'));
+            },buffer,el.querySelector(".progress"), el.querySelector('.in-circle'), el.querySelector('.keszpipa'),el.querySelector(".loader"));
+
         }
         reader.readAsArrayBuffer(dropped);
 
     }
 
 
-    function shareFile(metadata,buffer,progress_node, circle, tick){
+    function shareFile(metadata,buffer,progress_node, circle, tick,loader){
         let szazalek=0;
 
         socket.emit("file-meta",{
@@ -180,6 +183,8 @@ function dropHandler(ev) {
             if (szazalek===100){
                 circle.classList.add('readycircle')
                 tick.classList.add('readytick')
+            } else{
+                loader.classList.add("readycircle")
             }
 
 
