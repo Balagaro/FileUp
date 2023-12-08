@@ -41,7 +41,7 @@ function dropHandler(ev) {
             document.querySelector(".readyfor").classList.remove("active");
             document.querySelector(".fileok").classList.add("active");
 
-        }, 1000);
+        }, 2000);
 
         socket.emit("reveive-joined",{
             uid:receiverID

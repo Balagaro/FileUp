@@ -42,15 +42,15 @@
 
                     </div>
 
-                    <div class="recievefiles">
+                    <div class="receivefiles">
                         <div>
                             Fájlok fogadása
                         </div>
                         </div>
-                    <div class="out-recievewindow">
-                    <div class="recievewindow">
+                    <div class="out-receivewindow">
+                    <div class="receivewindow">
                     <div class="receivebox">
-                        <div class="waitingtorecieve">
+                        <div class="waitingtoreceive">
 
                         <div class="waitingtext">
                             Várakozás a csatlakozásra...
@@ -63,20 +63,22 @@
                     </div>
 
                     </div></div>
-                    <div class="out-recievebutt">
-                        <div class="recievebutt">
-                            <label for="recieve" class="reclab">Fogadás</label>
-                            <button onclick="console.log('clicked')" disabled id="recieve"  type="file"></button>
+                    <div class="out-receivebutt">
+                        <div class="receivebutt">
+                            <label for="receive" class="reclab">Fogadás</label>
+                            <button onclick="console.log('clicked')" disabled id="receive"  type="file"></button>
                         </div>
                     </div>
                     <div class="outcode">
                         <div class="incode">
                             <div class="codeform" action="">
                             <div class="codebar" ><input type="text" placeholder="Adja meg a kódot!" id="code" name="code" size="10" > </div>
-                            <div class="codesubmit">
-                                <label for="submit" class="codeok">Ok</label>
+                            <div id="csub1" class="codesubmit">
+                                <label id="ccode1" for="submit" class="codeok">Ok</label>
                                 <input type="submit" id="submit"  value="OK">
-
+                            </div>
+                            <div id="csub2" class="codesubmit nonsub">
+                                <div id="ccode2" class="codeok nonsub"><img class="keszpipa readytick" src="docs/assets/readytick.svg"></div>
                             </div>
                             </div>
                         </div>

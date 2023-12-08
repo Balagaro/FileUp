@@ -12,32 +12,23 @@ app.use(express.static(path.join(__dirname+"/public")));
 io.on("connection", function(socket){
     socket.on("sender-join", function(data){
         socket.join(data.uid);
-        console.log("meta1")
     });
     socket.on("receiver-join", function(data){
         socket.join(data.uid);
         socket.in(data.sender_uid).emit("init",data.uid);
-        console.log("ikstde")
     });
     socket.on("reveive-joined", function(data){
-        console.log("folyamatban")
-       socket.in(data.uid).emit("fogadjadma",data.uid)
-        console.log("atfolyt")
+       socket.in(data.uid).emit("rev-joined",data.uid)
     });
     socket.on("file-meta", function(data){
         socket.in(data.uid).emit("fs-meta",data.metadata);
-
     });
     socket.on("fs-start", function(data){
         socket.in(data.uid).emit("fs-share",{});
-        console.log("meta4")
     });
     socket.on("file-raw", function(data){
         socket.in(data.uid).emit("fs-share",data.buffer);
-        console.log("meta5")
     });
-
-
 })
 
 server.listen(80);
