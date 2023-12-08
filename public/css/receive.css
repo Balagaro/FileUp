@@ -162,8 +162,7 @@ width: 80%;
     position: absolute;
 }
 .progress{
-    display:none;
-    position: absolute;
+
     font-size: 10px;
     font-weight: 600;
     color: #000000;
@@ -192,7 +191,12 @@ width: 80%;
     z-index: 4;
     filter: invert(54%) sepia(96%) saturate(3131%) hue-rotate(91deg) brightness(123%) contrast(125%);
 }
+.readytick{
+    z-index: 3;
+    display: block;
+    position: relative;
 
+}
 .out-circle{
     display: flex;
     border-radius: 8px;

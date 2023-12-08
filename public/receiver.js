@@ -64,6 +64,7 @@
         `;
         document.querySelector(".receivebox").appendChild(el);
         fileShare.progress_node = el.querySelector(".progress");
+        fileShare.circle=el.querySelector(".in-circle")
 
         let thebutton=document.querySelector('#recieve')
         thebutton.disabled=false;
@@ -97,9 +98,13 @@
         fileShare.transmitted += buffer.byteLength;
         let szazalek=Math.trunc(fileShare.transmitted / fileShare.metadata.total_buffer_size * 100)
         fileShare.progress_node.innerText = szazalek + "%";
+        rad=szazalek*3.6
+        fileShare.circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
         if(fileShare.transmitted === fileShare.metadata.total_buffer_size){
             download(new Blob(fileShare.buffer), fileShare.metadata.filename);
             fileShare={};
+            document.querySelector(".in-circle").classList.add('readycircle');
+            document.querySelector('keszpipa').classList.add('readytick');
             //ezvanhavege
 
         }else{
