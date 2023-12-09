@@ -118,3 +118,6 @@ body {
 .choose a{
     text-decoration: none ;
 }
+.menuoszlop{
+    overflow: visible;
+}

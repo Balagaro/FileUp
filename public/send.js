@@ -26,6 +26,31 @@ function dropHandler(ev) {
         }
         return result;
     }
+    document.querySelector('#shortercode').addEventListener('change', function(){
+        if (this.checked){
+            let result = '';
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const charactersLength = characters.length;
+            let counter = 0;
+            while (counter < 5) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                counter += 1;
+            }
+            let shortJoinID=result;
+            document.querySelector("#codeline").value=shortJoinID;
+            socket.emit("sender-join",{
+                uid:shortJoinID
+            });
+        } else {
+            document.querySelector("#codeline").value=joinID;
+            socket.emit("sender-join",{
+                uid:joinID
+            });
+
+        }
+    })
+
+
 
     let joinID = generateID();
     document.querySelector("#codeline").value=joinID;
@@ -191,7 +216,8 @@ function dropHandler(ev) {
             if(chunk.length !=0){
                 socket.emit("file-raw",{
                     uid:receiverID,
-                    buffer:chunk
+                    buffer:chunk,
+                    metadata:metadata
                 });
             }
         });
@@ -214,6 +240,9 @@ function dropHandler(ev) {
             }
         });
     }*/
+
+
+
  })();
 
 

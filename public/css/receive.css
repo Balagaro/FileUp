@@ -48,7 +48,9 @@
     width: 100%;
     display: flex;
     align-items: center;
+    height: 200px;
     flex-direction: column;
+    overflow: auto;
 }
 .out-receivebutt{
     width: 100%;
@@ -180,6 +182,11 @@ width: 80%;
 .waitingtext{
     font-size: 20px;
     color: black;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
 }
 
@@ -191,6 +198,7 @@ width: 80%;
 .tick img{
     width: 50px;
 }
+
 
 
 .loader {
@@ -266,6 +274,7 @@ width: 80%;
     display: none;
     position: absolute;
 }
+
 
 .keszpipa{
     display: none;

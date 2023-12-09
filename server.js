@@ -27,7 +27,7 @@ io.on("connection", function(socket){
         socket.in(data.uid).emit("fs-share",{});
     });
     socket.on("file-raw", function(data){
-        socket.in(data.uid).emit("fs-share",data.buffer);
+        socket.in(data.uid).emit("fs-share",[data.buffer, data.metadata]);
     });
 })
 

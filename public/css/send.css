@@ -105,6 +105,17 @@
 .contbox{
     display: none;
 }
+.shorterdiv{
+    position: absolute;
+    z-index: 5;
+    width: 40px;
+    display: flex;
+    justify-content: end;
+}
+#shortercode{
+    width: 20px;
+    height: 20px;
+}
 .tickgreen{
     filter: invert(54%) sepia(96%) saturate(3131%) hue-rotate(91deg) brightness(123%) contrast(125%);
 }

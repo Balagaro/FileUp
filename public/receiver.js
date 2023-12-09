@@ -54,13 +54,24 @@
     let fileShare = {};
 
     socket.on("fs-meta",function(metadata){
-        fileShare.metadata = metadata;
-        fileShare.transmitted =0;
-        fileShare.buffer = [];
+        window[metadata.filename]={};
+        window[metadata.filename].metadata = metadata;
+        window[metadata.filename].transmitted =0;
+        window[metadata.filename].buffer = [];
         let el =document.createElement("div");
         el.classList.add("item");
+        let filename2=metadata.filename;
+        if (metadata.filename.length>30) {
+            filename2="";
+            let oldname=metadata.filename;
+            for (i=0; i<25; i++){
+                filename2+=oldname.charAt(i)
+
+            }
+            filename2+="(...)."+((metadata.filename.split('.')).pop());
+        }
         el.innerHTML = `
-            <div class="filename">${metadata.filename}</div>
+            <div class="filename">${filename2}</div>
             <div>
                 <div class="loader"></div> 
                 <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
@@ -68,9 +79,9 @@
             </div>
         `;
         document.querySelector(".receivebox").appendChild(el);
-        fileShare.progress_node = el.querySelector(".progress");
-        fileShare.circle=el.querySelector(".in-circle")
-
+        window[metadata.filename].progress_node = el.querySelector(".progress");
+        window[metadata.filename].circle=el.querySelector(".in-circle")
+        window[metadata.filename].pipa=el.querySelector(".keszpipa")
         let thebutton=document.querySelector('#receive')
         thebutton.disabled=false;
         document.querySelector('.out-receivebutt').classList.add('activerecbutt')
@@ -82,7 +93,7 @@
         }
         waitClick()
             .then(() => {
-                document.querySelector(".loader").classList.add('nonsub')
+                el.querySelector(".loader").classList.add('nonsub')
                 socket.emit("fs-start",{
                     uid:senderID
                 });
@@ -91,19 +102,22 @@
 
 
 
-    socket.on("fs-share",function(buffer){
-        fileShare.buffer.push(buffer);
-        console.log(fileShare);
-        fileShare.transmitted += buffer.byteLength;
-        let szazalek=Math.trunc(fileShare.transmitted / fileShare.metadata.total_buffer_size * 100)
-        fileShare.progress_node.innerText = szazalek + "%";
+    socket.on("fs-share",function(be){
+        buffer=be[0];
+        metadata=be[1];
+        window[metadata.filename].buffer.push(buffer);
+        //console.log(fileShare);
+        window[metadata.filename].transmitted += buffer.byteLength;
+        let szazalek=Math.trunc(window[metadata.filename].transmitted / window[metadata.filename].metadata.total_buffer_size * 100)
+        window[metadata.filename].progress_node.innerText = szazalek + "%";
         rad=szazalek*3.6
-        fileShare.circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
-        if(fileShare.transmitted === fileShare.metadata.total_buffer_size){
-            download(new Blob(fileShare.buffer), fileShare.metadata.filename);
-            fileShare={};
-            document.querySelector(".in-circle").classList.add('readycircle');
-            document.querySelector('.keszpipa').classList.add('readytick');
+        window[metadata.filename].circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
+        if(window[metadata.filename].transmitted === window[metadata.filename].metadata.total_buffer_size){
+            download(new Blob(window[metadata.filename].buffer), window[metadata.filename].metadata.filename);
+            window[metadata.filename].circle.classList.add('readycircle');
+            window[metadata.filename].pipa.classList.add('readytick');
+            window[metadata.filename]={};
+
             //ezvanhavege
 
         }else{
