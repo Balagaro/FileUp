@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>FileUp</title>
     <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
+    <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/frontpage.css">
 </head>
@@ -101,11 +102,30 @@
 
 
 
-<script>
+<script type="javascript">
+
+    const pwaAssetGenerator = require('pwa-asset-generator');
+
+    // Generate images over a module function call, instead of using CLI commands
+    (async () => {
+        const { savedImages, htmlMeta, manifestJsonContent } = await pwaAssetGenerator.generateImages(
+            "./docs",
+            "./docs/assets",
+            "./docs/logo",
+            );
+    })();
+
+    // Access to static data for Apple Device specs that are used for generating launch images
+    const appleDeviceSpecsForLaunchImages = pwaAssetGenerator.appleDeviceSpecsForLaunchImages;
+
     function toggleMenu(x) {
         x.classList.toggle("change");
         document.getElementById('menuoszlop').classList.toggle('activeoszlop');
 
+    }
+
+    if ('serviceWorker' in navigator){
+        navigator.serviceWorker.register('/service_worker.json')
     }
 </script>
 </body>

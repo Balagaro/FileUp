@@ -37,15 +37,11 @@
             document.querySelector("#ccode2").classList.remove("nonsub")
 
             setTimeout(function (){
-                document.querySelector('.waitingtoreceive').classList.add('notwaitinganymore')
+
             }, 2000);
 
         });
-        setTimeout(function (){
-            if (checkcode===0){
-                alert("Hibás kód!")
-            }
-        }, 1000)
+
 
 
 
@@ -54,6 +50,7 @@
     let fileShare = {};
 
     socket.on("fs-meta",function(metadata){
+        document.querySelector('.waitingtoreceive').classList.add('notwaitinganymore')
         window[metadata.filename]={};
         window[metadata.filename].metadata = metadata;
         window[metadata.filename].transmitted =0;
@@ -66,7 +63,6 @@
             let oldname=metadata.filename;
             for (i=0; i<25; i++){
                 filename2+=oldname.charAt(i)
-
             }
             filename2+="(...)."+((metadata.filename.split('.')).pop());
         }

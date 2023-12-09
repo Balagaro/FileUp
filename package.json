@@ -1,6 +1,7 @@
 {
-  "name": "fileshare",
+  "name": "FileUp",
   "version": "1.0.0",
+  "short_name": "FileUp",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cb": "^0.1.1",
     "express": "^4.18.2",
+    "npx": "^3.0.0",
+    "pwa-asset-generator": "^6.3.1",
+    "serve": "^14.2.1",
     "socket.io": "^4.7.2"
+  },
+  "resolutions": {
+    "graceful-fs": "4.2.4"
   }
 }

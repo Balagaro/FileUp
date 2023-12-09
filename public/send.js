@@ -207,6 +207,7 @@ function dropHandler(ev) {
             //progress_node.innerText=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100 )+ "%";
             if (szazalek===100){
                 circle.classList.add('readycircle')
+                loader.classList.remove("loader")
                 tick.classList.add('readytick')
             } else{
                 loader.classList.add("readycircle")
@@ -236,7 +237,7 @@ function dropHandler(ev) {
                 socket.emit("file-raw",{
                     uid:receiverID,
                     buffer:chunk
-                });
+                }); 
             }
         });
     }*/

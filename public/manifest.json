@@ -1,0 +1,10 @@
+{
+  "display": "fullscreen",
+  "name": "Fileup",
+  "icons": ["icons/apple-icon-180.png"],
+  "short_name": "Fileup",
+  "start_url": "index.html",
+  "theme_color": "#000000",
+  "background_color": "#FFFFFF",
+  "orientation": "landscape"
+}
