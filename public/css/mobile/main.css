@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    font-family: 'Source Sans 3', sans-serif;
+
+}
+
+
+body {
+
+}
+html {
+    overflow: hidden;
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    height: 100%;
+    overflow: auto;
+    background-image: url("/docs/logo/background.png");
+    margin: 0px;
+}
+
+.leftdiv{
+    width: 100%;
+    position: absolute;
+}
+
+.dropdown {
+    display: inline-block;
+    cursor: pointer;
+    padding: 25px;
+
+}
+
+.menuoszlop{
+    height: 50%;
+    position: absolute;
+    background-color: white;
+    border-radius: 20px;
+    width: 0px;
+    overflow: hidden;
+    transition-duration: 0.5s;
+    border: 3px solid #efefef;
+
+}
+
+.activeoszlop{
+    position: absolute;
+    width: 70px;
+    display: block;
+    background-color: white;
+    border: 3px solid #efefef;
+    margin: 5px;
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.change .bar1 {
+    transform: translate(0px, 11px) rotate(-45deg);
+
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+    transform: translate(0, -11px) rotate(45deg);
+
+}
+
+.change .bar1{
+    /*-webkit-transform:translate(0, -11px);*/
+    -ms-transform: translateY(-11px);
+    -webkit-transform: translateY(-11px);
+    -moz-transform: translateY(-11px);
+    -o-transform: translateY(-11px);
+    -webkit-transform: rotate(45deg);
+}
+.change .bar3{
+    -webkit-transform:translate(0, 11px);
+    -ms-transform: translateY(11px);
+    -webkit-transform: translateY(11px);
+    -moz-transform: translateY(11px);
+    -o-transform: translateY(11px);
+    -webkit-transform: rotate(-45deg);
+}
+
+
+
+.outer-container{
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    min-height: 100%;
+}
+.inner-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+
+
+.maindiv{
+    width: 98%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.in-box{
+    width: 100%;
+}
+
+#mainlogo{
+    width: 400px;
+}
+
+.box{
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 60px;
+    padding: 50px;
+    padding-bottom: 0px;
+}
+
+
+
+.rightdiv img{
+    width: 100px;
+    padding:10px    ;
+}
+.rightdiv{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.choose a{
+    text-decoration: none ;
+}
+.menuoszlop{
+    overflow: visible;
+}

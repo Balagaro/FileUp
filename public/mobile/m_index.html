@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FileUp</title>
+    <link rel="icon" type="image/x-icon" href="../docs/logo/favicon.ico">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="/css/mobile/main.css">
+    <link rel="stylesheet" href="/css/mobile/frontpage.css">
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-640-1136.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/icons/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+
+
+</head>
+
+<body>
+
+<div class="outer-container">
+    <div class="inner-container">
+        <div class="leftdiv">
+            <div id="menuoszlop" class="menuoszlop">
+
+            </div>
+
+            <div class="dropdown" onclick="toggleMenu(this)">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+
+        </div>
+
+        <div class="maindiv">
+
+            <div class="logoline"><a href="../index.html">
+                <img id="mainlogo" src="/docs/logo/fileuplogo.png" alt="Logo"></a>
+            </div>
+
+            <div class="out-box">
+                <div class="box">
+                    <div class="in-box">
+                        <div class="bevezetok">
+                            <h1 class="welcome">Üdvözli a FileUp!</h1>
+                            <p class="bevezetoszoveg">
+                                Oldalunkon könnyedén oszthat meg vagy
+                                fogadhat fájlokat. A megosztás közvetlenül
+                                zajlik a két fél között, így a fájlátvitel
+                                sebessége nagyban függ a felek internetsegességétől.
+                                Kérjük ne zárja be böngészőjét ameddig zajlik a fájlátvitel.
+mobilhalo
+                            </p>
+                        </div>
+                        <div class="out-choose">
+                            <div class="choose">
+                                <div class="cbox upload">
+                                    <a class="choosehiv" href="send.html">
+                                        <button  id="uploadbutt">
+                                            <div class="loadlogo"><img src="/docs/assets/uploadbutton.png"></div>
+                                            <div class="subtype">Küldés</div>
+                                        </button>
+
+                                    </a>
+                                </div>
+                                <div class="cbox download">
+                                    <a class="choosehiv" href="receive.html">
+                                        <button  id="downloadbutt">
+                                            <div class="loadlogo"><img src="/docs/assets/downloadbutton.png" alt=""></div>
+                                            <div class="subtype">Fogadás</div>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="outsimplelogodiv">
+                            <div class="simplelogodiv">
+                                <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
+                            </div>
+                        </div>
+                        <div class="conditions">
+                            <p>A szolgálatás igénybevételével elfogadja annak
+                                általános használati feltételeit,
+                                és adatkezelési nyilatkozatát.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="rightdiv">
+
+            <div><a target=”_blank” href="https://discord.gg/9Gyp4gutVN"><img class="connection-logo"
+                                                                              src="/docs/assets/connections/discord.png" alt=""></a></div>
+            <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
+                                                                                   src="/docs/assets/connections/github.png" alt=""></a></div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    function toggleMenu(x) {
+        x.classList.toggle("change");
+        document.getElementById('menuoszlop').classList.toggle('activeoszlop');
+
+    }
+</script>
+
+
+<script type="javascript">
+
+    const pwaAssetGenerator = require('pwa-asset-generator');
+
+    // Generate images over a module function call, instead of using CLI commands
+    (async () => {
+        const { savedImages, htmlMeta, manifestJsonContent } = await pwaAssetGenerator.generateImages(
+            "./docs",
+            "./docs/assets",
+            "./docs/logo",
+        );
+    })();
+
+    // Access to static data for Apple Device specs that are used for generating launch images
+    const appleDeviceSpecsForLaunchImages = pwaAssetGenerator.appleDeviceSpecsForLaunchImages;
+
+
+
+    if ('serviceWorker' in navigator){
+        navigator.serviceWorker.register('/service_worker.json')
+    }
+</script>
+</body>
+
+</html>
