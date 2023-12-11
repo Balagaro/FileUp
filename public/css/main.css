@@ -3,15 +3,33 @@
     font-family: 'Source Sans 3', sans-serif;
 
 }
+*{
+    -webkit-tap-highlight-color: transparent;
+}
 html {
     height: 100%;
+    overflow: hidden;
 }
 body {
     min-height: 100%;
+    overflow: hidden;
     height: 500px;
-    background-image: url("/docs/logo/background.png");
     margin: 0px;
 }
+.background {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    overflow: hidden;
+    top: -50%;
+    left: -50%;
+    z-index: -1;
+    background: url("/docs/assets/svglogo.svg") 0 0 repeat;
+    background-size: 60px;
+    transform: rotate(-30deg);
+}
+
 .dropdown {
     display: inline-block;
     cursor: pointer;
