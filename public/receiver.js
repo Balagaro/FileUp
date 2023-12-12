@@ -1,6 +1,7 @@
 
 
 (function(){
+
     let senderID;
     const socket = io();
 
@@ -46,11 +47,14 @@
 
 
     });
-
+    let keszek=0;
+    let inprog=[];
     let fileShare = {};
 
     socket.on("fs-meta",function(metadata){
         document.querySelector('.waitingtoreceive').classList.add('notwaitinganymore')
+        inprog.push(metadata.filename)
+        console.log(inprog)
         window[metadata.filename]={};
         window[metadata.filename].metadata = metadata;
         window[metadata.filename].transmitted =0;
@@ -61,7 +65,7 @@
         if (metadata.filename.length>30) {
             filename2="";
             let oldname=metadata.filename;
-            for (i=0; i<25; i++){
+            for (let i=0; i<25; i++){
                 filename2+=oldname.charAt(i)
             }
             filename2+="(...)."+((metadata.filename.split('.')).pop());
@@ -87,6 +91,7 @@
         async function waitClick () {
             return await promise
         }
+
         waitClick()
             .then(() => {
                 el.querySelector(".loader").classList.add('nonsub')
@@ -98,7 +103,16 @@
 
 
 
+    let buffer;
+    let metadata;
+    let rad=0;
+
+    const zip = new JSZip()
+
+
+
     socket.on("fs-share",function(be){
+
         buffer=be[0];
         metadata=be[1];
         window[metadata.filename].buffer.push(buffer);
@@ -109,12 +123,17 @@
         rad=szazalek*3.6
         window[metadata.filename].circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
         if(window[metadata.filename].transmitted === window[metadata.filename].metadata.total_buffer_size){
-            download(new Blob(window[metadata.filename].buffer), window[metadata.filename].metadata.filename);
+            //download(new Blob(window[metadata.filename].buffer), window[metadata.filename].metadata.filename);
+            zip.file( window[metadata.filename].metadata.filename, new Blob(window[metadata.filename].buffer))
             window[metadata.filename].circle.classList.add('readycircle');
             window[metadata.filename].pipa.classList.add('readytick');
-            window[metadata.filename]={};
-
-            //ezvanhavege
+            //window[metadata.filename]={};
+            keszek++;
+            if (keszek===inprog.length){
+                zip.generateAsync({ type: 'blob' }).then(function (content) {
+                    FileSaver.saveAs(content, 'download.zip');
+                });
+            }
 
         }else{
             socket.emit("fs-start",{

@@ -1,13 +1,47 @@
 const express = require("express");
 const path = require("path");
-
+const JSZip=require('jszip');
+const FileSaver =require('file-saver');
 const app = express();
 const server = require("http").createServer(app);
 
 const io = require("socket.io")(server);
 
 
-app.use(express.static(path.join(__dirname+"/public")));
+
+app.use(express.static(path.join(__dirname+"/public")),(req, res, next) => {
+    var sql = require("mssql");
+
+    // config for your database
+    var config = {
+        user: 'root',
+        password: '',
+        server: 'localhost:8080',
+        database: 'test'
+    };
+
+    // connect to your database
+    sql.connect(config, function (err) {
+
+        if (err) console.log(err);
+
+        // create Request object
+        var request = new sql.Request();
+
+        // query to the database and get the records
+        request.query('select * from Student', function (err, recordset) {
+
+            if (err) console.log(err)
+
+            // send records as a response
+            res.send(recordset);
+
+        });
+    });
+
+
+    next()
+})
 
 io.on("connection", function(socket){
     socket.on("sender-join", function(data){
