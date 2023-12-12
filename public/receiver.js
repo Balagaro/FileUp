@@ -1,7 +1,6 @@
 
 
 (function(){
-
     let senderID;
     const socket = io();
 
@@ -53,8 +52,11 @@
 
     socket.on("fs-meta",function(metadata){
         document.querySelector('.waitingtoreceive').classList.add('notwaitinganymore')
-        inprog.push(metadata.filename)
-        console.log(inprog)
+
+        if (metadata.total_buffer_size<500000000){
+            inprog.push(metadata.filename)
+        }
+
         window[metadata.filename]={};
         window[metadata.filename].metadata = metadata;
         window[metadata.filename].transmitted =0;
@@ -107,8 +109,8 @@
     let metadata;
     let rad=0;
 
-    const zip = new JSZip()
 
+    const zip = new JSZip();
 
 
     socket.on("fs-share",function(be){
@@ -123,17 +125,24 @@
         rad=szazalek*3.6
         window[metadata.filename].circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
         if(window[metadata.filename].transmitted === window[metadata.filename].metadata.total_buffer_size){
-            //download(new Blob(window[metadata.filename].buffer), window[metadata.filename].metadata.filename);
-            zip.file( window[metadata.filename].metadata.filename, new Blob(window[metadata.filename].buffer))
+
+
             window[metadata.filename].circle.classList.add('readycircle');
             window[metadata.filename].pipa.classList.add('readytick');
-            //window[metadata.filename]={};
-            keszek++;
-            if (keszek===inprog.length){
-                zip.generateAsync({ type: 'blob' }).then(function (content) {
-                    FileSaver.saveAs(content, 'download.zip');
-                });
+
+            if (metadata.total_buffer_size<500000000){
+                zip.file( window[metadata.filename].metadata.filename, new Blob(window[metadata.filename].buffer))
+                keszek++;
+                if (keszek===inprog.length){
+                    zip.generateAsync({ type: 'blob' }).then(function (content) {
+                        saveAs(content, 'download.zip');
+                    });
+                }
+            } else{
+                download(new Blob(window[metadata.filename].buffer), window[metadata.filename].metadata.filename);
             }
+
+
 
         }else{
             socket.emit("fs-start",{
