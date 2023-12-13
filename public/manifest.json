@@ -30,8 +30,10 @@
 
 ,
   "short_name": "Fileup",
-  "start_url": "/mobile/m_index.html",
+  "start_url": "/index.html",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "platform": "android:icon",
+  "platform": "android:roundIcon"
 }

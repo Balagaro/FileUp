@@ -25,7 +25,7 @@ function dropHandler(ev) {
             counter += 1;
         }
         return result;
-    }
+    }/*
     document.querySelector('#shortercode').addEventListener('change', function(){
         if (this.checked){
             let result = '';
@@ -48,7 +48,7 @@ function dropHandler(ev) {
             });
 
         }
-    })
+    })*/
 
 
 
@@ -62,11 +62,6 @@ function dropHandler(ev) {
         receiverID = uid;
         document.querySelector(".waitingfor").classList.remove("active");
         document.querySelector(".readyfor").classList.add("active");
-        setTimeout(function(){
-            document.querySelector(".readyfor").classList.remove("active");
-            document.querySelector(".fileok").classList.add("active");
-
-        }, 2000);
 
         socket.emit("reveive-joined",{
             uid:receiverID
@@ -98,6 +93,8 @@ function dropHandler(ev) {
 
 
         reader.onload = function(e){
+            document.querySelector(".readyfor").classList.remove("active");
+            document.querySelector(".fileok").classList.add("active");
             let buffer = new Uint8Array(reader.result);
             let el =document.createElement("div");
             el.classList.add("item");
@@ -163,6 +160,8 @@ function dropHandler(ev) {
 
 
         reader.onload = function(e){
+            document.querySelector(".readyfor").classList.remove("active");
+            document.querySelector(".fileok").classList.add("active");
             let buffer = new Uint8Array(reader.result);
             let el =document.createElement("div");
             el.classList.add("item");

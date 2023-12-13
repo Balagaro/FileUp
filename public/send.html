@@ -44,7 +44,11 @@
                         <div class="topline">
                             <div class="innertopline">
                                 <div class="shorterdiv">
-                                    <input id="shortercode" type="checkbox">
+                                    <select name="auth" id="auth">
+                                        <option value="default">Alap</option>
+                                        <option value="simple">Egyszerű</option>
+                                        <option value="difficult">Jelszó</option>
+                                    </select>
                                 </div>
                                 <input id="codeline" value="Betöltés..." readonly>
                                 <button onclick="unsecuredCopyToClipboard(document.getElementById('codeline').value)" id="copylink">

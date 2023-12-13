@@ -9,39 +9,8 @@ const io = require("socket.io")(server);
 
 
 
-app.use(express.static(path.join(__dirname+"/public")),(req, res, next) => {
-    var sql = require("mssql");
+app.use(express.static(path.join(__dirname+"/public")));
 
-    // config for your database
-    var config = {
-        user: 'root',
-        password: '',
-        server: 'localhost:8080',
-        database: 'test'
-    };
-
-    // connect to your database
-    sql.connect(config, function (err) {
-
-        if (err) console.log(err);
-
-        // create Request object
-        var request = new sql.Request();
-
-        // query to the database and get the records
-        request.query('select * from Student', function (err, recordset) {
-
-            if (err) console.log(err)
-
-            // send records as a response
-            res.send(recordset);
-
-        });
-    });
-
-
-    next()
-})
 
 io.on("connection", function(socket){
     socket.on("sender-join", function(data){
