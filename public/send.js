@@ -25,30 +25,44 @@ function dropHandler(ev) {
             counter += 1;
         }
         return result;
-    }/*
-    document.querySelector('#shortercode').addEventListener('change', function(){
-        if (this.checked){
-            let result = '';
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            const charactersLength = characters.length;
-            let counter = 0;
-            while (counter < 5) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-                counter += 1;
-            }
-            let shortJoinID=result;
+    }
+    function generateShortID() {
+        let shortresult = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < 5) {
+            shortresult += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        return shortresult;
+
+    }
+
+    let shortJoinID=generateShortID();
+    document.querySelector('#auth').addEventListener('change', function (e){
+    let authtype=document.querySelector('#auth').value;
+        if (authtype==="simple"){
             document.querySelector("#codeline").value=shortJoinID;
             socket.emit("sender-join",{
                 uid:shortJoinID
             });
-        } else {
+        }
+        if (authtype==="default") {
             document.querySelector("#codeline").value=joinID;
             socket.emit("sender-join",{
                 uid:joinID
             });
 
         }
-    })*/
+        if (authtype==="difficult") {
+            document.querySelector("#codeline").value=joinID;
+            socket.emit("sender-join",{
+                uid:joinID
+            });
+
+        }
+    })
 
 
 
@@ -222,24 +236,7 @@ function dropHandler(ev) {
             }
         });
     }
-/*
-    function shareFile(metadata,buffer,progress_node){
-        socket.emit("file-meta",{
-            uid:receiverID,
-            metadata:metadata
-        });
-        socket.on("fs-share",function(){
-            let chunk = buffer.slice(0,metadata.buffer_size);
-            buffer = buffer.slice(metadata.buffer_size,buffer.length);
-            progress_node.innerText=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100) + "%";
-            if(chunk.length !=0){
-                socket.emit("file-raw",{
-                    uid:receiverID,
-                    buffer:chunk
-                }); 
-            }
-        });
-    }*/
+
 
 
 

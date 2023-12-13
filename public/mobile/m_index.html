@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <title>FileUp</title>
     <link rel="icon" type="image/x-icon" href="../docs/logo/favicon.ico">
-    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="/css/mobile/main.css">
     <link rel="stylesheet" href="/css/mobile/frontpage.css">
-
+    <meta name="mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="test/apple-icon-180.png">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
+
 
     <link rel="apple-touch-startup-image" href="test/apple-splash-2048-2732.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="test/apple-splash-2732-2048.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
@@ -49,8 +50,10 @@
 </head>
 
 <body>
-<div class="background"></div>
+
+
 <div class="outer-container">
+    <div class="background"></div>
     <div class="inner-container">
         <div class="leftdiv">
             <div id="menuoszlop" class="menuoszlop">
@@ -139,6 +142,7 @@ mobilhalo
 
 
 <script>
+
     function toggleMenu(x) {
         x.classList.toggle("change");
         document.getElementById('menuoszlop').classList.toggle('activeoszlop');
@@ -166,7 +170,7 @@ mobilhalo
 
 
 <script type="javascript">
-
+    document.body.requestFullscreen()
 
 
 

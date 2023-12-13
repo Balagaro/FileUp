@@ -47,14 +47,14 @@
 
     });
     let keszek=0;
-    let inprog=[];
+    let inprog=0;
     let fileShare = {};
 
     socket.on("fs-meta",function(metadata){
         document.querySelector('.waitingtoreceive').classList.add('notwaitinganymore')
 
         if (metadata.total_buffer_size<500000000){
-            inprog.push(metadata.filename)
+            inprog++;
         }
 
         window[metadata.filename]={};
@@ -133,7 +133,7 @@
             if (metadata.total_buffer_size<500000000){
                 zip.file( window[metadata.filename].metadata.filename, new Blob(window[metadata.filename].buffer))
                 keszek++;
-                if (keszek===inprog.length){
+                if (keszek===inprog){
                     zip.generateAsync({ type: 'blob' }).then(function (content) {
                         saveAs(content, 'download.zip');
                     });

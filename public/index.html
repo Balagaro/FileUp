@@ -9,6 +9,7 @@
 
     <meta name="theme-color" content="#ffffff"/>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
     <title>FileUp</title>
     <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
     <link rel="manifest" href="./manifest.json">
@@ -144,19 +145,6 @@
 
 <script>
 
-    const pwaAssetGenerator = require('pwa-asset-generator');
-
-    // Generate images over a module function call, instead of using CLI commands
-    (async () => {
-        const { savedImages, htmlMeta, manifestJsonContent } = await pwaAssetGenerator.generateImages(
-            "./docs",
-            "./docs/assets",
-            "./docs/logo",
-        );
-    })();
-
-    // Access to static data for Apple Device specs that are used for generating launch images
-    const appleDeviceSpecsForLaunchImages = pwaAssetGenerator.appleDeviceSpecsForLaunchImages;
 
     function toggleMenu(x) {
         x.classList.toggle("change");
