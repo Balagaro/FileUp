@@ -2,12 +2,12 @@
 <html lang="hu">
 
 <head>
-    <script src="grub/src/redirection-mobile.js"></script>
+    <script src="modules/grub/src/redirection-mobile.js"></script>
     <script>
         SA.redirection_mobile();
     </script>
 
-
+    <meta name="theme-color" content="#ffffff"/>
     <meta charset="UTF-8">
     <title>FileUp</title>
     <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
@@ -165,7 +165,7 @@
     }
 
     if ('serviceWorker' in navigator){
-        navigator.serviceWorker.register('/service_worker.json')
+        navigator.serviceWorker.register('/service_worker.js')
     }
 </script>
 <script type="javascript">
