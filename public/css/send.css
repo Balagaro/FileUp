@@ -307,4 +307,7 @@
     opacity: 100%;
     cursor: pointer;
 }
-
+.stopped{
+    z-index: 4;
+    opacity: 100%;
+}

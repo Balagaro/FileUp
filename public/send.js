@@ -9,14 +9,17 @@ function dropHandler(ev) {
     });
 
 }
-
+let stoppedlist=[];
 function megallit(e){
     e.innerHTML="<img src='/docs/assets/start.svg'>";
     e.setAttribute('onclick','elindit(this)')
+    e.classList.add('stopped')
+    stoppedlist.push(e.getAttribute('butid'))
 }
 function elindit(e){
     e.innerHTML="<img src='/docs/assets/stop.svg'>";
     e.setAttribute('onclick','megallit(this)')
+    e.classList.remove('stopped')
 }
 
 
@@ -126,7 +129,7 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
         el.innerHTML = `
             <div class="filename">${filename}</div>
             <div class="outstop">
-            <button class="stopbutton" onclick="megallit(this)"> <img src="/docs/assets/stop.svg" alt=""> </button>
+            <button class="stopbutton" onclick="megallit(this)" butid="${file.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
             <div class="loader"></div>  
             <div class="progresscircle">
             <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
@@ -229,8 +232,8 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
     let chunk = buffer.slice(0,metadata.buffer_size);
     buffer = buffer.slice(metadata.buffer_size,buffer.length);
     szazalek=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100);
-    rad=szazalek*3.6
-    console.log("most")
+    rad=szazalek*3.6;
+    console.log(stoppedlist)
         stopbut.classList.add('activestopbutton')
     progress_node.innerText=(szazalek + "%")
     circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
