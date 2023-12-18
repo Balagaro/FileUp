@@ -247,7 +247,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
+}/*
 .in-circle::before{
     content: "";
     position: absolute;
@@ -255,7 +255,7 @@
     width: 15px;
     border-radius: 50%;
     background-color: #fff;
-}
+}*/
 .progress{
     display:none;
     position: absolute;
@@ -280,5 +280,31 @@
     display: block;
     position: relative;
 
+}
+
+.stopbutton{
+    position: absolute;
+    z-index: 4;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border: none;
+    opacity: 0%;
+    padding: 0px;
+} .stopbutton img{
+    width: 20px;
+  }
+
+.stopbutton{
+    display: none;
+}
+.activestopbutton{
+    display: block;
+    z-index: 4;
+}
+.stopbutton:hover{
+    z-index: 5;
+    opacity: 100%;
+    cursor: pointer;
 }
 
