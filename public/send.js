@@ -20,6 +20,7 @@ function elindit(e){
     e.innerHTML="<img src='/docs/assets/stop.svg'>";
     e.setAttribute('onclick','megallit(this)')
     e.classList.remove('stopped')
+    stoppedlist = stoppedlist.filter(el => el !==(e.getAttribute('butid')));
 }
 
 
@@ -220,6 +221,9 @@ const handleDrop = (e) => {
 
 
 function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
+    console.log(stoppedlist.indexOf(metadata.filename))
+    console.log(metadata.filename)
+
     let szazalek=0;
 
     socket.emit("file-meta",{
@@ -228,34 +232,51 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
     });
     socket.on("fs-share",function(){
 
-    let rad=0;
-    let chunk = buffer.slice(0,metadata.buffer_size);
-    buffer = buffer.slice(metadata.buffer_size,buffer.length);
-    szazalek=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100);
-    rad=szazalek*3.6;
-    console.log(stoppedlist)
-        stopbut.classList.add('activestopbutton')
-    progress_node.innerText=(szazalek + "%")
-    circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
-    //progress_node.innerText=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100 )+ "%";
-    if (szazalek===100){
-        circle.classList.add('readycircle')
-        loader.classList.remove("loader")
-        stopbut.classList.remove('activestopbutton')
-        tick.classList.add('readytick')
-    } else{
-        loader.classList.add("readycircle")
-    }
+            let rad = 0;
+            /*
+            function doStuff() {
+                if(stoppedlist.indexOf(metadata.filename)===-1){//we want it to match
+                    setTimeout(doStuff, 50);//wait 50 millisecnds then recheck
+                    return;
+                }
+            }
+            if (stoppedlist.indexOf(metadata.filename)!==-1){
+                setTimeout(doStuff, 50);//wait 50 millisecnds then recheck
+                return;
+            }
 
 
-    if(chunk.length !=0){
+            doStuff();c*/
+
+            let chunk = buffer.slice(0, metadata.buffer_size);
+        if (stoppedlist.indexOf(metadata.filename)===-1) {
+            console.log(stoppedlist.indexOf(metadata.filename))
+            console.log(metadata.filename)
+            buffer = buffer.slice(metadata.buffer_size, buffer.length);
+            szazalek = Math.trunc((metadata.total_buffer_size - buffer.length) / metadata.total_buffer_size * 100);
+            rad = szazalek * 3.6;
+            stopbut.classList.add('activestopbutton')
+            progress_node.innerText = (szazalek + "%")
+            circle.style.background = `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
+            //progress_node.innerText=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100 )+ "%";
+            if (szazalek === 100) {
+                circle.classList.add('readycircle')
+                loader.classList.remove("loader")
+                stopbut.classList.remove('activestopbutton')
+                tick.classList.add('readytick')
+            } else {
+                loader.classList.add("readycircle")
+            }
+        }
+
+    if(chunk.length !==0){
         socket.emit("file-raw",{
             uid:receiverID,
             buffer:chunk,
             metadata:metadata
         });
     }
-});
+})
 }
 
 
