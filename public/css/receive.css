@@ -168,7 +168,7 @@ width: 80%;
 }
 
 .notwaitinganymore{
-    z-index: 3;
+    z-index: 13;
     display: none;
     position: absolute;
 }
@@ -253,7 +253,7 @@ width: 80%;
     align-items: center;
     justify-content: center;
 }
-.in-circle::before{
+.in-circle2::before{
     content: "";
     position: absolute;
     height: 15px;
@@ -294,4 +294,16 @@ width: 80%;
     display: none;
     position: absolute;
 
+}
+
+.s_indicator{
+    display: none;
+
+}
+
+
+
+.indicating{
+    z-index: 1;
+    display: block;
 }

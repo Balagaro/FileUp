@@ -200,10 +200,14 @@ const handleDrop = (e) => {
         el.classList.add("item");
         el.innerHTML = `
             <div class="filename">${filename}</div>
-            <div>
+            <div class="outstop">
+            <button class="stopbutton" onclick="megallit(this)" butid="${file.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
             <div class="loader"></div>  
+            <div class="progresscircle">
             <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
+            </div>
             <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
+            
             </div>
         `;
 
@@ -267,15 +271,23 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
             } else {
                 loader.classList.add("readycircle")
             }
-        }
+
+            if(chunk.length !==0){
+                socket.emit("file-raw",{
+                    uid:receiverID,
+                    buffer:chunk,
+                    metadata:metadata
+                });
+            }
+        } else {
 
     if(chunk.length !==0){
         socket.emit("file-raw",{
             uid:receiverID,
-            buffer:chunk,
+            buffer:null,
             metadata:metadata
         });
-    }
+    }}
 })
 }
 

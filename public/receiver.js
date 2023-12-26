@@ -75,14 +75,17 @@
         el.innerHTML = `
             <div class="filename">${filename2}</div>
             <div>
+                <div class="s_indicator"> <img src="docs/assets/stop.svg" alt="stopped"> </div>
                 <div class="loader"></div> 
                 <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
-                <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
+                <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div></div>
+                
             </div>
         `;
         document.querySelector(".receivebox").appendChild(el);
         window[metadata.filename].progress_node = el.querySelector(".progress");
         window[metadata.filename].circle=el.querySelector(".in-circle")
+        window[metadata.filename].indicator=el.querySelector('.s_indicator')
         window[metadata.filename].pipa=el.querySelector(".keszpipa")
         let thebutton=document.querySelector('#receive')
         thebutton.disabled=false;
@@ -117,6 +120,11 @@
 
         buffer=be[0];
         metadata=be[1];
+
+        if (buffer!==null){
+        window[metadata.filename].circle.classList.remove('notwaitinganymore')
+        window[metadata.filename].indicator.classList.remove('indicating')
+        window[metadata.filename].circle.removeAttribute('style')
         window[metadata.filename].buffer.push(buffer);
         //console.log(fileShare);
         window[metadata.filename].transmitted += buffer.byteLength;
@@ -145,6 +153,14 @@
 
 
         }else{
+            socket.emit("fs-start",{
+                uid:senderID
+            });
+        }}else{
+            window[metadata.filename].indicator.classList.add('indicating')
+            window[metadata.filename].circle.classList.add('notwaitinganymore')
+            window[metadata.filename].circle.setAttribute('style', 'opacity:0%;')
+
             socket.emit("fs-start",{
                 uid:senderID
             });
