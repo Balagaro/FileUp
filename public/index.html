@@ -55,7 +55,9 @@
 </head>
 
 <body onload="showModal()">
-    
+<div id="sotetseg">
+
+</div>
 <div class="background"></div>
 <div class="outer-container">
     <div class="inner-container">
@@ -151,6 +153,8 @@
     <img src="./docs/images/close.png" class="close-icon" onclick="window.alert('akkor takarodj')">
 </div>
 
+
+
 <script>
 
 
@@ -193,14 +197,16 @@
 <script id="cookies-script">
 
     let modalbox = document.getElementById("modalbox");
+    let sotet=document.getElementById('sotetseg');
 
     function showModal(){
         setTimeout(() => {
             modalbox.style.display = "block"
+            sotet.style.display = "block"
         }, 500);
     }
     function closeModal(){
-        
+        sotet.style.display = "none"
         modalbox.style.display = "none"
     }
 

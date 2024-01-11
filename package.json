@@ -16,6 +16,7 @@
     "downloadjs": "^1.4.1",
     "express": "^4.18.2",
     "file-saver": "^2.0.5",
+    "file-type": "^19.0.0",
     "grunt": "^1.6.1",
     "grunt-jasmine-runner": "^0.6.0",
     "jquery": "^3.7.1",
@@ -24,7 +25,8 @@
     "npx": "^10.2.2",
     "pwa-asset-generator": "^6.3.1",
     "serve": "^14.2.1",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "strtok3": "^7.0.0"
   },
   "resolutions": {
     "graceful-fs": "4.2.4"

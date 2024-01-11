@@ -1,3 +1,5 @@
+
+
 function dropHandler(ev) {
     const socket = io();
     //console.log("File(s) dropped");
@@ -105,14 +107,9 @@ socket.on("init", function(uid){
 
 document.querySelector("#drop_zone").addEventListener("change",function(e){
     let file = e.target.files[0];
-    detectfile.fromFile(file, function(err, result) {
 
-        if (err) {
-            return console.log(err);
-        }
+    console.log( fileTypeFromFile(file));
 
-        console.log(result); // { ext: 'jpg', mime: 'image/jpeg' }
-    });
     //(e.target.files[0])
     if (!file){
         return;

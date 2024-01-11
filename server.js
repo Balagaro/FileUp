@@ -1,11 +1,9 @@
 const express = require("express");
 const path = require("path");
 const JSZip=require('jszip');
-const detect = require('detect-file-type');
 const FileSaver =require('file-saver');
 const app = express();
 const server = require("http").createServer(app);
-
 const io = require("socket.io")(server);
 
 
@@ -27,6 +25,15 @@ io.on("connection", function(socket){
     socket.on("file-meta", function(data){
         socket.in(data.uid).emit("fs-meta",data.metadata);
     });
+
+    socket.on("typecheck", function (data){
+
+        (async () => {
+            console.log(await fileTypeFromBuffer(data));
+            //=> {ext: 'png', mime: 'image/png'}
+        })();
+    });
+
     socket.on("fs-start", function(data){
         socket.in(data.uid).emit("fs-share",{});
     });

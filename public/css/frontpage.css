@@ -118,6 +118,7 @@
     border-radius: 8px;
     display: none;
     border: 1px solid #69261e;
+    z-index: 12;
 }
 
 .cookies{
@@ -147,4 +148,14 @@
     top: 25px;
     right: 25px;
     cursor: pointer;
+
+}
+
+#sotetseg{
+    z-index: 10;
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.58);
 }
