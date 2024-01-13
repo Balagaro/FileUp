@@ -102,8 +102,17 @@ socket.on("init", function(uid){
 
 
 //koros retek vege
+
 document.querySelector("#drop_zone").addEventListener("change",function(e){
     let file = e.target.files[0];
+    detectfile.fromFile(file, function(err, result) {
+
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log(result); // { ext: 'jpg', mime: 'image/jpeg' }
+    });
     //(e.target.files[0])
     if (!file){
         return;
@@ -196,6 +205,7 @@ const handleDrop = (e) => {
         document.querySelector(".readyfor").classList.remove("active");
         document.querySelector(".fileok").classList.add("active");
         let buffer = new Uint8Array(reader.result);
+
         let el =document.createElement("div");
         el.classList.add("item");
         el.innerHTML = `

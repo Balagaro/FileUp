@@ -55,13 +55,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
 
-<body>
+<body onload="showModal()">
+    
 <div class="background"></div>
 <div class="outer-container">
     <div class="inner-container">
         <div class="leftdiv">
             <div id="menuoszlop" class="menuoszlop">
-
+                <div class="logindiv">
+                    <a href=""> <img src="./docs/assets/loginicon.svg" alt="login"> </a>
+                </div>
             </div>
 
             <div class="dropdown" onclick="toggleMenu(this)">
@@ -87,7 +90,7 @@
                                 Oldalunkon könnyedén oszthat meg vagy
                                 fogadhat fájlokat. A megosztás közvetlenül
                                 zajlik a két fél között, így a fájlátvitel
-                                sebessége nagyban függ a felek internetsegességétől.
+                                sebessége nagyban függ a felek internetsebességétől.
                                 Kérjük ne zárja be böngészőjét ameddig zajlik a fájlátvitel.
                             </p>
                         </div>
@@ -142,7 +145,12 @@
 
 </div>
 </div>
-
+<div id="modalbox">
+    <img src="./docs/images/cookies.png" class="cookies">
+    <p>We use cookies to optimize user experience and content.</p>
+    <button type="button" onclick="closeModal()">Accept</button>
+    <img src="./docs/images/close.png" class="close-icon" onclick="window.alert('akkor takarodj')">
+</div>
 
 <script>
 
@@ -182,6 +190,21 @@
     if ('serviceWorker' in navigator){
         navigator.serviceWorker.register('/service_worker.json')
     }
+</script>
+<script id="cookies-script">
+
+    let modalbox = document.getElementById("modalbox");
+
+    function showModal(){
+        setTimeout(() => {
+            modalbox.style.display = "block"
+        }, 500);
+    }
+    function closeModal(){
+        
+        modalbox.style.display = "none"
+    }
+
 </script>
 </body>
 
