@@ -81,7 +81,8 @@ SA.redirection_mobile = function(configuration) {
 				(!!host.match(/^www\./i) ?
 					host.substring(4) : 
 						host)),*/
-		mobile_host="fileup.ddns.net/mobile/m_index.html"
+		mobile_host="m.fileup.site"
+
 
 		// Expiry hours for cookie
 		cookie_hours = config.cookie_hours || 1,
