@@ -1,14 +1,11 @@
 const express = require("express");
 const path = require("path");
 const JSZip=require('jszip');
-const detect = require('detect-file-type');
 const FileSaver =require('file-saver');
 const app = express();
 const server = require("http").createServer(app);
 
 const io = require("socket.io")(server);
-
-
 
 app.use(express.static(path.join(__dirname+"/public")));
 
