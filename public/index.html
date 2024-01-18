@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="hu">
 
-<head>
-    <script src="modules/grub/src/redirection-mobile.js"></script>
-    <script>
-        SA.redirection_mobile();
-    </script>
+<head>    
 
     <meta name="theme-color" content="#ffffff"/>
     <meta charset="UTF-8">
@@ -55,8 +51,11 @@
 </head>
 
 <body onload="showModal()">
+    <div class="block_cookies">
     
+    </div>
 <div class="background"></div>
+
 <div class="outer-container">
     <div class="inner-container">
         <div class="leftdiv">
@@ -64,14 +63,15 @@
                 <div class="logindiv">
                     <a href=""> <img src="./docs/assets/loginicon.svg" alt="login"> </a>
                 </div>
+                
             </div>
-
+            
             <div class="dropdown" onclick="toggleMenu(this)">
                 <div class="bar1"></div>
                 <div class="bar2"></div>
                 <div class="bar3"></div>
             </div>
-
+            
         </div>
 
         <div class="maindiv">
@@ -129,7 +129,7 @@
             </div>
         </div>
 
-
+        
     </div>
 
     <div class="rightdiv">
@@ -143,13 +143,19 @@
     </div>
 
 </div>
+
 </div>
+
 <div id="modalbox">
     <img src="./docs/images/cookies.png" class="cookies">
-    <p>We use cookies to optimize user experience and content.</p>
-    <button type="button" onclick="closeModal()">Accept</button>
-    <img src="./docs/images/close.png" class="close-icon" onclick="window.alert('akkor takarodj')">
+    <p>We use cookies to optimize user experience and content. <br> <a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a> </p>
+    <div id="buttons">
+    <button type="button" onclick="closeModal_accept()" >Accept</button>
+    <button type="button" onclick="closeModal_decline()">Decline</button>
+    </div>
+    
 </div>
+
 
 <script>
 
@@ -193,14 +199,26 @@
 <script id="cookies-script">
 
     let modalbox = document.getElementById("modalbox");
-
+    let blockbox=document.querySelector('.block_cookies')
     function showModal(){
         setTimeout(() => {
             modalbox.style.display = "block"
+            blockbox.classList.add("sutikvegig")
         }, 500);
     }
-    function closeModal(){
+
+
+
+    function closeModal_accept(){
         
+        console.log('elfogadva');
+        modalbox.style.display = "none"
+        blockbox.classList.remove("sutikvegig")
+    }
+
+    function closeModal_decline(){
+        
+        console.log('elutasítva');
         modalbox.style.display = "none"
     }
 

@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="/css/mobile/frontpage.css">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="test/apple-icon-180.png">
-
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
 
+    <meta name="HandheldFriendly" content="true" />
 
     <link rel="apple-touch-startup-image" href="test/apple-splash-2048-2732.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="test/apple-splash-2732-2048.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
@@ -49,23 +50,29 @@
 
 </head>
 
-<body>
-
+<body onload="showModal()">
+    <div class="block_cookies">
+    
+    </div>
 
 <div class="outer-container">
-    <div class="background"></div>
+    
     <div class="inner-container">
+        <div class="background"></div>
         <div class="leftdiv">
             <div id="menuoszlop" class="menuoszlop">
-
+                <div class="logindiv">
+                    <a href=""> <img src="./loginicon.svg" alt="login"> </a>
+                </div>
+                
             </div>
-
+            
             <div class="dropdown" onclick="toggleMenu(this)">
                 <div class="bar1"></div>
                 <div class="bar2"></div>
                 <div class="bar3"></div>
             </div>
-
+            
         </div>
 
         <div class="maindiv">
@@ -140,8 +147,19 @@ mobilhalo
     </div>
 </div>
 
+<div id="modalbox">
+    <img src="./cookies.png" class="cookies">
+    <p>We use cookies to optimize user experience and content. <br> <a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a> </p>
+    <button type="button" onclick="closeModal_accept()" >Accept</button>
+    <button type="button" onclick="closeModal_decline()">Decline</button>
+    
+</div>
 
 <script>
+targetElement.ontouchend = (e) => {
+    e.preventDefault();
+};
+
 
     function toggleMenu(x) {
         x.classList.toggle("change");
@@ -166,10 +184,35 @@ mobilhalo
         // special hack to prevent zoom-to-tabs gesture in safari
         document.body.style.zoom = 0.99;
     });
+
+    window.addEventListener("scroll", (e) => {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+      });
+
+      scrollTop =
+    window.pageYOffset ||
+    document.documentElement.scrollTop;
+scrollLeft =
+    window.pageXOffset ||
+    document.documentElement.scrollLeft,
+
+    // if any scroll is attempted,
+    // set this to the previous value
+    window.onscroll = function () {
+        window.scrollTo(scrollLeft, scrollTop);
+    };
 </script>
 
 
-<script type="javascript">
+<script type="text/javascript">
+    window.addEventListener("scroll", (e) => {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+      });
+
+
+
     document.body.requestFullscreen()
 
 
@@ -193,6 +236,37 @@ mobilhalo
     if ('serviceWorker' in navigator){
         navigator.serviceWorker.register('/service_worker.json')
     }
+
+
+    
+</script>
+
+<script id="cookies-script">
+
+    let modalbox = document.getElementById("modalbox");
+    let blockbox=document.querySelector('.block_cookies')
+    function showModal(){
+        setTimeout(() => {
+            modalbox.style.display = "block"
+            blockbox.classList.add("sutikvegig")
+        }, 500);
+    }
+
+
+
+    function closeModal_accept(){
+        
+        console.log('elfogadva');
+        modalbox.style.display = "none"
+        blockbox.classList.remove("sutikvegig")
+    }
+
+    function closeModal_decline(){
+        
+        console.log('elutasítva');
+        modalbox.style.display = "none"
+    }
+
 </script>
 
 </body>
