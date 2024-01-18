@@ -158,6 +158,12 @@ body {
 #login{
     position: absolute;
 }
-logbutt:hover{
-
+.loginbutt{
+    border: none;
+    background: none;
+}
+.loginbutt:hover{
+    cursor: pointer;
+    background: none;
+    border: none;
 }

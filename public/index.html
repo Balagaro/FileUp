@@ -67,7 +67,7 @@
         <div class="leftdiv">
             <div id="menuoszlop" class="menuoszlop">
                 <div class="logindiv">
-                    <button onclick='module.gog()'> <img src="./docs/assets/loginicon.svg"  alt="login"> </button>
+                    <button class="loginbutt" onclick='module.gog()'> <img src="./docs/assets/loginicon.svg"  alt="login"> </button>
                 </div>
                 
             </div>
@@ -207,9 +207,10 @@
     let modalbox = document.getElementById("modalbox");
     let blockbox=document.querySelector('.block_cookies')
     function showModal(){
+        blockbox.classList.add("sutikvegig")
         setTimeout(() => {
             modalbox.style.display = "block"
-            blockbox.classList.add("sutikvegig")
+
         }, 500);
     }
 
