@@ -4,10 +4,18 @@ const JSZip=require('jszip');
 const FileSaver =require('file-saver');
 const app = express();
 const server = require("http").createServer(app);
-
+const vhost=require('vhost')
 const io = require("socket.io")(server);
+const app1 = express.Router()
+const app2 = express.Router()
 
-app.use(express.static(path.join(__dirname+"/public")));
+app1.use(express.static(path.join(__dirname+"/public")));
+app2.use(express.static(path.join(__dirname+"/public/mobile")));
+
+app.use(vhost('fileup.site', app1))
+app.use(vhost('m.fileup.site', app2))
+
+/*app.use(express.static(path.join(__dirname+"/public")));*/
 
 
 io.on("connection", function(socket){
@@ -19,7 +27,7 @@ io.on("connection", function(socket){
         socket.in(data.sender_uid).emit("init",data.uid);
     });
     socket.on("reveive-joined", function(data){
-       socket.in(data.uid).emit("rev-joined",data.uid)
+        socket.in(data.uid).emit("rev-joined",data.uid)
     });
     socket.on("file-meta", function(data){
         socket.in(data.uid).emit("fs-meta",data.metadata);
