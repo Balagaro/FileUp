@@ -11,7 +11,7 @@ module.exports = {
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "ignorePatterns": ["vendor/*.js", "dist/*.js", "test/jquery-1.8.3.min.js"],
+    "ignorePatterns": ["vendor/*.js", "dist/*.js", "apple/jquery-1.8.3.min.js"],
     "rules": {
         "indent": [
             "error",

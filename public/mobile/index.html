@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FileUp</title>
+    <link rel="icon" type="image/x-icon" href="/docs/logo/favicon.ico">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="mobile_css/main.css">
+    <link rel="stylesheet" href="mobile_css/frontpage.css">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="./docs/apple/apple-icon-180.png">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2048-2732.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2732-2048.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1668-2388.jpg" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2388-1668.jpg" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1536-2048.jpg" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2048-1536.jpg" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1668-2224.jpg" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2224-1668.jpg" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1620-2160.jpg" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2160-1620.jpg" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1290-2796.jpg" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2796-1290.jpg" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1179-2556.jpg" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2556-1179.jpg" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1284-2778.jpg" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2778-1284.jpg" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1170-2532.jpg" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2532-1170.jpg" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1125-2436.jpg" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2436-1125.jpg" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1242-2688.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2688-1242.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-828-1792.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1792-828.jpg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1242-2208.jpg" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-2208-1242.jpg" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-750-1334.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1334-750.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-640-1136.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="./docs/apple/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+
+
+
+</head>
+
+<body>
+
+
+<div class="outer-container">
+    <div class="background"></div>
+    <div class="inner-container">
+        <div class="leftdiv">
+            <div id="menuoszlop" class="menuoszlop">
+
+            </div>
+
+            <div class="dropdown" onclick="toggleMenu(this)">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+
+        </div>
+
+        <div class="maindiv">
+
+            <div class="logoline"><a href="../index.html">
+                <img id="mainlogo" src="/docs/logo/fileuplogo.png" alt="Logo"></a>
+            </div>
+
+            <div class="out-box">
+                <div class="box">
+                    <div class="in-box">
+                        <div class="bevezetok">
+                            <h1 class="welcome">Üdvözli a FileUp!</h1>
+                            <p class="bevezetoszoveg">
+                                Oldalunkon könnyedén oszthat meg vagy
+                                fogadhat fájlokat. A megosztás közvetlenül
+                                zajlik a két fél között, így a fájlátvitel
+                                sebessége nagyban függ a felek internetsegességétől.
+                                Kérjük ne zárja be böngészőjét ameddig zajlik a fájlátvitel.
+mobilhalo
+                            </p>
+                        </div>
+                        <div class="out-choose">
+                            <div class="choose">
+                                <div class="cbox upload">
+                                    <a class="choosehiv" href="send.html">
+                                        <button  id="uploadbutt">
+                                            <div class="loadlogo"><img src="/docs/assets/uploadbutton.png"></div>
+                                            <div class="subtype">Küldés</div>
+                                        </button>
+
+                                    </a>
+                                </div>
+                                <div class="cbox download">
+                                    <a class="choosehiv" href="receive.html">
+                                        <button  id="downloadbutt">
+                                            <div class="loadlogo"><img src="/docs/assets/downloadbutton.png" alt=""></div>
+                                            <div class="subtype">Fogadás</div>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="outsimplelogodiv">
+                            <div class="simplelogodiv">
+                                <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
+                            </div>
+                        </div>
+                        <div class="conditions">
+                            <p>A szolgálatás igénybevételével elfogadja annak
+                                általános használati feltételeit,
+                                és adatkezelési nyilatkozatát.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="rightdiv">
+
+            <div><a target=”_blank” href="https://discord.gg/9Gyp4gutVN"><img class="connection-logo"
+                                                                              src="/docs/assets/connections/discord.png" alt=""></a></div>
+            <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
+                                                                                   src="/docs/assets/connections/github.png" alt=""></a></div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+
+    function toggleMenu(x) {
+        x.classList.toggle("change");
+        document.getElementById('menuoszlop').classList.toggle('activeoszlop');
+
+    }
+
+    document.addEventListener('gesturestart', function(e) {
+        e.preventDefault();
+        // special hack to prevent zoom-to-tabs gesture in safari
+        document.body.style.zoom = 0.99;
+    });
+
+    document.addEventListener('gesturechange', function(e) {
+        e.preventDefault();
+        // special hack to prevent zoom-to-tabs gesture in safari
+        document.body.style.zoom = 0.99;
+    });
+
+    document.addEventListener('gestureend', function(e) {
+        e.preventDefault();
+        // special hack to prevent zoom-to-tabs gesture in safari
+        document.body.style.zoom = 0.99;
+    });
+</script>
+
+
+<script type="javascript">
+    document.body.requestFullscreen()
+
+
+
+    const pwaAssetGenerator = require('pwa-asset-generator');
+
+    // Generate images over a module function call, instead of using CLI commands
+    (async () => {
+        const { savedImages, htmlMeta, manifestJsonContent } = await pwaAssetGenerator.generateImages(
+            "/docs",
+            "/docs/assets",
+            "/docs/logo",""
+        );
+    })();
+
+    // Access to static data for Apple Device specs that are used for generating launch images
+    const appleDeviceSpecsForLaunchImages = pwaAssetGenerator.appleDeviceSpecsForLaunchImages;
+
+
+
+    if ('serviceWorker' in navigator){
+        navigator.serviceWorker.register('/service_worker.json')
+    }
+</script>
+
+</body>
+
+</html>

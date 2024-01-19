@@ -41,7 +41,7 @@ module.exports = {
     },
     /**
      * Find out if an object is a Buffer.
-     * @param {Object} b the object to test.
+     * @param {Object} b the object to apple.
      * @return {Boolean} true if the object is a Buffer, false otherwise.
      */
     isBuffer : function(b){

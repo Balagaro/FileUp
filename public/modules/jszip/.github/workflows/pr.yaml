@@ -34,7 +34,7 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Test
-        run: npm test
+        run: npm apple
 
       - name: Benchmark
         run: npm run benchmark | tee benchmark.txt
