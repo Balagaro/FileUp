@@ -6,8 +6,8 @@
 
     <title>FileUp</title>
     <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
-    <link rel="stylesheet" href="/mobile_css/main.css">
-    <link rel="stylesheet" href="/mobile_css/send.css">
+    <link rel="stylesheet" href="./mobile_css/main.css">
+    <link rel="stylesheet" href="./mobile_css/send.css">
 
 </head>
 
@@ -44,13 +44,23 @@
                         </div>
                         <div class="topline">
                             <div class="innertopline">
-                                <div class="shorterdiv">
-                                    <input id="shortercode" type="checkbox">
-                                </div>
+                                <div class="outcodeline">
                                 <input id="codeline" value="Betöltés..." readonly>
+                                </div>
+                                <div class="copylinediv">
+                                <div class="shorterdiv">
+                                    <select name="auth" id="auth">
+                                        <option value="default">Alap</option>
+                                        <option value="simple">Egyszerű</option>
+                                        <option value="difficult">Jelszó</option>
+                                    </select>
+                                </div>
+                                    <div class="copydiv">
                                 <button onclick="unsecuredCopyToClipboard(document.getElementById('codeline').value)" id="copylink">
                                     másolás
                                 </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="outwaiting-box">

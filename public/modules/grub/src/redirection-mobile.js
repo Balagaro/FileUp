@@ -76,12 +76,12 @@ SA.redirection_mobile = function(configuration) {
 		queryValue = getQueryValue(redirection_param),
 
 		// Compose the mobile hostname considering "mobile_url" or "mobile_prefix" + hostname
-		/*mobile_host = mobile_url ||
+		mobile_host = mobile_url ||
 			(mobile_prefix + "." +
 				(!!host.match(/^www\./i) ?
 					host.substring(4) : 
-						host)),*/
-		mobile_host="m.fileup.site"
+						host)),
+
 
 
 		// Expiry hours for cookie

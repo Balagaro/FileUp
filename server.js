@@ -21,7 +21,7 @@ app2.use((req, res, next) => {
 });
 app2.use('/', express.static(path.join(__dirname+"/public/mobile")))
 
-app.use(vhost('104.248.92.11', app1))
+app.use(vhost('fileup.site', app1))
 app.use(vhost('m.fileup.site', app2))
 
 io.on("connection", function(socket){

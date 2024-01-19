@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "cb": "^0.1.1",
+    "cookie-parser": "^1.4.6",
     "detect-file-type": "^0.2.8",
     "downloadjs": "^1.4.1",
     "express": "^4.18.2",
