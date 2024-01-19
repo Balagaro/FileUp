@@ -37,6 +37,11 @@
     margin-bottom: 30px;
 }
 
+.s_indicator{
+    display: none;
+
+}
+
 .receivewindow{
     width: 90%;
     min-width: 200px;
@@ -264,7 +269,7 @@ border-radius: 20px;
     align-items: center;
     justify-content: center;
 }
-.in-circle::before{
+.in-circle2::before{
     content: "";
     position: absolute;
     height: 15px;
@@ -305,4 +310,8 @@ border-radius: 20px;
     display: none;
     position: absolute;
 
+}
+.indicating{
+    z-index: 1;
+    display: block;
 }
