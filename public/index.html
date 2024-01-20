@@ -52,28 +52,35 @@
     <link rel="apple-touch-startup-image" href="test/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-auth.js"></script>
+
+
 </head>
 
 <body onload="showModal()">
-<div id="sotetseg">
-
-</div>
+    <div class="block_cookies">
+    
+    </div>
 <div class="background"></div>
+
 <div class="outer-container">
+
     <div class="inner-container">
         <div class="leftdiv">
             <div id="menuoszlop" class="menuoszlop">
                 <div class="logindiv">
-                    <a href=""> <img src="./docs/assets/loginicon.svg" alt="login"> </a>
+                    <button class="loginbutt" onclick='module.gog()'> <img src="./docs/assets/loginicon.svg"  alt="login"> </button>
                 </div>
+                
             </div>
-
+            
             <div class="dropdown" onclick="toggleMenu(this)">
                 <div class="bar1"></div>
                 <div class="bar2"></div>
                 <div class="bar3"></div>
             </div>
-
+            
         </div>
 
         <div class="maindiv">
@@ -131,28 +138,32 @@
             </div>
         </div>
 
-
+        
     </div>
 
     <div class="rightdiv">
+
 
         <div><a target=”_blank” href="https://discord.gg/9Gyp4gutVN"><img class="connection-logo"
                                                                           src="/docs/assets/connections/discord.png" alt=""></a></div>
         <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
                                                                                src="/docs/assets/connections/github.png" alt=""></a></div>
 
-
     </div>
 
 </div>
-</div>
-<div id="modalbox">
-    <img src="./docs/images/cookies.png" class="cookies">
-    <p>We use cookies to optimize user experience and content.</p>
-    <button type="button" onclick="closeModal()">Accept</button>
-    <img src="./docs/images/close.png" class="close-icon" onclick="window.alert('akkor takarodj')">
+
 </div>
 
+<div id="modalbox">
+    <img src="./docs/images/cookies.png" class="cookies">
+    <p>We use cookies to optimize user experience and content. <br> <a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a> </p>
+    <div id="buttons">
+    <button type="button" onclick="closeModal_accept()" >Accept</button>
+    <button type="button" onclick="closeModal_decline()">Decline</button>
+    </div>
+    
+</div>
 
 
 <script>
@@ -197,18 +208,39 @@
 <script id="cookies-script">
 
     let modalbox = document.getElementById("modalbox");
-    let sotet=document.getElementById('sotetseg');
-
+    let blockbox=document.querySelector('.block_cookies')
     function showModal(){
+        blockbox.classList.add("sutikvegig")
         setTimeout(() => {
             modalbox.style.display = "block"
-            sotet.style.display = "block"
+
         }, 500);
     }
-    function closeModal(){
-        sotet.style.display = "none"
+
+
+
+    function closeModal_accept(){
+        
+        console.log('elfogadva');
+        modalbox.style.display = "none"
+        blockbox.classList.remove("sutikvegig")
+    }
+
+    function closeModal_decline(){
+        
+        console.log('elutasítva');
         modalbox.style.display = "none"
     }
+
+</script>
+
+<script type="text/javascript">
+    const module = {};
+</script>
+<script type="module">
+    import { gog } from "/firebase.js";
+
+    module.gog = gog;
 
 </script>
 </body>
