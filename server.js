@@ -7,7 +7,24 @@ const fs = require("fs");
 const https = require('https');
 const server = require("http");
 const vhost=require('vhost')
-const io = require("socket.io")(server);
+
+
+
+const options = {
+    key: fs.readFileSync(`./ssl/www.fileup.site.key`),
+    cert: fs.readFileSync(`./ssl/www.fileup.site.crt`)
+};
+
+const httpsServer = https.createServer(options, app);
+
+const httpServer = server.createServer((req, res) => {
+    res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
+    res.end();
+});
+
+
+
+const io = require("socket.io")(httpsServer);
 
 app.get('/', function(req, res){
     res.sendFile(__dirname +"/public/docs/sziaszilard.png");
@@ -81,10 +98,6 @@ io.on("connection", function(socket){
 })
 
 
-const options = {
-    key: fs.readFileSync(`./ssl/www.fileup.site.key`),
-    cert: fs.readFileSync(`./ssl/www.fileup.site.crt`)
-};
 
 
 
@@ -94,12 +107,7 @@ const httpsServer = https.createServer(options, (req, res) => {
     res.end('SZERETLEK TEAM HYPE');
 });*/
 
-const httpsServer = https.createServer(options, app);
 
-const httpServer = server.createServer((req, res) => {
-    res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
-    res.end();
-});
 
 httpServer.listen(80);
 httpsServer.listen(443);

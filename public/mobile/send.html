@@ -95,7 +95,7 @@
                                     </select>
                                 </div>
                                     <div class="copydiv">
-                                <button onclick="unsecuredCopyToClipboard(document.getElementById('codeline').value)" id="copylink">
+                                <button onclick="Masolas(document.getElementById('codeline').value)" id="copylink">
                                     másolás
                                 </button>
                                     </div>
@@ -175,7 +175,7 @@
     }
 
 
-/*
+
     function Masolas(){
         // Get the text field
         let copyText = document.getElementById("codeline");
@@ -192,7 +192,7 @@
     }
 
 
-*/
+/*
     function unsecuredCopyToClipboard(text) {
         const textArea = document.createElement("textarea");
         textArea.value = text;
@@ -208,7 +208,7 @@
         document.querySelector("#copylink").innerHTML=`<img class="keszpipa readytick" src="docs/assets/readytick.svg">`
     }
 
-
+*/
     function dropHandler(ev) {
         ev.preventDefault();
         if (ev.dataTransfer.items) {
