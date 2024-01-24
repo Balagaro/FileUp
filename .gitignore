@@ -132,4 +132,4 @@ public/modules/grub/dist
 # Jetbrains
 .idea
 /_npx/
-/ssl/
+ssl/

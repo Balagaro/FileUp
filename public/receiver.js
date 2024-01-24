@@ -137,17 +137,19 @@
 
             window[metadata.filename].circle.classList.add('readycircle');
             window[metadata.filename].pipa.classList.add('readytick');
-
             if ((metadata.total_buffer_size<500000000) && (inprog>1)){
                 zip.file( window[metadata.filename].metadata.filename, new Blob(window[metadata.filename].buffer))
                 keszek++;
                 if (keszek===inprog){
                     zip.generateAsync({ type: 'blob' }).then(function (content) {
-                        saveAs(content, 'download.zip');
+                        saveAs(content, 'FileUpped.zip');
                     });
+                    keszek=0;
+                    inprog=0;
                 }
             } else{
                 download(new Blob(window[metadata.filename].buffer), window[metadata.filename].metadata.filename);
+                inprog-=1;
             }
 
 

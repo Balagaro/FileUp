@@ -1,14 +1,3 @@
-function dropHandler(ev) {
-    const socket = io();
-    //console.log("File(s) dropped");
-    ev.preventDefault();
-    [...ev.dataTransfer.items].forEach((item, i) => {
-        const file = item.getAsFile();
-        //console.log('jou')
-
-    });
-
-}
 let stoppedlist=[];
 function megallit(e){
     e.innerHTML="<img src='/docs/assets/start.svg'>";
@@ -23,69 +12,32 @@ function elindit(e){
     stoppedlist = stoppedlist.filter(el => el !==(e.getAttribute('butid')));
 }
 
-
-
 let receiverID;
 const socket = io();
 
-
-function generateID() {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < 25) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return result;
-}
-function generateShortID() {
-    let shortresult = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < 5) {
-        shortresult += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return shortresult;
-
-}
-
-
-let shortJoinID=generateShortID();
 document.querySelector('#auth').addEventListener('change', function (e){
 let authtype=document.querySelector('#auth').value;
     if (authtype==="simple"){
-        document.querySelector("#codeline").value=shortJoinID;
+        document.querySelector("#codeline").value=s_code;
         socket.emit("sender-join",{
-            uid:shortJoinID
+            uid:s_code
         });
     }
     if (authtype==="default") {
-        document.querySelector("#codeline").value=joinID;
+        document.querySelector("#codeline").value=l_code;
         socket.emit("sender-join",{
-            uid:joinID
+            uid:l_code
         });
 
     }
     if (authtype==="difficult") {
-        document.querySelector("#codeline").value=joinID;
+        document.querySelector("#codeline").value=l_code;
         socket.emit("sender-join",{
-            uid:joinID
+            uid:l_code
         });
 
     }
 })
-
-
-
-let joinID = generateID();
-document.querySelector("#codeline").value=joinID;
-socket.emit("sender-join",{
-    uid:joinID
-});
 
 socket.on("init", function(uid){
     receiverID = uid;
@@ -96,12 +48,6 @@ socket.on("init", function(uid){
         uid:receiverID
     });
 });
-
-
-//koros retek
-
-
-//koros retek vege
 
 document.querySelector("#drop_zone").addEventListener("change",function(e){
     let file = e.target.files[0];
@@ -121,7 +67,6 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
         }
         filename+="(...)."+((file.name.split('.')).pop());
     }
-
 
     reader.onload = function(e){
         document.querySelector(".readyfor").classList.remove("active");
@@ -147,11 +92,19 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
             filename:file.name,
             total_buffer_size:buffer.length,
             buffer_size:1024,
-        },buffer,el.querySelector(".progress"), el.querySelector('.in-circle'),el.querySelector('.keszpipa'),el.querySelector(".loader"), el.querySelector('.stopbutton'));
+        },buffer,
+        el.querySelector(".progress"),
+        el.querySelector('.in-circle'),
+        el.querySelector('.keszpipa'),
+        el.querySelector(".loader"),
+        el.querySelector('.stopbutton'));
     }
     reader.readAsArrayBuffer(file);
 });
+socket.on("hotline",function(data){
+    window.alert("error")
 
+});
 
 const initApp = () => {
     const droparea = document.querySelector('#drop_zone');
@@ -187,18 +140,14 @@ const handleDrop = (e) => {
         let oldname=dropped.name;
         for (i=0; i<25; i++){
             filename+=oldname.charAt(i)
-
         }
         filename+="(...)."+((dropped.name.split('.')).pop());
     }
-
-
 
     reader.onload = function(e){
         document.querySelector(".readyfor").classList.remove("active");
         document.querySelector(".fileok").classList.add("active");
         let buffer = new Uint8Array(reader.result);
-
         let el =document.createElement("div");
         el.classList.add("item");
         el.innerHTML = `
@@ -210,52 +159,31 @@ const handleDrop = (e) => {
             <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
             </div>
             <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
-            
-            </div>
-        `;
-
+            </div>`;
         document.querySelector(".fileok").appendChild(el);
         shareFile({
             filename:dropped.name,
             total_buffer_size:buffer.length,
             buffer_size:1024
-        },buffer,el.querySelector(".progress"), el.querySelector('.in-circle'), el.querySelector('.keszpipa'),el.querySelector(".loader"), el.querySelector('.stopbutton'));
-
+        },buffer,el.querySelector(".progress"),
+            el.querySelector('.in-circle'),
+            el.querySelector('.keszpipa'),
+            el.querySelector(".loader"),
+            el.querySelector('.stopbutton'));
     }
     reader.readAsArrayBuffer(dropped);
 
 }
 
-
 function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
-    //console.log(stoppedlist.indexOf(metadata.filename))
-    //console.log(metadata.filename)
-
     let szazalek=0;
-
     socket.emit("file-meta",{
         uid:receiverID,
         metadata:metadata
     });
     socket.on("fs-share",function(){
-
-            let rad = 0;
-            /*
-            function doStuff() {
-                if(stoppedlist.indexOf(metadata.filename)===-1){//we want it to match
-                    setTimeout(doStuff, 50);//wait 50 millisecnds then recheck
-                    return;
-                }
-            }
-            if (stoppedlist.indexOf(metadata.filename)!==-1){
-                setTimeout(doStuff, 50);//wait 50 millisecnds then recheck
-                return;
-            }
-
-
-            doStuff();c*/
-
-            let chunk = buffer.slice(0, metadata.buffer_size);
+        let rad = 0;
+        let chunk = buffer.slice(0, metadata.buffer_size);
         if (stoppedlist.indexOf(metadata.filename)===-1) {
             //console.log(stoppedlist.indexOf(metadata.filename))
             //console.log(metadata.filename)

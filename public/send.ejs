@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>FileUp</title>
+    <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/send.css">
+
+</head>
+
+<body>
+<div class="background"></div>
+<div class="outer-container">
+    <div class="inner-container">
+        <div class="leftdiv">
+            <div id="menuoszlop" class="menuoszlop">
+
+            </div>
+
+            <div class="dropdown" onclick="toggleMenu(this)">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+
+        </div>
+
+        <div class="maindiv">
+
+            <div class="logoline"><a href="/">
+                    <img id="mainlogo" src="/docs/logo/fileuplogo.png" alt=FileUP></a>
+            </div>
+
+            <div class="out-box">
+                <div class="box">
+                    <div class="in-box">
+
+                        <div class="backbutton">
+                            <a href="/"><img src="/docs/assets/backwards.png" alt="Visszagomb">
+                            </a>
+                        </div>
+                        <div class="topline">
+                            <div class="innertopline">
+                                <div class="shorterdiv">
+                                    <select name="auth" id="auth">
+                                        <option value="default">Alap</option>
+                                        <option value="simple">Egyszerű</option>
+                                        <option value="difficult">Jelszó</option>
+                                    </select>
+                                </div>
+                                <input id="codeline" value="Betöltés..." readonly>
+                                <button onclick="unsecuredCopyToClipboard(document.getElementById('codeline').value)" id="copylink">
+                                    másolás
+                                </button>
+                            </div>
+                        </div>
+                        <div class="outwaiting-box">
+                            <div class="inwaiting-box" id="inwaiting">
+                                <div class="waitingfor contbox active">
+                                    <label class="waitingtext" >
+                                        Várakozás a csatlakozásra...
+                                    </label>
+
+                                    <label class="tick" >
+                                        <img src="/docs/assets/tick.svg" alt="pipa">
+                                    </label></div>
+                                <div class="readyfor contbox ">
+                                    <label class="waitingtext" >
+                                        Csatlakozva
+                                    </label>
+                                    <label class="tick" >
+                                        <img class="tickgreen" src="/docs/assets/tick.svg" alt="pipa">
+                                    </label></div>
+
+                                <div class="fileok contbox ">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="outdrag">
+                            <section id="drop_zone" class="drop_zonec"><!--ondragover="dragOverHandler(event);"-->
+                                <div class="dragthefiles"> <!--ondrop="dropHandler(event)" -->
+                                    Húzza ide a fájlokat!
+                                </div>
+
+                                <div class="openfile">
+                                    <label for="file-input" class="folder"><img src="/docs/assets/folder.svg" alt="Mappa"></label>
+                                    <input  id="file-input"  type="file">
+                                </div>
+
+                            </section>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="rightdiv">
+
+            <div><a target=”_blank” href="https://discord.gg/9Gyp4gutVN"><img class="connection-logo"
+                                                                              src="/docs/assets/connections/discord.png" alt=""></a></div>
+            <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
+                                                                                   src="/docs/assets/connections/github.png" alt=""></a></div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript" src="modules/socket.io/client-dist/socket.io.js"></script>
+<script type="text/javascript" src="send.js"></script>
+
+<script>
+    l_code=`<%= longcode %>`;
+    let s_code=`<%= shortcode %>`;
+    document.querySelector("#codeline").value=l_code;
+    socket.emit("sender-join",{
+        uid:l_code
+    });
+    function toggleMenu(x) {
+        x.classList.toggle("change");
+        document.getElementById('menuoszlop').classList.toggle('activeoszlop');
+    }
+
+    function dragOverHandler(ev) {
+        ev.preventDefault();
+    }
+
+
+    /*
+        function Masolas(){
+            // Get the text field
+            let copyText = document.getElementById("codeline");
+
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.value);
+
+            // Alert the copied text
+            console.log("Copied the text: " + copyText.value);
+        }
+
+
+    */
+    function unsecuredCopyToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+        } catch (err) {
+            console.error('Unable to copy to clipboard', err);
+        }
+        document.body.removeChild(textArea);
+        document.querySelector("#copylink").innerHTML=`<img class="keszpipa readytick" src="docs/assets/readytick.svg">`
+    }
+
+
+    function dropHandler(ev) {
+        ev.preventDefault();
+        if (ev.dataTransfer.items) {
+            [...ev.dataTransfer.items].forEach((item, i) => {
+                if (item.kind === "file") {
+                    const file = item.getAsFile();
+                }
+            });
+        } else {
+            [...ev.dataTransfer.files].forEach((file, i) => {
+            });
+        }
+    }
+
+
+</script>
+</body>
+
+</html>

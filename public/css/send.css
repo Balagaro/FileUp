@@ -101,13 +101,13 @@
     justify-content: center;
 }
 .inwaiting-box{
-    width: 35%;
+    width: 50%;
     display: flex;
     justify-content: center;
     border: 2px solid black;
     border-radius: 50px;
     margin-top:50px;
-    height: 200px;
+    height: 250px;
     align-items: center;
     flex-direction: column;
 }

@@ -1,3 +1,4 @@
+
 function dropHandler(ev) {
     const socket = io();
     //console.log("File(s) dropped");
