@@ -9,35 +9,38 @@ const server = require("http");
 const vhost=require('vhost')
 const io = require("socket.io")(server);
 
-
-
-app.use(express.static(__dirname + '/public'))
-
 app.get('/', function(req, res){
 
     // save html files in the `views` folder...
-    res.sendfile(__dirname + "/public/index.html");
+    res.send("fejlesztes alatt");
 });
 
+app.use(express.static(__dirname + '/public'))
 
-app.post('/', function(req, res){
 
-    var code = req.body.code;
-    console.log(code);
 
-    res.sendFile( __dirname + "/public/index.html");
+app.get('/main', function(req, res){
+
+    // save html files in the `views` folder...
+    res.sendFile(__dirname + "/public/index.html");
 });
+
 app.get('/m/', function(req, res){
 
     // save html files in the `views` folder...
-    res.sendfile(__dirname + "/public/mobile/index.html");
+    res.sendFile(__dirname + "/public/mobile/index.html");
 });
-app.post('/m/', function(req, res){
 
-    var code = req.body.code;
-    console.log(code);
+app.get('/send', function(req, res){
 
-    res.sendFile( __dirname + "/public/mobile/index.html");
+    // save html files in the `views` folder...
+    res.sendFile(__dirname + "/public/send.html");
+});
+
+app.get('/receive', function(req, res){
+
+    // save html files in the `views` folder...
+    res.sendFile(__dirname + "/public/receive.html");
 });
 
 

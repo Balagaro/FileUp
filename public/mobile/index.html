@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>FileUp</title>
-    <link rel="icon" type="image/x-icon" href="/docs/logo/favicon.ico">
-    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/x-icon" href="/mobile/docs/logo/favicon.ico">
+    <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="/mobile/mobile_css/main.css">
     <link rel="stylesheet" href="/mobile/mobile_css/frontpage.css">
     <meta name="mobile-web-app-capable" content="yes">
@@ -73,7 +73,7 @@
         <div class="maindiv">
 
             <div class="logoline"><a href="./index.html">
-                <img id="mainlogo" src="/docs/logo/fileuplogo.png" alt="Logo"></a>
+                <img id="mainlogo" src="/mobile/docs/logo/fileuplogo.png" alt="Logo"></a>
             </div>
 
             <div class="out-box">
@@ -95,7 +95,7 @@ mobilhalo
                                 <div class="cbox upload">
                                     <a class="choosehiv" href="/send.html">
                                         <button  id="uploadbutt">
-                                            <div class="loadlogo"><img src="/docs/assets/uploadbutton.png"></div>
+                                            <div class="loadlogo"><img src="/mobile/docs/assets/uploadbutton.png"></div>
                                             <div class="subtype">Küldés</div>
                                         </button>
 
@@ -104,7 +104,7 @@ mobilhalo
                                 <div class="cbox download">
                                     <a class="choosehiv" href="/receive.html">
                                         <button  id="downloadbutt">
-                                            <div class="loadlogo"><img src="/docs/assets/downloadbutton.png" alt=""></div>
+                                            <div class="loadlogo"><img src="/mobile/docs/assets/downloadbutton.png" alt=""></div>
                                             <div class="subtype">Fogadás</div>
                                         </button>
                                     </a>
@@ -113,7 +113,7 @@ mobilhalo
                         </div>
                         <div class="outsimplelogodiv">
                             <div class="simplelogodiv">
-                                <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
+                                <img src="/mobile/docs/logo/logosimple.png" alt="easy, quick, safe">
                             </div>
                         </div>
                         <div class="conditions">
@@ -132,9 +132,9 @@ mobilhalo
         <div class="rightdiv">
 
             <div><a target=”_blank” href="https://discord.gg/9Gyp4gutVN"><img class="connection-logo"
-                                                                              src="/docs/assets/connections/discord.png" alt=""></a></div>
+                                                                              src="/mobile/docs/assets/connections/discord.png" alt=""></a></div>
             <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
-                                                                                   src="/docs/assets/connections/github.png" alt=""></a></div>
+                                                                                   src="/mobile/docs/assets/connections/github.png" alt=""></a></div>
 
 
         </div>
@@ -181,9 +181,9 @@ mobilhalo
     // Generate images over a module function call, instead of using CLI commands
     (async () => {
         const { savedImages, htmlMeta, manifestJsonContent } = await pwaAssetGenerator.generateImages(
-            "/docs",
-            "/docs/assets",
-            "/docs/logo",""
+            "/mobile/docs",
+            "/mobile/docs/assets",
+            "/mobile/docs/logo",""
         );
     })();
 
