@@ -3,26 +3,44 @@ const path = require("path");
 const JSZip=require('jszip');
 const FileSaver =require('file-saver');
 const app = express();
+const fs = require("fs");
+const https = require('https');
 const server = require("http").createServer(app);
 const vhost=require('vhost')
 const io = require("socket.io")(server);
-const app1 = express.Router()
-const app2 = express.Router()
 
-app1.use((req, res, next) => {
-    const ipAddress = req.socket.remoteAddress;
-    next();
+
+
+app.use(express.static(__dirname + '/public'))
+
+app.get('/', function(req, res){
+
+    // save html files in the `views` folder...
+    res.sendfile(__dirname + "/public/index.html");
 });
-app1.use('/', express.static(path.join(__dirname+"/public")))
 
-app2.use((req, res, next) => {
-    const ipAddress = req.socket.remoteAddress;
-    next();
+
+app.post('/', function(req, res){
+
+    var code = req.body.code;
+    console.log(code);
+
+    res.sendFile( __dirname + "/public/index.html");
 });
-app2.use('/', express.static(path.join(__dirname+"/public/mobile")))
+app.get('/m/', function(req, res){
 
-app.use(vhost('localhost', app1))
-app.use(vhost('192.168.0.108', app2))
+    // save html files in the `views` folder...
+    res.sendfile(__dirname + "/public/mobile/index.html");
+});
+app.post('/m/', function(req, res){
+
+    var code = req.body.code;
+    console.log(code);
+
+    res.sendFile( __dirname + "/public/mobile/index.html");
+});
+
+
 
 io.on("connection", function(socket){
     socket.on("sender-join", function(data){
@@ -49,5 +67,16 @@ io.on("connection", function(socket){
     });
 })
 
-server.listen(80);
+
+
+
+/*
+const httpsServer = https.createServer(options, (req, res) => {
+    res.writeHead(200);
+    res.end('SZERETLEK TEAM HYPE');
+});*/
+
+
+server.listen(8000);
+
 console.log("SziaSzilard")
