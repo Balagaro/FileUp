@@ -228,8 +228,8 @@ const handleDrop = (e) => {
 
 
 function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
-    console.log(stoppedlist.indexOf(metadata.filename))
-    console.log(metadata.filename)
+    //console.log(stoppedlist.indexOf(metadata.filename))
+    //console.log(metadata.filename)
 
     let szazalek=0;
 
@@ -257,8 +257,8 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
 
             let chunk = buffer.slice(0, metadata.buffer_size);
         if (stoppedlist.indexOf(metadata.filename)===-1) {
-            console.log(stoppedlist.indexOf(metadata.filename))
-            console.log(metadata.filename)
+            //console.log(stoppedlist.indexOf(metadata.filename))
+            //console.log(metadata.filename)
             buffer = buffer.slice(metadata.buffer_size, buffer.length);
             szazalek = Math.trunc((metadata.total_buffer_size - buffer.length) / metadata.total_buffer_size * 100);
             rad = szazalek * 3.6;

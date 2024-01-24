@@ -138,7 +138,7 @@
             window[metadata.filename].circle.classList.add('readycircle');
             window[metadata.filename].pipa.classList.add('readytick');
 
-            if (metadata.total_buffer_size<500000000){
+            if ((metadata.total_buffer_size<500000000) && (inprog>1)){
                 zip.file( window[metadata.filename].metadata.filename, new Blob(window[metadata.filename].buffer))
                 keszek++;
                 if (keszek===inprog){

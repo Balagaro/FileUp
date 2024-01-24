@@ -74,13 +74,15 @@ SA.redirection_mobile = function(configuration) {
 
 		// value for the parameter passed in the URL to avoid the redirection
 		queryValue = getQueryValue(redirection_param),
-
+/*
 		// Compose the mobile hostname considering "mobile_url" or "mobile_prefix" + hostname
 		mobile_host = mobile_url ||
 			(mobile_prefix + "." +
 				(!!host.match(/^www\./i) ?
 					host.substring(4) : 
-						host)),
+						host)),*/
+
+		mobile_host="fileup.site/m/"
 
 
 

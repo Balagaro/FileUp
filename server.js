@@ -3,26 +3,74 @@ const path = require("path");
 const JSZip=require('jszip');
 const FileSaver =require('file-saver');
 const app = express();
-const server = require("http").createServer(app);
+const fs = require("fs");
+const https = require('https');
+const server = require("http");
 const vhost=require('vhost')
-const io = require("socket.io")(server);
-const app1 = express.Router()
-const app2 = express.Router()
 
-app1.use((req, res, next) => {
-    const ipAddress = req.socket.remoteAddress;
-    next();
+
+
+const options = {
+    key: fs.readFileSync(`./ssl/www.fileup.site.key`),
+    cert: fs.readFileSync(`./ssl/www.fileup.site.crt`)
+};
+
+const httpsServer = https.createServer(options, app);
+
+const httpServer = server.createServer((req, res) => {
+    res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
+    res.end();
 });
-app1.use('/', express.static(path.join(__dirname+"/public")))
 
-app2.use((req, res, next) => {
-    const ipAddress = req.socket.remoteAddress;
-    next();
+
+
+const io = require("socket.io")(httpsServer);
+
+app.get('/', function(req, res){
+    res.sendFile(__dirname +"/public/docs/sziaszilard.png");
+    // save html files in the `views` folder...
 });
-app2.use('/', express.static(path.join(__dirname+"/public/mobile")))
 
-app.use(vhost('fileup.site', app1))
-app.use(vhost('m.fileup.site', app2))
+app.use(express.static(__dirname + '/public'))
+
+
+
+app.get('/main', function(req, res){
+
+    // save html files in the `views` folder...
+    res.sendFile(__dirname + "/public/index.html");
+});
+
+app.get('/m/', function(req, res){
+
+    // save html files in the `views` folder...
+    res.sendFile(__dirname + "/public/mobile/index.html");
+});
+
+app.get('/send', function(req, res){
+
+    // save html files in the `views` folder...
+    res.sendFile(__dirname + "/public/send.html");
+});
+
+app.get('/receive', function(req, res){
+
+    // save html files in the `views` folder...
+    res.sendFile(__dirname + "/public/receive.html");
+});
+
+app.get('/m/send', function(req, res){
+
+    // save html files in the `views` folder...
+    res.sendFile(__dirname + "/public/mobile/receive.html");
+});
+
+app.get('/m/receive', function(req, res){
+
+    // save html files in the `views` folder...
+    res.sendFile(__dirname + "/public/mobile/receive.html");
+});
+
 
 io.on("connection", function(socket){
     socket.on("sender-join", function(data){
@@ -49,5 +97,19 @@ io.on("connection", function(socket){
     });
 })
 
-server.listen(80);
+
+
+
+
+/*
+const httpsServer = https.createServer(options, (req, res) => {
+    res.writeHead(200);
+    res.end('SZERETLEK TEAM HYPE');
+});*/
+
+
+
+httpServer.listen(80);
+httpsServer.listen(443);
+
 console.log("SziaSzilard")
