@@ -10,7 +10,7 @@ const vhost=require('vhost')
 const io = require("socket.io")(server);
 
 app.get('/', function(req, res){
-
+    res.sendFile("./public/docs/sziaszilard.png");
     // save html files in the `views` folder...
     res.send("fejlesztes alatt");
 });
