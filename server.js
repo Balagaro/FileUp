@@ -85,7 +85,7 @@ app.get('/send', function(req, res){
     res.render('send', {longcode: longcode, shortcode: shortcode});
 });
 
-app.get('/receive   ', function(req, res){
+app.get('/receive', function(req, res){
     const ipAddress = req.socket.remoteAddress;
     datas.ip=ipAddress;
     // save html files in the `views` folder...
