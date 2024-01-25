@@ -29,6 +29,7 @@
 }
 .receivefiles div{
     opacity: 60%;
+    margin-top: 16px;
 }
 .out-receivewindow{
     display: flex;
