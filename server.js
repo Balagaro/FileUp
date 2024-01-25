@@ -6,8 +6,8 @@ const app = express();
 const fs = require("fs");
 const https = require('https');
 const server = require("http");
-const vhost=require('vhost')
-
+const vhost=require('vhost');
+const moment = require("moment");
 
 const options = {
     key: fs.readFileSync(`./ssl/www.fileup.site.key`),
@@ -58,10 +58,6 @@ function generateShortID() {
 
 }
 
-
-
-
-
 app.get('/main', function(req, res){
     const ipAddress = req.socket.remoteAddress;
     res.sendFile(__dirname + "/public/index.html");
@@ -110,27 +106,27 @@ io.on("connection", function(socket){
         id=data.uid
         if (id===datas.lcode || id===datas.scode){
             socket.join(data.uid);
-            console.log(datas.ip+" joined with code: "+datas.lcode)
+            console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" joined with code: "+datas.lcode)
         } else {
             socket.emit("hotline","404")
-            console.log(datas.ip+" connection denied")
+            console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" connection denied")
         }
     });
     socket.on("receiver-join", function(data){
         socket.join(data.uid);
         socket.in(data.sender_uid).emit("init",data.uid);
-        console.log("receiver joined with id: "+data.sender_uid+" from ip: "+datas.ip)
+        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"receiver joined with id: "+data.sender_uid+" from ip: "+datas.ip)
     });
     socket.on("cigi", function (data){
         console.log(data)
     });
     socket.on("reveive-joined", function(data){
         socket.in(data.uid).emit("rev-joined",data.uid)
-        console.log("revive joined with id: "+data.uid+" from ip: "+datas.ip)
+        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"revive joined with id: "+data.uid+" from ip: "+datas.ip)
     });
     socket.on("file-meta", function(data){
         socket.in(data.uid).emit("fs-meta",data.metadata);
-        console.log("metadata on the way"+datas.ip);
+        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+data.ip+" sent metadata of "+data.metadata.filename+" size: "+data.metadata.buffer_size);
     });
     socket.on("fs-start", function(data){
         socket.in(data.uid).emit("fs-share",{});
@@ -139,11 +135,9 @@ io.on("connection", function(socket){
         socket.in(data.uid).emit("fs-share",[data.buffer, data.metadata]);
     });
     socket.on("file-ready", function(data){
-        console.log(data.uid);
+        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+data.uid+" finished the fileshare "+data.name);
     });
 })
-
-
 
 httpServer.listen(80);
 httpsServer.listen(443);

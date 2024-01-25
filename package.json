@@ -26,6 +26,7 @@
     "handlebars": "^4.7.8",
     "jquery": "^3.7.1",
     "jszip": "^3.10.1",
+    "moment": "^2.30.1",
     "mssql": "^10.0.1",
     "npx": "^10.2.2",
     "pwa-asset-generator": "^6.3.1",
