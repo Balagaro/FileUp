@@ -85,8 +85,9 @@ app.get('/send', function(req, res){
     res.render('send', {longcode: longcode, shortcode: shortcode});
 });
 
-app.get('/receive', function(req, res){
-
+app.get('/receive   ', function(req, res){
+    const ipAddress = req.socket.remoteAddress;
+    datas.ip=ipAddress;
     // save html files in the `views` folder...
     res.sendFile(__dirname + "/public/receive.html");
 });
@@ -109,28 +110,36 @@ io.on("connection", function(socket){
         id=data.uid
         if (id===datas.lcode || id===datas.scode){
             socket.join(data.uid);
+            console.log(datas.ip+" joined with code: "+datas.lcode)
         } else {
             socket.emit("hotline","404")
+            console.log(datas.ip+" connection denied")
         }
     });
     socket.on("receiver-join", function(data){
         socket.join(data.uid);
         socket.in(data.sender_uid).emit("init",data.uid);
+        console.log("receiver joined with id: "+data.sender_uid+" from ip: "+datas.ip)
     });
     socket.on("cigi", function (data){
         console.log(data)
     });
     socket.on("reveive-joined", function(data){
         socket.in(data.uid).emit("rev-joined",data.uid)
+        console.log("revive joined with id: "+data.uid+" from ip: "+datas.ip)
     });
     socket.on("file-meta", function(data){
         socket.in(data.uid).emit("fs-meta",data.metadata);
+        console.log("metadata on the way"+datas.ip);
     });
     socket.on("fs-start", function(data){
         socket.in(data.uid).emit("fs-share",{});
     });
     socket.on("file-raw", function(data){
         socket.in(data.uid).emit("fs-share",[data.buffer, data.metadata]);
+    });
+    socket.on("file-ready", function(data){
+        console.log(data);
     });
 })
 

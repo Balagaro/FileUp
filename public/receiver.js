@@ -134,7 +134,12 @@
         window[metadata.filename].circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
         if(window[metadata.filename].transmitted === window[metadata.filename].metadata.total_buffer_size){
 
+            socket.emit("file-ready",{
+                name:window[metadata.filename],
+                uid:joinID,
+                sender_uid:senderID
 
+            });
             window[metadata.filename].circle.classList.add('readycircle');
             window[metadata.filename].pipa.classList.add('readytick');
             if ((metadata.total_buffer_size<500000000) && (inprog>1)){
