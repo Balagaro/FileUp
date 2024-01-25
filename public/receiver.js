@@ -136,7 +136,6 @@
 
             socket.emit("file-ready",{
                 name:window[metadata.filename],
-                uid:joinID,
                 sender_uid:senderID
 
             });
