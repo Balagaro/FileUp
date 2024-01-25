@@ -95,7 +95,7 @@ app.get('/receive', function(req, res){
 app.get('/m/send', function(req, res){
 
     // save html files in the `views` folder...
-    res.sendFile(__dirname + "/public/mobile/receive.html");
+    res.sendFile(__dirname + "/public/mobile/send.html");
 });
 
 app.get('/m/receive', function(req, res){
@@ -139,7 +139,7 @@ io.on("connection", function(socket){
         socket.in(data.uid).emit("fs-share",[data.buffer, data.metadata]);
     });
     socket.on("file-ready", function(data){
-        console.log(data);
+        console.log(data.uid);
     });
 })
 
