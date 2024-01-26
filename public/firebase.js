@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export function gog(){
+export function google(){
 
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)

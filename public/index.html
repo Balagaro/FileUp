@@ -70,7 +70,28 @@
         <div class="leftdiv">
             <div id="menuoszlop" class="menuoszlop">
                 <div class="logindiv">
-                    <button class="loginbutt" onclick='module.gog()'> <img src="./docs/assets/loginicon.svg"  alt="login"> </button>
+                    <button class="loginbutt" onclick='gomb()'> <img src="./docs/assets/loginicon.svg"  alt="login"> </button>
+                    <div id="popup">
+                        <input placeholder="email" id="email">
+                        <input placeholder="password" id="password">
+                        <button onclick="login()">login</button>
+                        <button onclick="cancel()">cancel</button>
+                        <button onclick='module.google()'>google</button>
+                    </div>
+                        <script>
+                        function gomb() {
+                            document.getElementById("popup").style.display = "block";
+                        }
+                        function cancel(){
+                            document.getElementById("popup").style.display = "none";
+                        }
+                        function login(){
+                            console.log(document.getElementById('email').value)
+                            console.log(document.getElementById('password').value)
+                        }
+
+                        </script>
+
                 </div>
                 
             </div>
@@ -234,9 +255,9 @@
     const module = {};
 </script>
 <script type="module">
-    import { gog } from "/firebase.js";
+    import { google } from "/firebase.js";
 
-    module.gog = gog;
+    module.google = google;
 
 </script>
 </body>

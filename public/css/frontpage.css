@@ -161,3 +161,6 @@
     display: block;
     z-index: 21;
 }
+#popup{
+    display: none;
+}
