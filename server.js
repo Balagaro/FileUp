@@ -47,7 +47,7 @@ app.set('view engine', 'ejs');
 
 const io = require("socket.io")(httpsServer);
 
-app.get('/', function(req, res){
+app.get('/sziszilard', function(req, res){
     res.sendFile(__dirname +"/public/docs/sziaszilard.png");
     // save html files in the `views` folder...
 });
@@ -79,7 +79,7 @@ function generateShortID() {
 
 }
 
-app.get('/main', function(req, res){
+app.get('/', function(req, res){
     const ipAddress = req.socket.remoteAddress;
     res.sendFile(__dirname + "/public/index.html");
 });
