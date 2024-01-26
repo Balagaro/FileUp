@@ -136,7 +136,7 @@
 
             socket.emit("file-ready",{
                 name:window[metadata.filename].filename,
-                sender_uid:senderID
+                uid:senderID
 
             });
             window[metadata.filename].circle.classList.add('readycircle');

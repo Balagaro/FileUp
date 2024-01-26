@@ -122,41 +122,47 @@
         metadata=be[1];
 
         if (buffer!==null){
-        window[metadata.filename].circle.classList.remove('notwaitinganymore')
-        window[metadata.filename].indicator.classList.remove('indicating')
-        window[metadata.filename].circle.removeAttribute('style')
-        window[metadata.filename].buffer.push(buffer);
-        //console.log(fileShare);
-        window[metadata.filename].transmitted += buffer.byteLength;
-        let szazalek=Math.trunc(window[metadata.filename].transmitted / window[metadata.filename].metadata.total_buffer_size * 100)
-        window[metadata.filename].progress_node.innerText = szazalek + "%";
-        rad=szazalek*3.6
-        window[metadata.filename].circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
-        if(window[metadata.filename].transmitted === window[metadata.filename].metadata.total_buffer_size){
+            window[metadata.filename].circle.classList.remove('notwaitinganymore')
+            window[metadata.filename].indicator.classList.remove('indicating')
+            window[metadata.filename].circle.removeAttribute('style')
+            window[metadata.filename].buffer.push(buffer);
+            //console.log(fileShare);
+            window[metadata.filename].transmitted += buffer.byteLength;
+            let szazalek=Math.trunc(window[metadata.filename].transmitted / window[metadata.filename].metadata.total_buffer_size * 100)
+            window[metadata.filename].progress_node.innerText = szazalek + "%";
+            rad=szazalek*3.6
+            window[metadata.filename].circle.style.background= `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
+            if(window[metadata.filename].transmitted === window[metadata.filename].metadata.total_buffer_size){
 
+                socket.emit("file-ready",{
+                    name:window[metadata.filename].filename,
+                    uid:senderID
 
-            window[metadata.filename].circle.classList.add('readycircle');
-            window[metadata.filename].pipa.classList.add('readytick');
-
-            if ((metadata.total_buffer_size<500000000) && (inprog>1)){
-                zip.file( window[metadata.filename].metadata.filename, new Blob(window[metadata.filename].buffer))
-                keszek++;
-                if (keszek===inprog){
-                    zip.generateAsync({ type: 'blob' }).then(function (content) {
-                        saveAs(content, 'download.zip');
-                    });
+                });
+                window[metadata.filename].circle.classList.add('readycircle');
+                window[metadata.filename].pipa.classList.add('readytick');
+                if ((metadata.total_buffer_size<500000000) && (inprog>1)){
+                    zip.file( window[metadata.filename].metadata.filename, new Blob(window[metadata.filename].buffer))
+                    keszek++;
+                    if (keszek===inprog){
+                        zip.generateAsync({ type: 'blob' }).then(function (content) {
+                            saveAs(content, 'FileUpped.zip');
+                        });
+                        keszek=0;
+                        inprog=0;
+                    }
+                } else{
+                    download(new Blob(window[metadata.filename].buffer), window[metadata.filename].metadata.filename);
+                    inprog-=1;
                 }
-            } else{
-                download(new Blob(window[metadata.filename].buffer), window[metadata.filename].metadata.filename);
-            }
 
 
 
-        }else{
-            socket.emit("fs-start",{
-                uid:senderID
-            });
-        }}else{
+            }else{
+                socket.emit("fs-start",{
+                    uid:senderID
+                });
+            }}else{
             window[metadata.filename].indicator.classList.add('indicating')
             window[metadata.filename].circle.classList.add('notwaitinganymore')
             window[metadata.filename].circle.setAttribute('style', 'opacity:0%;')
@@ -166,4 +172,4 @@
             });
         }
     });
- })();
+})();
