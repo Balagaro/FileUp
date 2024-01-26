@@ -153,7 +153,7 @@ io.on("connection", function(socket){
     });
     socket.on("file-meta", function(data){
         socket.in(data.uid).emit("fs-meta",data.metadata);
-        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+data.ip+" sent metadata of "+data.metadata.filename+" size: "+data.metadata.buffer_size);
+        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" sent metadata of "+data.metadata.filename+" size: "+data.metadata.buffer_size);
     });
     socket.on("fs-start", function(data){
         socket.in(data.uid).emit("fs-share",{});

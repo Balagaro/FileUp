@@ -135,7 +135,7 @@
             if(window[metadata.filename].transmitted === window[metadata.filename].metadata.total_buffer_size){
 
                 socket.emit("file-ready",{
-                    name:window[metadata.filename].filename,
+                    name:metadata.filename,
                     uid:senderID
 
                 });
