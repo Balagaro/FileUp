@@ -157,12 +157,12 @@
 
 <div id="modalbox">
     <img src="./docs/images/cookies.png" class="cookies">
-    <p>We use cookies to optimize user experience and content. <br> <a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a> </p>
+    <p>Az oldal optimális és jogszerű használata érdekében, az oldal sütiket és a felhasználó Internet Protocoll Address-ét használja fel. <br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
     <div id="buttons">
-    <button type="button" onclick="closeModal_accept()" >Accept</button>
-    <button type="button" onclick="closeModal_decline()">Decline</button>
+    <button type="button" onclick="closeModal_accept()" >Elfogadás</button>
+    <button type="button" onclick="closeModal_decline()">Elutasítás</button>
     </div>
-    
+
 </div>
 
 
@@ -220,15 +220,11 @@
 
 
     function closeModal_accept(){
-        
-        console.log('elfogadva');
         modalbox.style.display = "none"
         blockbox.classList.remove("sutikvegig")
     }
 
     function closeModal_decline(){
-        
-        console.log('elutasítva');
         modalbox.style.display = "none"
     }
 
