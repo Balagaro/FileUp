@@ -133,3 +133,6 @@ public/modules/grub/dist
 .idea
 /_npx/
 ssl/
+.ssl
+.ssl/
+

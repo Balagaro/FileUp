@@ -1,9 +1,30 @@
+const fs = require('fs');
+
+fs.readFile('./foo.log', 'utf8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    fs.writeFile('./logged.txt', data, err => {
+        if (err) {
+            console.error(err);
+        } else {
+            // file written successfully
+        }
+    });
+});
+
+
+
+
+
+
 const express = require("express");
 const path = require("path");
 const JSZip=require('jszip');
 const FileSaver =require('file-saver');
 const app = express();
-const fs = require("fs");
+
 const https = require('https');
 const server = require("http");
 const vhost=require('vhost');
