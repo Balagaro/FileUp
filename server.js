@@ -110,9 +110,15 @@ app.get('/receive', function(req, res){
 });
 
 app.get('/m/send', function(req, res){
-
+    const ipAddress = req.socket.remoteAddress;
+    let shortcode=generateShortID();
+    let longcode =generateID();
+    datas.lcode=longcode;
+    datas.scode=shortcode;
+    datas.ip=ipAddress;
     // save html files in the `views` folder...
-    res.sendFile(__dirname + "/public/mobile/send.html");
+    /*res.sendFile(__dirname + "/public/send.html");*/
+    res.render('mobile/send', {longcode: longcode, shortcode: shortcode});
 });
 
 app.get('/m/receive', function(req, res){
