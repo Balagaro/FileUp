@@ -15,7 +15,7 @@ fs.readFile('./foo.log', 'utf8', (err, data) => {
 });
 
 
-
+let lcodes=[];
 
 
 
@@ -89,17 +89,20 @@ app.get('/m/', function(req, res){
     // save html files in the `views` folder...
     res.sendFile(__dirname + "/public/mobile/index.html");
 });
-
+let sent=0
 app.get('/send', function(req, res){
-    const ipAddress = req.socket.remoteAddress;
-    let shortcode=generateShortID();
-    let longcode =generateID();
-    datas.lcode=longcode;
-    datas.scode=shortcode;
-    datas.ip=ipAddress;
-    // save html files in the `views` folder...
-    /*res.sendFile(__dirname + "/public/send.html");*/
-    res.render('send', {longcode: longcode, shortcode: shortcode});
+    if (sent===1){}else{
+        sent=1;
+        const ipAddress = req.socket.remoteAddress;
+        let shortcode=generateShortID();
+        let longcode =generateID();
+        datas.lcode=longcode;
+        datas.scode=shortcode;
+        datas.ip=ipAddress;
+        // save html files in the `views` folder...
+        /*res.sendFile(__dirname + "/public/send.html");*/
+        res.render('send', {longcode: longcode, shortcode: shortcode});
+    }
 });
 
 app.get('/receive', function(req, res){
@@ -139,6 +142,9 @@ io.on("connection", function(socket){
             socket.join(data.uid);
             console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" joined with code: "+datas.lcode)
         } else {
+            console.log(id)
+            console.log(datas.lcode)
+            console.log(datas.scode)
             socket.emit("hotline","404")
             console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" connection denied")
         }

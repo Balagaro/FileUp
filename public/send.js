@@ -35,13 +35,26 @@ let authtype=document.querySelector('#auth').value;
     }
     if (authtype==="difficult") {
         document.querySelector("#codeline").value=l_code;
-        socket.emit("sender-join",{
-            uid:l_code
-        });
+        document.querySelector(".block_pass").classList.add("sutikvegig")
+        document.querySelector(".outpass").classList.add("sutikvegig")
+
 
     }
 })
-
+document.querySelector("#submitpass").addEventListener("click",function(){
+    let pass1=document.querySelector("#pass1").value
+    let pass2=document.querySelector("#pass2").value
+    if (pass1===pass2 && pass1!=="" && pass2!==""){
+        document.querySelector("#codeline").value=l_code;
+        document.querySelector(".block_pass").classList.remove("sutikvegig")
+        document.querySelector(".outpass").classList.remove("sutikvegig")
+        console.log("ugyes vagy fiam")
+        socket.emit("sender-join",{
+            uid:l_code,
+            passw:pass1
+        });
+    }
+});
 socket.on("init", function(uid){
     receiverID = uid;
     document.querySelector(".waitingfor").classList.remove("active");
