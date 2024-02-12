@@ -3,6 +3,7 @@
 
 let senderID;
 const socket = io();
+let joinID;
 
 function generateID() {
     let result = '';
@@ -21,7 +22,7 @@ document.querySelector("#submit").addEventListener("click",function(){
     if(senderID.length === 0){
         return;
     }
-    let joinID = generateID();
+    joinID = generateID();
     socket.emit("receiver-join",{
         uid:joinID,
         sender_uid:senderID
@@ -35,17 +36,67 @@ document.querySelector("#submit").addEventListener("click",function(){
         document.querySelector("#ccode1").classList.add("nonsub")
         document.querySelector("#csub2").classList.remove("nonsub")
         document.querySelector("#ccode2").classList.remove("nonsub")
-
         setTimeout(function (){
-
         }, 2000);
 
     });
+});
+socket.on("repulo_neger", function (data){
+    if (data==="password"){
+   console.log(data)
+    document.querySelector(".block_pass").classList.add("sutikvegig")
+    document.querySelector(".outpass").classList.add("sutikvegig")}
+    if (data===0){
+        document.querySelector(".block_pass").classList.add("sutikvegig")
+        document.querySelector(".outpass").classList.add("sutikvegig")
+        window.alert("balfasz")
+    } if (data===1){
 
+    }
+});
 
-
+document.querySelector("#submitpass").addEventListener("click",function(){
+    let pass1=document.querySelector("#pass1").value
+        document.querySelector(".block_pass").classList.remove("sutikvegig")
+        document.querySelector(".outpass").classList.remove("sutikvegig")
+        console.log("ugyes vagy fiam")
+        password=pass1
+        socket.emit("buta_neger",{
+            type:2,
+            uid: senderID,
+            joinuid:joinID,
+            holdon: password,
+        });
 
 });
+
+/*
+document.querySelector("#submit").addEventListener("click",function(){
+    let password = document.querySelector("#pass1").value;
+    if(password.length === 0){
+        return;
+    }
+    socket.emit("receiver-join",{
+        uid:joinID,
+        sender_uid:senderID
+    });
+    let checkcode=0;
+
+    socket.on("rev-joined",function(e){
+        checkcode=1;
+        document.querySelector('.tickvagyok').classList.add("tickgreen")
+        document.querySelector("#csub1").classList.add("nonsub")
+        document.querySelector("#ccode1").classList.add("nonsub")
+        document.querySelector("#csub2").classList.remove("nonsub")
+        document.querySelector("#ccode2").classList.remove("nonsub")
+        setTimeout(function (){
+        }, 2000);
+
+    });
+});
+*/
+
+
 let keszek=0;
 let inprog=0;
 let fileShare = {};

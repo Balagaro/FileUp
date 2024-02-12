@@ -17,9 +17,9 @@ function elindit(e){
 
 let receiverID;
 const socket = io();
-
+let authtype="simple";
 document.querySelector('#auth').addEventListener('change', function (e){
-let authtype=document.querySelector('#auth').value;
+    authtype=document.querySelector('#auth').value;
     if (authtype==="simple"){
         document.querySelector("#codeline").value=s_code;
         socket.emit("sender-join",{
@@ -41,6 +41,7 @@ let authtype=document.querySelector('#auth').value;
 
     }
 })
+let password="";
 document.querySelector("#submitpass").addEventListener("click",function(){
     let pass1=document.querySelector("#pass1").value
     let pass2=document.querySelector("#pass2").value
@@ -49,14 +50,73 @@ document.querySelector("#submitpass").addEventListener("click",function(){
         document.querySelector(".block_pass").classList.remove("sutikvegig")
         document.querySelector(".outpass").classList.remove("sutikvegig")
         console.log("ugyes vagy fiam")
+        password=pass1
         socket.emit("sender-join",{
             uid:l_code,
-            passw:pass1
+            passw:password
+        });
+    } else{
+        document.getElementById('status').innerHTML="A jelszavak nem egyeznek!"
+    }
+
+});
+
+socket.on("repulo_neger", function (data){
+    console.log(password)
+    console.log(data)
+    if (password===data){
+        socket.emit("buta_neger",{
+            type:3,
+            uid:receiverID,
+            holdon: 1,
+        });
+        document.querySelector(".waitingfor").classList.remove("active");
+        document.querySelector(".readyfor").classList.add("active");
+        connected[0]=true;
+        if (connected[1]===true){
+            document.querySelector(".readyfor").classList.remove("active");
+            document.querySelector(".fileok").classList.add("active");
+            for (let i = 0; i < already.length; i++){
+                let currentelement=already[i];
+                let alrel=currentelement[0]
+                shareFile({
+                        filename:currentelement[1],
+                        total_buffer_size:currentelement[2].length,
+                        buffer_size:1024,
+                    },currentelement[2],
+                    currentelement[3],
+                    currentelement[4],
+                    currentelement[5],
+                    currentelement[6],
+                    currentelement[7]);
+
+            }
+        }
+        socket.emit("reveive-joined",{
+            uid:receiverID,
+        });
+    } else {
+        socket.emit("buta_neger",{
+            type:3,
+            uid:receiverID,
+            holdon: 0,
         });
     }
 });
+
+
 socket.on("init", function(uid){
     receiverID = uid;
+    if (authtype==="difficult"){
+        console.log("na varj csak")
+        socket.emit("buta_neger",{
+            type:1,
+            uid:receiverID,
+            holdon: "password",
+        });
+    }else{
+
+
     document.querySelector(".waitingfor").classList.remove("active");
     document.querySelector(".readyfor").classList.add("active");
     connected[0]=true;
@@ -82,6 +142,7 @@ socket.on("init", function(uid){
     socket.emit("reveive-joined",{
         uid:receiverID,
     });
+    }
 });
 
 document.querySelector("#drop_zone").addEventListener("change",function(e){

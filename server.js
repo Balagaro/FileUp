@@ -48,8 +48,8 @@ app.set('view engine', 'ejs');
 const io = require("socket.io")(httpsServer);
 
 app.get('/', function(req, res){
-    res.sendFile(__dirname +"/public/stop.html");
-    // save html files in the `views` folder...
+    const ipAddress = req.socket.remoteAddress;
+    res.sendFile(__dirname + "/public/index.html");
 });
 
 let datas={};
@@ -79,11 +79,11 @@ function generateShortID() {
 
 }
 
-app.get('/main/', function(req, res){
-    const ipAddress = req.socket.remoteAddress;
-    res.sendFile(__dirname + "/public/index.html");
-});
 
+app.get('/maintenance', function(req, res){
+    res.sendFile(__dirname +"/public/stop.html");
+    // save html files in the `views` folder...
+});
 app.get('/m/', function(req, res){
 
     // save html files in the `views` folder...
@@ -91,7 +91,6 @@ app.get('/m/', function(req, res){
 });
 let sent=0
 app.get('/send', function(req, res){
-    if (sent===1){}else{
         sent=1;
         const ipAddress = req.socket.remoteAddress;
         let shortcode=generateShortID();
@@ -102,14 +101,15 @@ app.get('/send', function(req, res){
         // save html files in the `views` folder...
         /*res.sendFile(__dirname + "/public/send.html");*/
         res.render('send', {longcode: longcode, shortcode: shortcode});
-    }
+
 });
 
 app.get('/receive', function(req, res){
     const ipAddress = req.socket.remoteAddress;
     datas.ip=ipAddress;
     // save html files in the `views` folder...
-    res.sendFile(__dirname + "/public/receive.html");
+    //res.sendFile(__dirname + "/public/receive.html");
+    res.render('receive', {});
 });
 
 app.get('/m/send', function(req, res){
@@ -154,9 +154,18 @@ io.on("connection", function(socket){
         socket.in(data.sender_uid).emit("init",data.uid);
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"receiver joined with id: "+data.sender_uid+" from ip: "+datas.ip)
     });
-    socket.on("cigi", function (data){
-        console.log(data)
+
+    socket.on("buta_neger", function (data){
+        console.log(data.uid)
+        socket.in(data.uid).emit("repulo_neger", data.holdon)
+        if (data.holdon===1){
+            socket.join(data.joinuid);
+            socket.in(data.uid).emit("init",data.joinuid);
+        }
     });
+
+
+
     socket.on("reveive-joined", function(data){
         socket.in(data.uid).emit("rev-joined",data.uid)
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"revive joined with id: "+data.uid+" from ip: "+datas.ip)
