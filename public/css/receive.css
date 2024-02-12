@@ -301,7 +301,11 @@ width: 80%;
 }
 
 
-
+.canceledshare{
+    z-index: 50;
+    text-decoration: line-through;
+    opacity: 50%;
+}
 .indicating{
     z-index: 1;
     display: block;

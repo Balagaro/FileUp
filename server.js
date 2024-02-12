@@ -140,7 +140,7 @@ io.on("connection", function(socket){
         id=data.uid
         if (id===datas.lcode || id===datas.scode){
             socket.join(data.uid);
-            console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" joined with code: "+datas.lcode)
+            console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" joined with code: "+data.uid)
         } else {
             console.log(id)
             console.log(datas.lcode)

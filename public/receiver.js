@@ -138,6 +138,7 @@ socket.on("fs-meta",function(metadata){
     window[metadata.filename].circle=el.querySelector(".in-circle")
     window[metadata.filename].indicator=el.querySelector('.s_indicator')
     window[metadata.filename].pipa=el.querySelector(".keszpipa")
+    window[metadata.filename].filetext=el.querySelector(".filename")
     let thebutton=document.querySelector('#receive')
     thebutton.disabled=false;
     document.querySelector('.out-receivebutt').classList.add('activerecbutt')
@@ -171,8 +172,7 @@ socket.on("fs-share",function(be){
 
     buffer=be[0];
     metadata=be[1];
-
-    if (buffer!==null){
+    if (buffer!==null && buffer!==-1 && buffer!==-2){
     window[metadata.filename].circle.classList.remove('notwaitinganymore')
     window[metadata.filename].indicator.classList.remove('indicating')
     window[metadata.filename].circle.removeAttribute('style')
@@ -214,6 +214,7 @@ socket.on("fs-share",function(be){
             uid:senderID
         });
     }}else{
+        if (buffer===-2){
         window[metadata.filename].indicator.classList.add('indicating')
         window[metadata.filename].circle.classList.add('notwaitinganymore')
         window[metadata.filename].circle.setAttribute('style', 'opacity:0%;')
@@ -221,5 +222,14 @@ socket.on("fs-share",function(be){
         socket.emit("fs-start",{
             uid:senderID
         });
+    }
+    if (buffer===-1){
+        window[metadata.filename].indicator.classList.add('indicating')
+        window[metadata.filename].indicator.setAttribute("style", "opacity:50%")
+        window[metadata.filename].circle.classList.add('notwaitinganymore')
+        window[metadata.filename].filetext.classList.add('canceledshare')
+        window[metadata.filename].circle.setAttribute('style', 'opacity:0%;')
+
+    }
     }
 });

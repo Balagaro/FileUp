@@ -46,9 +46,13 @@
     width: 30%;
     background-color: rgb(189, 255, 255);
 
+    transition-duration: 0.1s;
+
 }
 #copylink:hover{
     cursor: pointer;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .loader {
@@ -93,8 +97,12 @@
 #auth{
     text-align: center;
     background-color: rgb(189, 255, 255);
+    transition-duration: 0.1s;
 }
-
+#auth:hover{
+    cursor: pointer;
+    scale: 1.05;
+}
 .outwaiting-box{
     width: 100%;
     display: flex;
@@ -110,6 +118,7 @@
     height: 250px;
     align-items: center;
     flex-direction: column;
+    padding: 10px;
 }
 
 .contbox{
@@ -118,9 +127,7 @@
 .shorterdiv{
     position: absolute;
     z-index: 5;
-    width: 80px;
-    display: flex;
-    justify-content: end;
+    margin-left: 10px;
 }
 .shorterdiv select{
     border-radius: 10px;
@@ -172,11 +179,12 @@
     border: 1px solid black;
     border-radius: 50px;
     margin-right: 10px;
-
-
     background-color: #656565;
+    transition-duration: 0.1s;
 }
-
+.openfile:hover{
+    scale: 1.05;
+}
 .folder img{
     width: 65px;
 }
@@ -185,6 +193,7 @@
     height: 100%;
     display: flex;
     justify-content: center;
+    transition-duration: 0.1s;
     align-items: center;
 }
 
@@ -311,7 +320,31 @@
     z-index: 4;
     opacity: 100%;
 }
-
+.filename{
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+.filename button{
+    border: 1px solid black;
+    border-radius: 100%;
+    background: none;
+    width: 18px;
+    height: 18px;
+    padding: 0px;
+    margin: 0px;
+    margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.1s;
+}
+.filename button:hover{
+    cursor: pointer;
+    background: #bebebe;
+    width: 22px;
+    height: 22px;
+}
 .block_pass{
     background-color: rgba(255, 255, 255, 0.674);
     width: 100%;
@@ -371,6 +404,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition-duration: 0.1s;
 }
 .passbar input{
     width: 300px;
@@ -382,6 +416,7 @@
 
 #cpass1:hover{
     cursor: pointer;
+    scale: 1.05;
 }
 
 .sutikvegig{
@@ -391,6 +426,49 @@
     width: 100%;
     z-index: 30;
 }
+
+#passclose{
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    transition-duration: 0.1s;
+}
+#passclose:hover{
+    cursor: pointer;
+    font-size: 40px;
+    top: -11px;
+    right: 3px;
+}
+
+
+
+
+
 .nonpass{
+    display: none;
+}
+
+.suspended{
+    z-index: 70;
+    opacity: 60%;
+    text-decoration: line-through;
+}
+.suspended *{
+    z-index: 70;
+    opacity: 60%;
+    background: none;
+    animation: none;
+    cursor: unset;
+}
+.suspended *:hover{
+    cursor: unset;
+}
+
+.suspended button{
+    z-index: 50;
+    cursor: unset;
     display: none;
 }

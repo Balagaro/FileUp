@@ -1,5 +1,6 @@
 let stoppedlist=[];
-
+let removedlist=[];
+document.querySelector('#auth').selectedIndex = 0;
 let connected=[false, false];
 let already=[];
 function megallit(e){
@@ -41,22 +42,38 @@ document.querySelector('#auth').addEventListener('change', function (e){
 
     }
 })
-let password="";
+let password;
+
+document.querySelector("#passclose").addEventListener("click",function(){
+    document.querySelector(".block_pass").classList.remove("sutikvegig")
+    document.querySelector(".outpass").classList.remove("sutikvegig")
+    document.querySelector("#codeline").value=l_code;
+    socket.emit("sender-join",{
+        uid:l_code
+    });
+    document.querySelector('#auth').selectedIndex = 0;
+
+});
+
+
 document.querySelector("#submitpass").addEventListener("click",function(){
     let pass1=document.querySelector("#pass1").value
     let pass2=document.querySelector("#pass2").value
-    if (pass1===pass2 && pass1!=="" && pass2!==""){
+    if (pass1===pass2 && pass1!=="" && pass2!=="" &&pass1.length>=5){
         document.querySelector("#codeline").value=l_code;
         document.querySelector(".block_pass").classList.remove("sutikvegig")
         document.querySelector(".outpass").classList.remove("sutikvegig")
-        console.log("ugyes vagy fiam")
         password=pass1
         socket.emit("sender-join",{
             uid:l_code,
             passw:password
         });
-    } else{
+    }
+    if (pass2 !== pass1){
         document.getElementById('status').innerHTML="A jelszavak nem egyeznek!"
+    }
+    if (pass1.length<5){
+        document.getElementById('status').innerHTML="A jelszónak legalább 5 karakter hosszú kell lennie!"
     }
 
 });
@@ -144,7 +161,18 @@ socket.on("init", function(uid){
     });
     }
 });
+function canc(e){
+    removedlist.push(e.getAttribute('value'))
+    let tocancitem=document.getElementById(e.getAttribute('value'))
+    tocancitem.classList.add("suspended")
+    for (let i=0; i<already.length; i++){
+        if (already[i][1]===e.getAttribute('value')){
+            already.splice(i, 1);
+            return
+        }
+    }
 
+};
 document.querySelector("#drop_zone").addEventListener("change",function(e){
     let file = e.target.files[0];
 
@@ -169,9 +197,12 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
         let buffer = new Uint8Array(reader.result);
         let el =document.createElement("div");
         el.classList.add("item");
+        el.setAttribute('id', `${file.name}`);
         el.innerHTML = `
-            <div class="filename">${filename}</div>
+            
+            <div class="filename"> <button value="${file.name}" onclick="canc(this)">x</button>  ${filename}</div>
             <div class="outstop">
+            
             <button class="stopbutton" onclick="megallit(this)" butid="${file.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
             <div class="loader"></div>  
             <div class="progresscircle">
@@ -196,7 +227,6 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
     }
     } else {
         connected[1]=true;
-        connected[1]=true;
         document.querySelector('.tick').setAttribute('style', "margin-top:5px")
         document.querySelector('.waitingtext').setAttribute('style', "margin-top:15px")
         reader.onload = function(e){
@@ -205,8 +235,9 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
             let buffer = new Uint8Array(reader.result);
             let el =document.createElement("div");
             el.classList.add("item");
+            el.setAttribute('id', `${file.name}`);
             el.innerHTML = `
-            <div class="filename">${filename}</div>
+            <div class="filename"> <button value="${file.name}" onclick="canc(this)">x</button>  ${filename}</div>
             <div class="outstop">
             <button class="stopbutton" onclick="megallit(this)" butid="${file.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
             <div class="loader"></div>  
@@ -289,7 +320,7 @@ const handleDrop = (e) => {
         let el =document.createElement("div");
         el.classList.add("item");
         el.innerHTML = `
-            <div class="filename">${filename}</div>
+            <div class="filename">  ${filename}</div>
             <div class="outstop">
             <button class="stopbutton" onclick="megallit(this)" butid="${file.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
             <div class="loader"></div>  
@@ -322,7 +353,7 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
     socket.on("fs-share",function(){
         let rad = 0;
         let chunk = buffer.slice(0, metadata.buffer_size);
-        if (stoppedlist.indexOf(metadata.filename)===-1) {
+        if (stoppedlist.indexOf(metadata.filename)===-1 && removedlist.indexOf(metadata.filename)===-1) {
             //console.log(stoppedlist.indexOf(metadata.filename))
             //console.log(metadata.filename)
             buffer = buffer.slice(metadata.buffer_size, buffer.length);
@@ -348,15 +379,23 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
                     metadata:metadata
                 });
             }
-        } else {
+        } else { if (stoppedlist.indexOf(metadata.filename)===-1){
 
     if(chunk.length !==0){
         socket.emit("file-raw",{
             uid:receiverID,
-            buffer:null,
+            buffer:-1,
             metadata:metadata
         });
     }}
+        if (removedlist.indexOf(metadata.filename)===-1){
+            socket.emit("file-raw",{
+                uid:receiverID,
+                buffer:-2,
+                metadata:metadata
+            });
+        };
+        };
 })
 }
 
