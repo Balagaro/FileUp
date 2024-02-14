@@ -350,7 +350,8 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
         uid:receiverID,
         metadata:metadata
     });
-    socket.on("fs-share",function(){
+    socket.on("fs-share",function(pas){
+        if (pas!==password){null}else{
         let rad = 0;
         let chunk = buffer.slice(0, metadata.buffer_size);
         if (stoppedlist.indexOf(metadata.filename)===-1 && removedlist.indexOf(metadata.filename)===-1) {
@@ -396,7 +397,7 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
             });
         };
         };
-})
+}})
 }
 
 

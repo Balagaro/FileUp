@@ -45,7 +45,9 @@
 #copylink{
     width: 30%;
     background-color: rgb(189, 255, 255);
-
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
     transition-duration: 0.1s;
 
 }
@@ -148,7 +150,9 @@
 }
 .waitingtext{
     font-size: 20px;
-
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 .outdrag{
     width: 100%;
@@ -206,6 +210,9 @@
     opacity: 50%;
     display: flex;
     justify-content: center;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 .fileok{

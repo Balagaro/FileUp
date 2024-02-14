@@ -1,5 +1,4 @@
 const fs = require('fs');
-
 fs.readFile('./foo.log', 'utf8', (err, data) => {
     if (err) {
         console.error(err);
@@ -13,49 +12,37 @@ fs.readFile('./foo.log', 'utf8', (err, data) => {
         }
     });
 });
-
-
 let lcodes=[];
-
-
-
-
 const express = require("express");
 const path = require("path");
 const JSZip=require('jszip');
 const FileSaver =require('file-saver');
 const app = express();
-
 const https = require('https');
 const server = require("http");
 const vhost=require('vhost');
 const moment = require("moment");
-
 const options = {
     key: fs.readFileSync(`./ssl/www.fileup.site.key`),
     cert: fs.readFileSync(`./ssl/www.fileup.site.crt`)
 };
-
 const httpsServer = https.createServer(options, app);
-
 const httpServer = server.createServer((req, res) => {
     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
     res.end();
 });
-
 app.set('views', path.join(__dirname, '/public'));
 app.set('view engine', 'ejs');
-
 const io = require("socket.io")(httpsServer);
+
+
 
 app.get('/', function(req, res){
     const ipAddress = req.socket.remoteAddress;
     res.sendFile(__dirname + "/public/index.html");
 });
-
 let datas={};
 app.use(express.static(__dirname + '/public'))
-
 function generateID() {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -79,8 +66,6 @@ function generateShortID() {
     return shortresult;
 
 }
-
-
 app.get('/maintenance', function(req, res){
     res.sendFile(__dirname +"/public/stop.html");
     // save html files in the `views` folder...
@@ -104,7 +89,6 @@ app.get('/send', function(req, res){
         res.render('send', {longcode: longcode, shortcode: shortcode});
 
 });
-
 app.get('/receive', function(req, res){
     const ipAddress = req.socket.remoteAddress;
     datas.ip=ipAddress;
@@ -112,7 +96,6 @@ app.get('/receive', function(req, res){
     //res.sendFile(__dirname + "/public/receive.html");
     res.render('receive', {});
 });
-
 app.get('/m/send', function(req, res){
     const ipAddress = req.socket.remoteAddress;
     let shortcode=generateShortID();
@@ -124,14 +107,11 @@ app.get('/m/send', function(req, res){
     /*res.sendFile(__dirname + "/public/send.html");*/
     res.render('mobile/send', {longcode: longcode, shortcode: shortcode});
 });
-
 app.get('/m/receive', function(req, res){
 
     // save html files in the `views` folder...
     res.sendFile(__dirname + "/public/mobile/receive.html");
 });
-
-
 app.get('/terms-and-cookies', function(req, res){
     res.sendFile(__dirname + "/public/data.html");
 });
@@ -164,9 +144,6 @@ io.on("connection", function(socket){
             socket.in(data.uid).emit("init",data.joinuid);
         }
     });
-
-
-
     socket.on("reveive-joined", function(data){
         socket.in(data.uid).emit("rev-joined",data.uid)
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"revive joined with id: "+data.uid+" from ip: "+datas.ip)
@@ -176,10 +153,10 @@ io.on("connection", function(socket){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" sent metadata of "+data.metadata.filename+" size: "+data.metadata.buffer_size);
     });
     socket.on("fs-start", function(data){
-        socket.in(data.uid).emit("fs-share",{});
+        socket.in(data.uid).emit("fs-share",data.pass);
     });
     socket.on("file-raw", function(data){
-        socket.in(data.uid).emit("fs-share",[data.buffer, data.metadata]);
+        socket.in(data.uid).emit("fs-share",data.pass);
     });
     socket.on("file-ready", function(data){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+data.uid+" finished the fileshare "+data.name);
@@ -188,5 +165,4 @@ io.on("connection", function(socket){
 
 httpServer.listen(80);
 httpsServer.listen(443);
-
 console.log("SziaSzilard")

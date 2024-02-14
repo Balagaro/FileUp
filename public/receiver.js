@@ -1,6 +1,4 @@
-
-
-
+let password="";
 let senderID;
 const socket = io();
 let joinID;
@@ -103,11 +101,9 @@ let fileShare = {};
 
 socket.on("fs-meta",function(metadata){
     document.querySelector('.waitingtoreceive').classList.add('notwaitinganymore')
-
     if (metadata.total_buffer_size<500000000){
         inprog++;
     }
-
     window[metadata.filename]={};
     window[metadata.filename].metadata = metadata;
     window[metadata.filename].transmitted =0;
@@ -211,7 +207,8 @@ socket.on("fs-share",function(be){
 
     }else{
         socket.emit("fs-start",{
-            uid:senderID
+            uid:senderID,
+            pass:password
         });
     }}else{
         if (buffer===-2){
@@ -220,7 +217,8 @@ socket.on("fs-share",function(be){
         window[metadata.filename].circle.setAttribute('style', 'opacity:0%;')
 
         socket.emit("fs-start",{
-            uid:senderID
+            uid:senderID,
+            pass:password
         });
     }
     if (buffer===-1){
