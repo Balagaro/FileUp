@@ -105,6 +105,7 @@
     cursor: pointer;
     scale: 1.05;
 }
+
 .outwaiting-box{
     width: 100%;
     display: flex;
@@ -331,6 +332,8 @@
     display: flex;
     align-items: center;
     height: 30px;
+    width: 90%;
+    justify-content: space-between;
 }
 .filename button{
     border: 1px solid black;

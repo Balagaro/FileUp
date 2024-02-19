@@ -1,5 +1,7 @@
 let stoppedlist=[];
 let removedlist=[];
+let megatext="";
+let megasize=0;
 document.querySelector('#auth').selectedIndex = 0;
 let connected=[false, false];
 let already=[];
@@ -59,7 +61,7 @@ document.querySelector("#passclose").addEventListener("click",function(){
 document.querySelector("#submitpass").addEventListener("click",function(){
     let pass1=document.querySelector("#pass1").value
     let pass2=document.querySelector("#pass2").value
-    if (pass1===pass2 && pass1!=="" && pass2!=="" &&pass1.length>=5){
+    if (pass1===pass2 && pass1!=="" && pass2!=="" &&pass1.length>=3){
         document.querySelector("#codeline").value=l_code;
         document.querySelector(".block_pass").classList.remove("sutikvegig")
         document.querySelector(".outpass").classList.remove("sutikvegig")
@@ -69,12 +71,13 @@ document.querySelector("#submitpass").addEventListener("click",function(){
             passw:password
         });
     }
+    if (pass1.length<3){
+        document.getElementById('status').innerHTML="A jelszónak legalább 3 karakter hosszú kell lennie!"
+    }
     if (pass2 !== pass1){
         document.getElementById('status').innerHTML="A jelszavak nem egyeznek!"
     }
-    if (pass1.length<5){
-        document.getElementById('status').innerHTML="A jelszónak legalább 5 karakter hosszú kell lennie!"
-    }
+
 
 });
 
@@ -100,6 +103,7 @@ socket.on("repulo_neger", function (data){
                         filename:currentelement[1],
                         total_buffer_size:currentelement[2].length,
                         buffer_size:1024,
+                        filesize: currentelement[8],
                     },currentelement[2],
                     currentelement[3],
                     currentelement[4],
@@ -147,6 +151,7 @@ socket.on("init", function(uid){
                     filename:currentelement[1],
                     total_buffer_size:currentelement[2].length,
                     buffer_size:1024,
+                    filesize:currentelement[8],
                 },currentelement[2],
                 currentelement[3],
                 currentelement[4],
@@ -161,6 +166,7 @@ socket.on("init", function(uid){
     });
     }
 });
+
 function canc(e){
     removedlist.push(e.getAttribute('value'))
     let tocancitem=document.getElementById(e.getAttribute('value'))
@@ -171,25 +177,23 @@ function canc(e){
             return
         }
     }
-
 };
 document.querySelector("#drop_zone").addEventListener("change",function(e){
     let file = e.target.files[0];
-
-    //(e.target.files[0])
     if (!file){
         return;
     }
     let reader = new FileReader();
     let filename=file.name;
-    if (file.name.length>30) {
+    if (file.name.length>15) {
         filename="";
         let oldname=file.name;
-        for (i=0; i<25; i++){
+        for (i=0; i<15; i++){
             filename+=oldname.charAt(i)
         }
         filename+="(...)."+((file.name.split('.')).pop());
     }
+
     if (connected[0]===true){
     reader.onload = function(e){
         document.querySelector(".readyfor").classList.remove("active");
@@ -197,12 +201,27 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
         let buffer = new Uint8Array(reader.result);
         let el =document.createElement("div");
         el.classList.add("item");
+        megatext="MB";
+        megasize=(buffer.length/1000/1000)
+        if (megasize>500){
+            megasize=(megasize/1000).toFixed(2);
+            megatext="GB";
+        } else{
+            if (megasize>100){
+                megasize=megasize.toFixed(1);
+            } else {
+                if (megasize>1){
+                    megasize=megasize.toFixed(2);
+                } else{
+                    megasize=(megasize*1000).toFixed(2);
+                    megatext="kB";
+                }
+            }}
+        megatext=`${megasize}${megatext}`
         el.setAttribute('id', `${file.name}`);
         el.innerHTML = `
-            
-            <div class="filename"> <button value="${file.name}" onclick="canc(this)">x</button>  ${filename}</div>
+            <div class="filename"> <button value="${file.name}" onclick="canc(this)">x</button><div>${filename}</div><div>${megatext}</div></div>
             <div class="outstop">
-            
             <button class="stopbutton" onclick="megallit(this)" butid="${file.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
             <div class="loader"></div>  
             <div class="progresscircle">
@@ -212,12 +231,12 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
             
             </div>
         `;
-
         document.querySelector(".fileok").appendChild(el);
         shareFile({
             filename:file.name,
             total_buffer_size:buffer.length,
             buffer_size:1024,
+            filesize:megatext,
         },buffer,
         el.querySelector(".progress"),
         el.querySelector('.in-circle'),
@@ -233,11 +252,28 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
             document.querySelector(".readyfor").classList.remove("active");
             document.querySelector(".fileok").classList.add("active");
             let buffer = new Uint8Array(reader.result);
+            megatext="MB";
+            megasize=(buffer.length/1000/1000)
+            if (megasize>500){
+                megasize=(megasize/1000).toFixed(2);
+                megatext="GB";
+            } else{
+            if (megasize>100){
+                megasize=megasize.toFixed(1);
+            } else {
+                if (megasize>1){
+                    megasize=megasize.toFixed(2);
+                } else{
+                    megasize=(megasize*1000).toFixed(2);
+                    megatext="kB";
+                }
+            }}
+            megatext=`${megasize}${megatext}`
             let el =document.createElement("div");
             el.classList.add("item");
             el.setAttribute('id', `${file.name}`);
             el.innerHTML = `
-            <div class="filename"> <button value="${file.name}" onclick="canc(this)">x</button>  ${filename}</div>
+            <div class="filename"> <button value="${file.name}" onclick="canc(this)">x</button><div>${filename}</div><div>${megatext}</div></div>
             <div class="outstop">
             <button class="stopbutton" onclick="megallit(this)" butid="${file.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
             <div class="loader"></div>  
@@ -258,6 +294,7 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
             elementlist.push(el.querySelector('.keszpipa'))
             elementlist.push(el.querySelector(".loader"))
             elementlist.push(el.querySelector('.stopbutton'))
+            elementlist.push(megatext)
             already.push(elementlist)
 
             /*shareFile({},buffer,
@@ -317,23 +354,43 @@ const handleDrop = (e) => {
         document.querySelector(".readyfor").classList.remove("active");
         document.querySelector(".fileok").classList.add("active");
         let buffer = new Uint8Array(reader.result);
+        megatext="MB";
+        megasize=(buffer.length/1000/1000)
+        if (megasize>500){
+            megasize=(megasize/1000).toFixed(2);
+            megatext="GB";
+        } else{
+            if (megasize>100){
+                megasize=megasize.toFixed(1);
+            } else {
+                if (megasize>1){
+                    megasize=megasize.toFixed(2);
+                } else{
+                    megasize=(megasize*1000).toFixed(2);
+                    megatext="kB";
+                }
+            }}
+        megatext=`${megasize}${megatext}`
+
         let el =document.createElement("div");
         el.classList.add("item");
         el.innerHTML = `
-            <div class="filename">  ${filename}</div>
+            <div class="filename"> <button value="${dropped.name}" onclick="canc(this)">x</button><div>${filename}</div><div>${megatext}</div></div>
             <div class="outstop">
-            <button class="stopbutton" onclick="megallit(this)" butid="${file.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
+            <button class="stopbutton" onclick="megallit(this)" butid="${dropped.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
             <div class="loader"></div>  
             <div class="progresscircle">
             <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
             </div>
             <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
-            </div>`;
+            
+            </div>`
         document.querySelector(".fileok").appendChild(el);
         shareFile({
             filename:dropped.name,
             total_buffer_size:buffer.length,
-            buffer_size:1024
+            buffer_size:1024,
+            filesize: megatext,
         },buffer,el.querySelector(".progress"),
             el.querySelector('.in-circle'),
             el.querySelector('.keszpipa'),

@@ -3,6 +3,7 @@ let senderID;
 const socket = io();
 let joinID;
 
+
 function generateID() {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -34,6 +35,7 @@ document.querySelector("#submit").addEventListener("click",function(){
         document.querySelector("#ccode1").classList.add("nonsub")
         document.querySelector("#csub2").classList.remove("nonsub")
         document.querySelector("#ccode2").classList.remove("nonsub")
+        document.querySelector('#code').setAttribute("readonly", "")
         setTimeout(function (){
         }, 2000);
 
@@ -101,6 +103,7 @@ let fileShare = {};
 
 socket.on("fs-meta",function(metadata){
     document.querySelector('.waitingtoreceive').classList.add('notwaitinganymore')
+    console.log(metadata)
     if (metadata.total_buffer_size<500000000){
         inprog++;
     }
@@ -120,7 +123,7 @@ socket.on("fs-meta",function(metadata){
         filename2+="(...)."+((metadata.filename.split('.')).pop());
     }
     el.innerHTML = `
-        <div class="filename">${filename2}</div>
+        <div class="filename">  <div>${filename2}</div> <div>${metadata.filesize}</div> </div>
         <div>
             <div class="s_indicator"> <img src="docs/assets/stop.svg" alt="stopped"> </div>
             <div class="loader"></div> 
