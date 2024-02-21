@@ -81,11 +81,11 @@ document.querySelector("#submitpass").addEventListener("click",function(){
 
 });
 
-socket.on("repulo_neger", function (data){
+socket.on("out_passw", function (data){
     console.log(password)
     console.log(data)
     if (password===data){
-        socket.emit("buta_neger",{
+        socket.emit("password",{
             type:3,
             uid:receiverID,
             holdon: 1,
@@ -117,7 +117,7 @@ socket.on("repulo_neger", function (data){
             uid:receiverID,
         });
     } else {
-        socket.emit("buta_neger",{
+        socket.emit("password",{
             type:3,
             uid:receiverID,
             holdon: 0,
@@ -130,7 +130,7 @@ socket.on("init", function(uid){
     receiverID = uid;
     if (authtype==="difficult"){
         console.log("na varj csak")
-        socket.emit("buta_neger",{
+        socket.emit("password",{
             type:1,
             uid:receiverID,
             holdon: "password",
@@ -407,8 +407,11 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
         uid:receiverID,
         metadata:metadata
     });
-    socket.on("fs-share",function(pas){
-        if (pas!==password){null}else{
+    socket.on("fs-share",function(bem){
+
+        let pas=bem.pass
+        console.log(pas)
+        if (pas!==password && pas!==""){console.log(pas)}else{
         let rad = 0;
         let chunk = buffer.slice(0, metadata.buffer_size);
         if (stoppedlist.indexOf(metadata.filename)===-1 && removedlist.indexOf(metadata.filename)===-1) {

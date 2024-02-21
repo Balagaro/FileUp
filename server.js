@@ -136,9 +136,9 @@ io.on("connection", function(socket){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"receiver joined with id: "+data.sender_uid+" from ip: "+datas.ip)
     });
 
-    socket.on("buta_neger", function (data){
+    socket.on("password", function (data){
         console.log(data.uid)
-        socket.in(data.uid).emit("repulo_neger", data.holdon)
+        socket.in(data.uid).emit("out_passw", data.holdon)
         if (data.holdon===1){
             socket.join(data.joinuid);
             socket.in(data.uid).emit("init",data.joinuid);
@@ -149,14 +149,17 @@ io.on("connection", function(socket){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"revive joined with id: "+data.uid+" from ip: "+datas.ip)
     });
     socket.on("file-meta", function(data){
+        console.log(data.metadata.total_buffer_size)
         socket.in(data.uid).emit("fs-meta",data.metadata);
-        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" sent metadata of "+data.metadata.filename+" size: "+data.metadata.buffer_size);
+        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" sent metadata of "+data.metadata.filename+" size: "+data.metadata.total_buffer_size);
     });
     socket.on("fs-start", function(data){
-        socket.in(data.uid).emit("fs-share",data.pass);
+        socket.in(data.uid).emit("fs-share",data);
+        console.log(data)
     });
     socket.on("file-raw", function(data){
-        socket.in(data.uid).emit("fs-share",data.pass);
+        socket.in(data.uid).emit("fs-share",data);
+        console.log(data)
     });
     socket.on("file-ready", function(data){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+data.uid+" finished the fileshare "+data.name);

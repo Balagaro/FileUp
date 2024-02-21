@@ -41,7 +41,7 @@ document.querySelector("#submit").addEventListener("click",function(){
 
     });
 });
-socket.on("repulo_neger", function (data){
+socket.on("out_passw", function (data){
     if (data==="password"){
    console.log(data)
     document.querySelector(".block_pass").classList.add("sutikvegig")
@@ -61,7 +61,7 @@ document.querySelector("#submitpass").addEventListener("click",function(){
         document.querySelector(".outpass").classList.remove("sutikvegig")
         console.log("ugyes vagy fiam")
         password=pass1
-        socket.emit("buta_neger",{
+        socket.emit("password",{
             type:2,
             uid: senderID,
             joinuid:joinID,
@@ -69,32 +69,6 @@ document.querySelector("#submitpass").addEventListener("click",function(){
         });
 
 });
-
-/*
-document.querySelector("#submit").addEventListener("click",function(){
-    let password = document.querySelector("#pass1").value;
-    if(password.length === 0){
-        return;
-    }
-    socket.emit("receiver-join",{
-        uid:joinID,
-        sender_uid:senderID
-    });
-    let checkcode=0;
-
-    socket.on("rev-joined",function(e){
-        checkcode=1;
-        document.querySelector('.tickvagyok').classList.add("tickgreen")
-        document.querySelector("#csub1").classList.add("nonsub")
-        document.querySelector("#ccode1").classList.add("nonsub")
-        document.querySelector("#csub2").classList.remove("nonsub")
-        document.querySelector("#ccode2").classList.remove("nonsub")
-        setTimeout(function (){
-        }, 2000);
-
-    });
-});
-*/
 
 
 let keszek=0;
@@ -152,7 +126,8 @@ socket.on("fs-meta",function(metadata){
         .then(() => {
             el.querySelector(".loader").classList.add('nonsub')
             socket.emit("fs-start",{
-                uid:senderID
+                uid:senderID,
+                pass:password
             });
         })
 });
@@ -168,9 +143,8 @@ const zip = new JSZip();
 
 
 socket.on("fs-share",function(be){
-
-    buffer=be[0];
-    metadata=be[1];
+    buffer=be.buffer;
+    metadata=be.metadata;
     if (buffer!==null && buffer!==-1 && buffer!==-2){
     window[metadata.filename].circle.classList.remove('notwaitinganymore')
     window[metadata.filename].indicator.classList.remove('indicating')

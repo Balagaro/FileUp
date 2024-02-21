@@ -13,6 +13,12 @@ fs.readFile('./foo.log', 'utf8', (err, data) => {
     });
 });
 let lcodes=[];
+
+
+const { createLogger, transports } = require("winston");
+const LokiTransport = require("winston-loki");
+
+
 const express = require("express");
 const path = require("path");
 const JSZip=require('jszip');
@@ -36,8 +42,20 @@ app.set('view engine', 'ejs');
 const io = require("socket.io")(httpsServer);
 const {IP2Proxy} = require("ip2proxy-nodejs");
 
-let ip2proxy = new IP2Proxy();
+const logger = createLogger({
+    transports: [
+        new LokiTransport({
+            host: "http://localhost:3100",
+            // Only for development purposes
+            interval: 5,
+            labels: {
+                job: 'nodejs'
+            }
+        })
+    ]
+})
 
+let ip2proxy = new IP2Proxy();
 ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");
 
 
@@ -45,22 +63,18 @@ app.get('/', function(req, res){
     let ipAddress = req.socket.remoteAddress
     ipAddress=ipAddress.slice(7)
     let all = ip2proxy.getAll(ipAddress);
-    console.log("isProxy: " + all.isProxy);
-    console.log("proxyType: " + all.proxyType);
-    console.log("countryShort: " + all.countryShort);
-    console.log("countryLong: " + all.countryLong);
-    console.log("region: " + all.region);
-    console.log("city: " + all.city);
-    console.log("isp: " + all.isp);
-    console.log("domain: " + all.domain);
-    console.log("usagetype: " + all.usageType);
-    console.log("asn: " + all.asn);
-    console.log("as: " + all.as);
-    console.log("lastSeen: " + all.lastSeen);
-    console.log("threat: " + all.threat);
-    console.log("provider: " + all.provider);
+    let proxie=all.isProxy;
+
     console.log(ipAddress)
-    res.sendFile(__dirname + "/public/index.html");
+    console.log(proxie)
+    if (proxie===1 || proxie===2){
+        res.send("401 Error")
+    }else{
+
+        logger.info({ message: 'Hello World', labels: { 'env': 'test' } })
+        res.sendFile(__dirname + "/public/index.html");
+    }
+
 });
 let datas={};
 app.use(express.static(__dirname + '/public'))
@@ -100,22 +114,40 @@ let sent=0
 app.get('/send', function(req, res){
     sent=1;
     let ipAddress = req.socket.remoteAddress;
+    ipAddress=ipAddress.slice(7)
     let shortcode=generateShortID();
     let longcode =generateID();
     datas.lcode=longcode;
     datas.scode=shortcode;
     datas.ip=ipAddress;
-    // save html files in the `views` folder...
-    /*res.sendFile(__dirname + "/public/send.html");*/
-    res.render('send', {longcode: longcode, shortcode: shortcode});
+    let all = ip2proxy.getAll(ipAddress);
+    let proxie=all.isProxy;
+    console.log(ipAddress)
+    console.log(proxie)
+    if (proxie===1 || proxie===2){
+        res.send("401 Error")
+    }else{
+        res.render('send', {longcode: longcode, shortcode: shortcode});
+    }
+
+
 
 });
 app.get('/receive', function(req, res){
     let ipAddress = req.socket.remoteAddress;
+    ipAddress=ipAddress.slice(7)
     datas.ip=ipAddress;
-    // save html files in the `views` folder...
-    //res.sendFile(__dirname + "/public/receive.html");
-    res.render('receive', {});
+    let all = ip2proxy.getAll(ipAddress);
+    let proxie=all.isProxy;
+    console.log(ipAddress)
+    console.log(proxie)
+    if (proxie===1 || proxie===2){
+        res.send("401 Error")
+    }else{
+        res.render('receive', {});
+    }
+
+
 });
 app.get('/m/send', function(req, res){
     let ipAddress = req.socket.remoteAddress;
