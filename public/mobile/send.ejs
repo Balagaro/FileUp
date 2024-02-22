@@ -51,6 +51,31 @@
 </head>
 
 <body>
+
+<div class="block_pass">
+
+</div>
+
+<div class="outpass">
+    <button id="passclose">x</button>
+    <div class="inpass">
+        <div class="passform" action="">
+            <div class="passheader">Jelszós hitelesítés</div>
+            <div class="passbar" ><input type="text" autocomplete="off"  placeholder="Adjon meg egy jelszót!" id="pass1" name="pass1" size="10" > </div>
+            <div class="passbar" ><input type="text" autocomplete="off"  placeholder="Adja meg a jelszót mégegyszer!" id="pass2" name="pass2" size="10" > </div>
+            <div id="status"></div>
+            <div id="psub1" class="passsubmit">
+                <label id="cpass1" for="submitpass" class="codeok">Ok</label>
+                <input type="submitpass" id="submitpass"  value="OK">
+            </div>
+            <div id="psub2" class="passsubmit nonpass">
+                <div id="cpass2" class="passok nonpass"><img class="keszpipa readytick" src="/mobile/docs/assets/readytick.svg"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="background"></div>
 <div class="outer-container">
     <div class="inner-container">
@@ -162,7 +187,7 @@
     </div>
 </div>
 <script type="text/javascript" src="/modules/socket.io/client-dist/socket.io.js"></script>
-<script type="text/javascript" src="/send.js"></script>
+<script type="text/javascript" src="/mobile/send.js"></script>
 
 <script>
     l_code=`<%= longcode %>`;
@@ -194,7 +219,9 @@
         navigator.clipboard.writeText(copyText.value);
 
         // Alert the copied text
-        console.log("Copied the text: " + copyText.value);
+
+        document.querySelector("#copylink").innerHTML=`<img class="keszpipa readytick" src="/mobile/docs/assets/readytick.svg">`
+
     }
 
 
@@ -213,8 +240,8 @@
             document.body.removeChild(textArea);
             document.querySelector("#copylink").innerHTML=`<img class="keszpipa readytick" src="docs/assets/readytick.svg">`
         }
-
     */
+
     function dropHandler(ev) {
         ev.preventDefault();
         if (ev.dataTransfer.items) {

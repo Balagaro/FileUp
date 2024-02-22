@@ -2,6 +2,13 @@
 <html lang="hu">
 
 <head>
+    <script src="modules/grub/src/redirection-mobile.js"></script>
+    <script>
+        SA.redirection_mobile ({
+            mobile_url : "fileup.site/m/receive/",
+            mobile_prefix : "https"
+        });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>FileUp - Fogadás</title>
@@ -30,7 +37,7 @@
             <div class="passbar" ><input type="text" placeholder="Adja meg a jelszót!" id="pass1" name="pass1" size="10" > </div>
             <div id="psub1" class="passsubmit">
                 <label id="cpass1" for="submitpass" class="codeok">Ok</label>
-                <input type="submitpass" autocomplete="off"  id="submitpass"  value="OK">
+                <input type="submitpass" id="submitpass"  value="OK">
             </div>
             <div id="psub2" class="passsubmit nonpass">
                 <div id="cpass2" class="passok nonpass"><img class="keszpipa readytick" src="docs/assets/readytick.svg"></div>
@@ -105,7 +112,7 @@
                     <div class="outcode">
                         <div class="incode">
                             <div class="codeform" action="">
-                                <div class="codebar" ><input type="text" placeholder="Adja meg a kódot!" autocomplete="off"  id="code" name="code" size="10" > </div>
+                                <div class="codebar" ><input type="text" placeholder="Adja meg a kódot!" id="code" name="code" size="10" > </div>
                                 <div id="csub1" class="codesubmit">
                                     <label id="ccode1" for="submit" class="codeok">Ok</label>
                                     <input type="submit" id="submit"  value="OK">

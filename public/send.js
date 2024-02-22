@@ -22,6 +22,7 @@ let receiverID;
 const socket = io();
 let authtype="simple";
 document.querySelector('#auth').addEventListener('change', function (e){
+    document.querySelector("#copylink").innerHTML=`másolás`
     authtype=document.querySelector('#auth').value;
     if (authtype==="simple"){
         document.querySelector("#codeline").value=s_code;
@@ -102,7 +103,7 @@ socket.on("out_passw", function (data){
                 shareFile({
                         filename:currentelement[1],
                         total_buffer_size:currentelement[2].length,
-                        buffer_size:1024,
+                        buffer_size:(1024*50),
                         filesize: currentelement[8],
                     },currentelement[2],
                     currentelement[3],
@@ -138,32 +139,32 @@ socket.on("init", function(uid){
     }else{
 
 
-    document.querySelector(".waitingfor").classList.remove("active");
-    document.querySelector(".readyfor").classList.add("active");
-    connected[0]=true;
-    if (connected[1]===true){
-        document.querySelector(".readyfor").classList.remove("active");
-        document.querySelector(".fileok").classList.add("active");
-        for (let i = 0; i < already.length; i++){
-            let currentelement=already[i];
-            let alrel=currentelement[0]
-            shareFile({
-                    filename:currentelement[1],
-                    total_buffer_size:currentelement[2].length,
-                    buffer_size:1024,
-                    filesize:currentelement[8],
-                },currentelement[2],
-                currentelement[3],
-                currentelement[4],
-                currentelement[5],
-                currentelement[6],
-                currentelement[7]);
+        document.querySelector(".waitingfor").classList.remove("active");
+        document.querySelector(".readyfor").classList.add("active");
+        connected[0]=true;
+        if (connected[1]===true){
+            document.querySelector(".readyfor").classList.remove("active");
+            document.querySelector(".fileok").classList.add("active");
+            for (let i = 0; i < already.length; i++){
+                let currentelement=already[i];
+                let alrel=currentelement[0]
+                shareFile({
+                        filename:currentelement[1],
+                        total_buffer_size:currentelement[2].length,
+                        buffer_size:(1024*50),
+                        filesize:currentelement[8],
+                    },currentelement[2],
+                    currentelement[3],
+                    currentelement[4],
+                    currentelement[5],
+                    currentelement[6],
+                    currentelement[7]);
 
+            }
         }
-    }
-    socket.emit("reveive-joined",{
-        uid:receiverID,
-    });
+        socket.emit("reveive-joined",{
+            uid:receiverID,
+        });
     }
 });
 
@@ -195,31 +196,31 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
     }
 
     if (connected[0]===true){
-    reader.onload = function(e){
-        document.querySelector(".readyfor").classList.remove("active");
-        document.querySelector(".fileok").classList.add("active");
-        let buffer = new Uint8Array(reader.result);
-        let el =document.createElement("div");
-        el.classList.add("item");
-        megatext="MB";
-        megasize=(buffer.length/1000/1000)
-        if (megasize>500){
-            megasize=(megasize/1000).toFixed(2);
-            megatext="GB";
-        } else{
-            if (megasize>100){
-                megasize=megasize.toFixed(1);
-            } else {
-                if (megasize>1){
-                    megasize=megasize.toFixed(2);
-                } else{
-                    megasize=(megasize*1000).toFixed(2);
-                    megatext="kB";
-                }
-            }}
-        megatext=`${megasize}${megatext}`
-        el.setAttribute('id', `${file.name}`);
-        el.innerHTML = `
+        reader.onload = function(e){
+            document.querySelector(".readyfor").classList.remove("active");
+            document.querySelector(".fileok").classList.add("active");
+            let buffer = new Uint8Array(reader.result);
+            let el =document.createElement("div");
+            el.classList.add("item");
+            megatext="MB";
+            megasize=(buffer.length/1000/1000)
+            if (megasize>500){
+                megasize=(megasize/1000).toFixed(2);
+                megatext="GB";
+            } else{
+                if (megasize>100){
+                    megasize=megasize.toFixed(1);
+                } else {
+                    if (megasize>1){
+                        megasize=megasize.toFixed(2);
+                    } else{
+                        megasize=(megasize*1000).toFixed(2);
+                        megatext="kB";
+                    }
+                }}
+            megatext=`${megasize}${megatext}`
+            el.setAttribute('id', `${file.name}`);
+            el.innerHTML = `
             <div class="filename"> <button value="${file.name}" onclick="canc(this)">x</button><div>${filename}</div><div>${megatext}</div></div>
             <div class="outstop">
             <button class="stopbutton" onclick="megallit(this)" butid="${file.name}"> <img src="/docs/assets/stop.svg"  alt=""> </button>
@@ -231,19 +232,19 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
             
             </div>
         `;
-        document.querySelector(".fileok").appendChild(el);
-        shareFile({
-            filename:file.name,
-            total_buffer_size:buffer.length,
-            buffer_size:1024,
-            filesize:megatext,
-        },buffer,
-        el.querySelector(".progress"),
-        el.querySelector('.in-circle'),
-        el.querySelector('.keszpipa'),
-        el.querySelector(".loader"),
-        el.querySelector('.stopbutton'));
-    }
+            document.querySelector(".fileok").appendChild(el);
+            shareFile({
+                    filename:file.name,
+                    total_buffer_size:buffer.length,
+                    buffer_size:(1024*50),
+                    filesize:megatext,
+                },buffer,
+                el.querySelector(".progress"),
+                el.querySelector('.in-circle'),
+                el.querySelector('.keszpipa'),
+                el.querySelector(".loader"),
+                el.querySelector('.stopbutton'));
+        }
     } else {
         connected[1]=true;
         document.querySelector('.tick').setAttribute('style', "margin-top:5px")
@@ -258,16 +259,16 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
                 megasize=(megasize/1000).toFixed(2);
                 megatext="GB";
             } else{
-            if (megasize>100){
-                megasize=megasize.toFixed(1);
-            } else {
-                if (megasize>1){
-                    megasize=megasize.toFixed(2);
-                } else{
-                    megasize=(megasize*1000).toFixed(2);
-                    megatext="kB";
-                }
-            }}
+                if (megasize>100){
+                    megasize=megasize.toFixed(1);
+                } else {
+                    if (megasize>1){
+                        megasize=megasize.toFixed(2);
+                    } else{
+                        megasize=(megasize*1000).toFixed(2);
+                        megatext="kB";
+                    }
+                }}
             megatext=`${megasize}${megatext}`
             let el =document.createElement("div");
             el.classList.add("item");
@@ -387,11 +388,11 @@ const handleDrop = (e) => {
             </div>`
         document.querySelector(".fileok").appendChild(el);
         shareFile({
-            filename:dropped.name,
-            total_buffer_size:buffer.length,
-            buffer_size:1024,
-            filesize: megatext,
-        },buffer,el.querySelector(".progress"),
+                filename:dropped.name,
+                total_buffer_size:buffer.length,
+                buffer_size:(1024*50),
+                filesize: megatext,
+            },buffer,el.querySelector(".progress"),
             el.querySelector('.in-circle'),
             el.querySelector('.keszpipa'),
             el.querySelector(".loader"),
@@ -408,57 +409,54 @@ function shareFile(metadata,buffer,progress_node, circle, tick,loader,stopbut){
         metadata:metadata
     });
     socket.on("fs-share",function(bem){
-
         let pas=bem.pass
-        console.log(pas)
         if (pas!==password && pas!==""){console.log(pas)}else{
-        let rad = 0;
-        let chunk = buffer.slice(0, metadata.buffer_size);
-        if (stoppedlist.indexOf(metadata.filename)===-1 && removedlist.indexOf(metadata.filename)===-1) {
-            //console.log(stoppedlist.indexOf(metadata.filename))
-            //console.log(metadata.filename)
-            buffer = buffer.slice(metadata.buffer_size, buffer.length);
-            szazalek = Math.trunc((metadata.total_buffer_size - buffer.length) / metadata.total_buffer_size * 100);
-            rad = szazalek * 3.6;
-            stopbut.classList.add('activestopbutton')
-            progress_node.innerText = (szazalek + "%")
-            circle.style.background = `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
-            //progress_node.innerText=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100 )+ "%";
-            if (szazalek === 100) {
-                circle.classList.add('readycircle')
-                loader.classList.remove("loader")
-                stopbut.classList.remove('activestopbutton')
-                tick.classList.add('readytick')
-            } else {
-                loader.classList.add("readycircle")
-            }
+            let rad = 0;
+            let chunk = buffer.slice(0, metadata.buffer_size);
+            if (stoppedlist.indexOf(metadata.filename)===-1 && removedlist.indexOf(metadata.filename)===-1) {
+                //console.log(stoppedlist.indexOf(metadata.filename))
+                //console.log(metadata.filename)
+                buffer = buffer.slice(metadata.buffer_size, buffer.length);
+                szazalek = Math.trunc((metadata.total_buffer_size - buffer.length) / metadata.total_buffer_size * 100);
+                rad = szazalek * 3.6;
+                stopbut.classList.add('activestopbutton')
+                progress_node.innerText = (szazalek + "%")
+                circle.style.background = `conic-gradient(#000000 ${rad}deg, #ededed 0deg)`
+                //progress_node.innerText=Math.trunc((metadata.total_buffer_size - buffer.length) /metadata.total_buffer_size * 100 )+ "%";
+                if (szazalek === 100) {
+                    circle.classList.add('readycircle')
+                    loader.classList.remove("loader")
+                    stopbut.classList.remove('activestopbutton')
+                    tick.classList.add('readytick')
+                } else {
+                    loader.classList.add("readycircle")
+                }
 
-            if(chunk.length !==0){
-                socket.emit("file-raw",{
-                    uid:receiverID,
-                    buffer:chunk,
-                    metadata:metadata
-                });
-            }
-        } else { if (stoppedlist.indexOf(metadata.filename)===-1){
+                if(chunk.length !==0){
+                    socket.emit("file-raw",{
+                        uid:receiverID,
+                        buffer:chunk,
+                        metadata:metadata
+                    });
+                }
+            } else { if (stoppedlist.indexOf(metadata.filename)===-1){
 
-    if(chunk.length !==0){
-        socket.emit("file-raw",{
-            uid:receiverID,
-            buffer:-1,
-            metadata:metadata
-        });
-    }}
-        if (removedlist.indexOf(metadata.filename)===-1){
-            socket.emit("file-raw",{
-                uid:receiverID,
-                buffer:-2,
-                metadata:metadata
-            });
-        };
-        };
-}})
+                if(chunk.length !==0){
+                    socket.emit("file-raw",{
+                        uid:receiverID,
+                        buffer:-1,
+                        metadata:metadata
+                    });
+                }}
+                if (removedlist.indexOf(metadata.filename)===-1){
+                    socket.emit("file-raw",{
+                        uid:receiverID,
+                        buffer:-2,
+                        metadata:metadata
+                    });
+                };
+            };
+        }})
 }
-
 
 
