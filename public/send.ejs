@@ -2,6 +2,13 @@
 <html lang="hu">
 
 <head>
+    <script src="modules/grub/src/redirection-mobile.js"></script>
+    <script>
+        SA.redirection_mobile ({
+            mobile_url : "fileup.site/m/send/",
+            mobile_prefix : "https"
+        });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>FileUp - Küldés</title>
@@ -30,8 +37,8 @@
     <div class="inpass">
         <div class="passform" action="">
             <div class="passheader">Jelszós hitelesítés</div>
-            <div class="passbar" ><input type="text" autocomplete="off"  placeholder="Adjon meg egy jelszót!" id="pass1" name="pass1" size="10" > </div>
-            <div class="passbar" ><input type="text" autocomplete="off"  placeholder="Adja meg a jelszót mégegyszer!" id="pass2" name="pass2" size="10" > </div>
+            <div class="passbar" ><input type="text" placeholder="Adjon meg egy jelszót!" id="pass1" name="pass1" size="10" > </div>
+            <div class="passbar" ><input type="text" placeholder="Adja meg a jelszót mégegyszer!" id="pass2" name="pass2" size="10" > </div>
             <div id="status"></div>
             <div id="psub1" class="passsubmit">
                 <label id="cpass1" for="submitpass" class="codeok">Ok</label>
@@ -78,9 +85,9 @@
                             <div class="innertopline">
                                 <div class="shorterdiv">
                                     <select name="auth" id="auth">
-                                        <option class="autho" value="default">Alap</option>
-                                        <option class="autho" value="simple">Egyszerű</option>
-                                        <option class="autho" value="difficult">Jelszó</option>
+                                        <option value="default">Alap</option>
+                                        <option value="simple">Egyszerű</option>
+                                        <option value="difficult">Jelszó</option>
                                     </select>
                                 </div>
                                 <input id="codeline" value="Betöltés..." readonly>

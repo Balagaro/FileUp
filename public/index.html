@@ -4,7 +4,10 @@
 <head>
     <script src="modules/grub/src/redirection-mobile.js"></script>
     <script>
-        SA.redirection_mobile();
+        SA.redirection_mobile ({
+            mobile_url : "fileup.site/m/",
+            mobile_prefix : "https"
+        });
     </script>
 
     <meta name="theme-color" content="#ffffff"/>
@@ -67,9 +70,9 @@
 </head>
 
 <body onload="showModal()">
-    <div class="block_cookies">
-    
-    </div>
+<div class="block_cookies">
+
+</div>
 <div class="background"></div>
 
 <div class="outer-container">
@@ -80,15 +83,15 @@
                 <div class="logindiv">
                     <button class="loginbutt" onclick='module.gog()'> <img src="./docs/assets/loginicon.svg"  alt="login"> </button>
                 </div>
-                
+
             </div>
-            
+
             <div class="dropdown" onclick="toggleMenu(this)">
                 <div class="bar1"></div>
                 <div class="bar2"></div>
                 <div class="bar3"></div>
             </div>
-            
+
         </div>
 
         <div class="maindiv">
@@ -112,54 +115,54 @@
                         </div>
                         <div class="out-choose">
                             <div class="choose">
-                                    <div class="cbox upload">
-                                <a class="choosehiv" href="/send">
+                                <div class="cbox upload">
+                                    <a class="choosehiv" href="/send">
                                         <button  id="uploadbutt">
                                             <div class="loadlogo"><img src="/docs/assets/uploadbutton.png"></div>
                                             <div class="subtype">Küldés</div>
                                         </button>
 
-                                </a>
-                            </div>
-                            <div class="cbox download">
-                            <a class="choosehiv" href="/receive">
-                                <button  id="downloadbutt">
-                                    <div class="loadlogo"><img src="/docs/assets/downloadbutton.png" alt=""></div>
-                                    <div class="subtype">Fogadás</div>
-                                </button>
-                            </a>
+                                    </a>
+                                </div>
+                                <div class="cbox download">
+                                    <a class="choosehiv" href="/receive">
+                                        <button  id="downloadbutt">
+                                            <div class="loadlogo"><img src="/docs/assets/downloadbutton.png" alt=""></div>
+                                            <div class="subtype">Fogadás</div>
+                                        </button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="outsimplelogodiv">
-                        <div class="simplelogodiv">
-                            <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
+                        <div class="outsimplelogodiv">
+                            <div class="simplelogodiv">
+                                <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
+                            </div>
                         </div>
-                    </div>
-                    <div class="conditions">
-                        <p>A szolgálatás igénybevételével elfogadja annak
-                            általános használati feltételeit,
-                            és adatkezelési nyilatkozatát.</p>
-                    </div>
+                        <div class="conditions">
+                            <p>A szolgálatás igénybevételével elfogadja annak
+                                általános használati feltételeit,
+                                és adatkezelési nyilatkozatát.</p>
+                        </div>
 
+                    </div>
                 </div>
             </div>
+
+
         </div>
 
-        
+        <div class="rightdiv">
+
+
+            <div><a target=”_blank” href="https://discord.gg/MeqaGhc6QN"><img class="connection-logo"
+                                                                              src="/docs/assets/connections/discord.png" alt=""></a></div>
+            <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
+                                                                                   src="/docs/assets/connections/github.png" alt=""></a></div>
+
+        </div>
+
     </div>
-
-    <div class="rightdiv">
-
-
-        <div><a target=”_blank” href="https://discord.gg/MeqaGhc6QN"><img class="connection-logo"
-                                                                          src="/docs/assets/connections/discord.png" alt=""></a></div>
-        <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
-                                                                               src="/docs/assets/connections/github.png" alt=""></a></div>
-
-    </div>
-
-</div>
 
 </div>
 
@@ -167,8 +170,8 @@
     <img src="./docs/images/cookies.png" class="cookies">
     <p>Az oldal optimális és jogszerű használata érdekében, az oldal sütiket és a felhasználó Internet Protocoll Address-ét használja fel. <br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
     <div id="buttons">
-    <button type="button" onclick="closeModal_accept()" >Elfogadás</button>
-    <button type="button" onclick="closeModal_decline()">Elutasítás</button>
+        <button type="button" onclick="closeModal_accept()" >Elfogadás</button>
+        <button type="button" onclick="closeModal_decline()">Elutasítás</button>
     </div>
 
 </div>
@@ -197,7 +200,7 @@
             "./docs",
             "./docs/assets",
             "./docs/logo",
-            );
+        );
     })();
 
     // Access to static data for Apple Device specs that are used for generating launch images

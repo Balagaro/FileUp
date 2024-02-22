@@ -129,17 +129,17 @@
 
 #code{
 
-font-size: 30px;
+    font-size: 30px;
 
-text-align: center;
+    text-align: center;
 
-width: 100%;
+    width: 100%;
 
-border: 1px solid black;
+    border: 1px solid black;
 
-height: 60px;
+    height: 60px;
 
-border-radius: 20px;
+    border-radius: 20px;
 }
 #submit{
     visibility: hidden;
