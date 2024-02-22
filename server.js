@@ -13,6 +13,12 @@ fs.readFile('./foo.log', 'utf8', (err, data) => {
     });
 });
 let lcodes=[];
+
+
+const { createLogger, transports } = require("winston");
+const LokiTransport = require("winston-loki");
+
+
 const express = require("express");
 const path = require("path");
 const JSZip=require('jszip');
@@ -34,12 +40,41 @@ const httpServer = server.createServer((req, res) => {
 app.set('views', path.join(__dirname, '/public'));
 app.set('view engine', 'ejs');
 const io = require("socket.io")(httpsServer);
+const {IP2Proxy} = require("ip2proxy-nodejs");
 
+const logger = createLogger({
+    transports: [
+        new LokiTransport({
+            host: "http://localhost:3100",
+            // Only for development purposes
+            interval: 5,
+            labels: {
+                job: 'nodejs'
+            }
+        })
+    ]
+})
+
+let ip2proxy = new IP2Proxy();
+ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");
 
 
 app.get('/', function(req, res){
-    const ipAddress = req.socket.remoteAddress;
-    res.sendFile(__dirname + "/public/index.html");
+    let ipAddress = req.socket.remoteAddress
+    ipAddress=ipAddress.slice(7)
+    let all = ip2proxy.getAll(ipAddress);
+    let proxie=all.isProxy;
+
+    console.log(ipAddress)
+    console.log(proxie)
+    if (proxie===1 || proxie===2){
+        res.send("401 Error")
+    }else{
+
+        logger.info({ message: 'Hello World', labels: { 'env': 'test' } })
+        res.sendFile(__dirname + "/public/index.html");
+    }
+
 });
 let datas={};
 app.use(express.static(__dirname + '/public'))
@@ -77,27 +112,45 @@ app.get('/m/', function(req, res){
 });
 let sent=0
 app.get('/send', function(req, res){
-        sent=1;
-        const ipAddress = req.socket.remoteAddress;
-        let shortcode=generateShortID();
-        let longcode =generateID();
-        datas.lcode=longcode;
-        datas.scode=shortcode;
-        datas.ip=ipAddress;
-        // save html files in the `views` folder...
-        /*res.sendFile(__dirname + "/public/send.html");*/
+    sent=1;
+    let ipAddress = req.socket.remoteAddress;
+    ipAddress=ipAddress.slice(7)
+    let shortcode=generateShortID();
+    let longcode =generateID();
+    datas.lcode=longcode;
+    datas.scode=shortcode;
+    datas.ip=ipAddress;
+    let all = ip2proxy.getAll(ipAddress);
+    let proxie=all.isProxy;
+    console.log(ipAddress)
+    console.log(proxie)
+    if (proxie===1 || proxie===2){
+        res.send("401 Error")
+    }else{
         res.render('send', {longcode: longcode, shortcode: shortcode});
+    }
+
+
 
 });
 app.get('/receive', function(req, res){
-    const ipAddress = req.socket.remoteAddress;
+    let ipAddress = req.socket.remoteAddress;
+    ipAddress=ipAddress.slice(7)
     datas.ip=ipAddress;
-    // save html files in the `views` folder...
-    //res.sendFile(__dirname + "/public/receive.html");
-    res.render('receive', {});
+    let all = ip2proxy.getAll(ipAddress);
+    let proxie=all.isProxy;
+    console.log(ipAddress)
+    console.log(proxie)
+    if (proxie===1 || proxie===2){
+        res.send("401 Error")
+    }else{
+        res.render('receive', {});
+    }
+
+
 });
 app.get('/m/send', function(req, res){
-    const ipAddress = req.socket.remoteAddress;
+    let ipAddress = req.socket.remoteAddress;
     let shortcode=generateShortID();
     let longcode =generateID();
     datas.lcode=longcode;
@@ -136,9 +189,9 @@ io.on("connection", function(socket){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"receiver joined with id: "+data.sender_uid+" from ip: "+datas.ip)
     });
 
-    socket.on("password", function (data){
+    socket.on("buta_neger", function (data){
         console.log(data.uid)
-        socket.in(data.uid).emit("out_passw", data.holdon)
+        socket.in(data.uid).emit("repulo_neger", data.holdon)
         if (data.holdon===1){
             socket.join(data.joinuid);
             socket.in(data.uid).emit("init",data.joinuid);
@@ -149,17 +202,14 @@ io.on("connection", function(socket){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"revive joined with id: "+data.uid+" from ip: "+datas.ip)
     });
     socket.on("file-meta", function(data){
-        console.log(data.metadata.total_buffer_size)
         socket.in(data.uid).emit("fs-meta",data.metadata);
-        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" sent metadata of "+data.metadata.filename+" size: "+data.metadata.total_buffer_size);
+        console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" sent metadata of "+data.metadata.filename+" size: "+data.metadata.buffer_size);
     });
     socket.on("fs-start", function(data){
-        socket.in(data.uid).emit("fs-share",data);
-        console.log(data)
+        socket.in(data.uid).emit("fs-share",data.pass);
     });
     socket.on("file-raw", function(data){
-        socket.in(data.uid).emit("fs-share",data);
-        console.log(data)
+        socket.in(data.uid).emit("fs-share",data.pass);
     });
     socket.on("file-ready", function(data){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+data.uid+" finished the fileshare "+data.name);
