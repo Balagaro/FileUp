@@ -45,6 +45,7 @@ document.querySelector("#submit").addEventListener("click",function(){
 
 
 socket.on("out_passw", function (data){
+
     if (data==="password"){
         console.log(data)
         document.querySelector(".block_pass").classList.add("sutikvegig")

@@ -206,10 +206,10 @@ io.on("connection", function(socket){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+datas.ip+" sent metadata of "+data.metadata.filename+" size: "+data.metadata.buffer_size);
     });
     socket.on("fs-start", function(data){
-        socket.in(data.uid).emit("fs-share",data.pass);
+        socket.in(data.uid).emit("fs-share",data);
     });
     socket.on("file-raw", function(data){
-        socket.in(data.uid).emit("fs-share",data.pass);
+        socket.in(data.uid).emit("fs-share",data);
     });
     socket.on("file-ready", function(data){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+data.uid+" finished the fileshare "+data.name);
