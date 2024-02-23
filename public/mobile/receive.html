@@ -60,6 +60,27 @@
 </head>
 
 <body>
+
+<div class="block_pass">
+
+</div>
+<div class="outpass">
+    <div class="inpass">
+        <div class="passform" action="">
+
+            <div class="passbar" ><input type="text" placeholder="Adja meg a jelszót!" id="pass1" name="pass1" size="10" > </div>
+            <div id="psub1" class="passsubmit">
+                <label id="cpass1" for="submitpass" class="codeok">Ok</label>
+                <input type="submitpass" id="submitpass"  value="OK">
+            </div>
+            <div id="psub2" class="passsubmit nonpass">
+                <div id="cpass2" class="passok nonpass"><img class="keszpipa readytick" src="/mobile/docs/assets/readytick.svg"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="background"></div>
 <div class="outer-container">
     <div class="inner-container">
@@ -130,7 +151,7 @@
                                 <input type="submit" id="submit"  value="OK">
                             </div>
                             <div id="csub2" class="codesubmit nonsub">
-                                <div id="ccode2" class="codeok nonsub"><img class="keszpipa readytick" src="docs/assets/readytick.svg"></div>
+                                <div id="ccode2" class="codeok nonsub"><img class="keszpipa readytick" src="/mobile/docs/assets/readytick.svg"></div>
                             </div>
                             </div>
                         </div>
@@ -155,13 +176,13 @@
 
 </div>
 </div>
-<script type="text/javascript" src="modules/downloadjs/download.min.js"></script>
-<script type="text/javascript" src="modules/jszip/dist/jszip.min.js"></script>
+<script type="text/javascript" src="/modules/downloadjs/download.min.js"></script>
+<script type="text/javascript" src="/modules/jszip/dist/jszip.min.js"></script>
 <!--<script src="https://unpkg.com/jszip/dist/jszip.min.js" type="text/javascript"></script>-->
 <!--<script type="text/javascript" src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>-->
-<script type="text/javascript" src="modules/file-saver/dist/FileSaver.min.js"></script>
+<script type="text/javascript" src="/modules/file-saver/dist/FileSaver.min.js"></script>
 <script type="text/javascript" src="/modules/socket.io/client-dist/socket.io.js"></script>
-<script type="text/javascript" src="receiver.js"></script>
+<script type="text/javascript" src="/mobile/receiver.js"></script>
 
 <script>
     function toggleMenu(x) {
