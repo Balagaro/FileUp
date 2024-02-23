@@ -105,11 +105,81 @@
     cursor: pointer;
     scale: 1.05;
 }
-
 .outwaiting-box{
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-top:50px;
+}
+.partners{
+    display: flex;
+    align-items: center;
+    margin-right: 5%;
+}
+.innerpartners{
+    width: 200px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 15px;
+    border: 1px solid black;
+
+    padding: 10px;
+}
+.usersonline{
+    width: 95%;
+}
+.logged-in {
+    color: green;
+}
+.partnertopline{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    align-items: center;
+
+}
+.sharebutton{
+    background:none;
+    border: none;
+    transition-duration: 0.3s;
+}
+.userline{
+    display: flex;
+    justify-content: space-between;
+}
+.sharebutton img{
+    width: 15px;
+}
+.sharebutton:hover{
+    cursor:pointer;
+    scale: 1.2;
+}
+.ptop{
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.on_line{
+    border-radius: 15px;
+    border: 1px solid black;
+    height: 20px
+}
+.addpartner{
+    border-radius: 15px;
+    border: 1px solid black;
+    height: 20px;
+    background-color: rgb(189, 255, 255);
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    transition-duration: 0.2s;
+}
+.addpartner:hover{
+    scale: 1.05;
+    cursor: pointer;
 }
 .inwaiting-box{
     width: 50%;
@@ -117,7 +187,7 @@
     justify-content: center;
     border: 2px solid black;
     border-radius: 50px;
-    margin-top:50px;
+
     height: 250px;
     align-items: center;
     flex-direction: column;
@@ -332,8 +402,6 @@
     display: flex;
     align-items: center;
     height: 30px;
-    width: 90%;
-    justify-content: space-between;
 }
 .filename button{
     border: 1px solid black;
