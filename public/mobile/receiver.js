@@ -41,6 +41,9 @@ document.querySelector("#submit").addEventListener("click",function(){
 
     });
 });
+
+
+
 socket.on("out_passw", function (data){
     if (data==="password"){
         console.log(data)
@@ -49,7 +52,7 @@ socket.on("out_passw", function (data){
     if (data===0){
         document.querySelector(".block_pass").classList.add("sutikvegig")
         document.querySelector(".outpass").classList.add("sutikvegig")
-        window.alert("balfasz")
+        window.alert("rossz")
     } if (data===1){
 
     }
@@ -59,7 +62,7 @@ document.querySelector("#submitpass").addEventListener("click",function(){
     let pass1=document.querySelector("#pass1").value
     document.querySelector(".block_pass").classList.remove("sutikvegig")
     document.querySelector(".outpass").classList.remove("sutikvegig")
-    console.log("ugyes vagy fiam")
+    console.log("ugyes vagy")
     password=pass1
     socket.emit("password",{
         type:2,
@@ -70,6 +73,11 @@ document.querySelector("#submitpass").addEventListener("click",function(){
 
 });
 
+document.querySelector("#passcancel").addEventListener("click",function(){
+    document.querySelector(".block_pass").classList.remove("sutikvegig")
+    document.querySelector(".outpass").classList.remove("sutikvegig")
+    
+});
 
 let keszek=0;
 let inprog=0;

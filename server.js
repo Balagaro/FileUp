@@ -189,9 +189,9 @@ io.on("connection", function(socket){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+"receiver joined with id: "+data.sender_uid+" from ip: "+datas.ip)
     });
 
-    socket.on("buta_neger", function (data){
+    socket.on("password", function (data){
         console.log(data.uid)
-        socket.in(data.uid).emit("repulo_neger", data.holdon)
+        socket.in(data.uid).emit("out_passw", data.holdon)
         if (data.holdon===1){
             socket.join(data.joinuid);
             socket.in(data.uid).emit("init",data.joinuid);
