@@ -69,7 +69,11 @@
 
 </head>
 
-<body onload="showModal()">
+<body onload="checkifcookies()">
+
+
+
+
 <div class="block_cookies">
 
 </div>
@@ -176,7 +180,7 @@
 
 </div>
 
-
+<script src="./checkcookies.js"></script>
 <script>
 
 
@@ -216,30 +220,7 @@
         navigator.serviceWorker.register('/service_worker.json')
     }
 </script>
-<script id="cookies-script">
 
-    let modalbox = document.getElementById("modalbox");
-    let blockbox=document.querySelector('.block_cookies')
-    function showModal(){
-        blockbox.classList.add("sutikvegig")
-        setTimeout(() => {
-            modalbox.style.display = "block"
-
-        }, 500);
-    }
-
-
-
-    function closeModal_accept(){
-        modalbox.style.display = "none"
-        blockbox.classList.remove("sutikvegig")
-    }
-
-    function closeModal_decline(){
-        modalbox.style.display = "none"
-    }
-
-</script>
 
 <script type="text/javascript">
     const module = {};

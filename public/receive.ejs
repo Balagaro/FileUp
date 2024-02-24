@@ -26,10 +26,24 @@
     <link rel="stylesheet" href="css/receive.css">
 </head>
 
-<body>
+<body onload="checkifcookies()">
 <div class="block_pass">
 
 </div>
+
+<div id="modalbox">
+    <img src="./docs/images/cookies.png" class="cookies">
+    <p>Az oldal optimális és jogszerű használata érdekében, az oldal sütiket és a felhasználó Internet Protocoll Address-ét használja fel. <br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
+    <div id="buttons">
+        <button type="button" onclick="closeModal_accept()" >Elfogadás</button>
+        <button type="button" onclick="closeModal_decline()">Elutasítás</button>
+    </div>
+
+</div>
+<div class="block_cookies">
+
+</div>
+
 <div class="outpass">
     <div class="inpass">
         <div class="passform" action="">
@@ -147,6 +161,9 @@
 
 </div>
 </div>
+
+
+<script src="./checkcookies.js"></script>
 <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.1/download.min.js"></script>-->
 <script type="text/javascript" src="modules/downloadjs/download.min.js"></script>
 <script type="text/javascript" src="modules/jszip/dist/jszip.min.js"></script>

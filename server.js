@@ -65,14 +65,18 @@ app.get('/', function(req, res){
     let all = ip2proxy.getAll(ipAddress);
     let proxie=all.isProxy;
 
-    console.log(ipAddress)
-    console.log(proxie)
+    //console.log(ipAddress)
+    //console.log(proxie)
+
+
+
     if (proxie===1 || proxie===2){
         res.send("401 Error")
     }else{
 
         logger.info({ message: 'Hello World', labels: { 'env': 'test' } })
         res.sendFile(__dirname + "/public/index.html");
+
     }
 
 });

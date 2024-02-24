@@ -4,7 +4,10 @@
 <head>
     <script src="modules/grub/src/redirection-mobile.js"></script>
     <script>
-        SA.redirection_mobile();
+        SA.redirection_mobile ({
+            mobile_url : "fileup.site/m/",
+            mobile_prefix : "https"
+        });
     </script>
 
     <meta name="theme-color" content="#ffffff"/>
@@ -66,7 +69,9 @@
 
 </head>
 
-<body onload="showModal()">
+<body>
+<script src="./checkcookies.js"></script>
+
 <div class="block_cookies">
 
 </div>
@@ -94,14 +99,14 @@
         <div class="maindiv">
 
             <div class="logoline"><a href="/">
-                <img id="mainlogo" src="/docs/logo/fileuplogo.png" alt="Logo"></a>
+                    <img id="mainlogo" src="/docs/logo/fileuplogo.png" alt="Logo"></a>
             </div>
 
             <div class="out-box">
                 <div class="box">
                     <div class="in-box">
                         <div class="bevezetok">
-                            <h1 class="welcome"><%= alma %></h1>
+                            <h1 class="welcome">Üdvözli a FileUp!</h1>
                             <p class="bevezetoszoveg">
                                 Oldalunkon könnyedén oszthat meg vagy
                                 fogadhat fájlokat. A megosztás közvetlenül
@@ -152,7 +157,7 @@
         <div class="rightdiv">
 
 
-            <div><a target=”_blank” href="https://discord.gg/9Gyp4gutVN"><img class="connection-logo"
+            <div><a target=”_blank” href="https://discord.gg/MeqaGhc6QN"><img class="connection-logo"
                                                                               src="/docs/assets/connections/discord.png" alt=""></a></div>
             <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
                                                                                    src="/docs/assets/connections/github.png" alt=""></a></div>
@@ -165,17 +170,17 @@
 
 <div id="modalbox">
     <img src="./docs/images/cookies.png" class="cookies">
-    <p>We use cookies to optimize user experience and content. <br> <a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a> </p>
+    <p>Az oldal optimális és jogszerű használata érdekében, az oldal sütiket és a felhasználó Internet Protocoll Address-ét használja fel. <br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
     <div id="buttons">
-        <button type="button" onclick="closeModal_accept()" >Accept</button>
-        <button type="button" onclick="closeModal_decline()">Decline</button>
+        <button type="button" onclick="closeModal_accept()" >Elfogadás</button>
+        <button type="button" onclick="closeModal_decline()">Elutasítás</button>
     </div>
 
 </div>
 
 
 <script>
-
+    let cookieaccept=`<%= cooc %>`;
 
     function toggleMenu(x) {
         x.classList.toggle("change");
@@ -194,9 +199,9 @@
     // Generate images over a module function call, instead of using CLI commands
     (async () => {
         const { savedImages, htmlMeta, manifestJsonContent } = await pwaAssetGenerator.generateImages(
-                "./docs",
-                "./docs/assets",
-                "./docs/logo",
+            "./docs",
+            "./docs/assets",
+            "./docs/logo",
         );
     })();
 
@@ -228,15 +233,11 @@
 
 
     function closeModal_accept(){
-
-        console.log('elfogadva');
         modalbox.style.display = "none"
         blockbox.classList.remove("sutikvegig")
     }
 
     function closeModal_decline(){
-
-        console.log('elutasítva');
         modalbox.style.display = "none"
     }
 
