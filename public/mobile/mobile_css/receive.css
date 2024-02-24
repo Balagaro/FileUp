@@ -385,3 +385,9 @@
 .nonpass{
     display: none;
 }
+
+.canceledshare{
+    z-index: 50;
+    text-decoration: line-through;
+    opacity: 50%;
+}
