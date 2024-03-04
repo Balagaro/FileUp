@@ -67,9 +67,9 @@ app.get('/', function(req, res){
 
     //console.log(ipAddress)
     //console.log(proxie)
+    res.sendFile(__dirname + "/public/index.html");
 
-
-
+/*
     if (proxie===1 || proxie===2){
         res.send("401 Error")
     }else{
@@ -78,7 +78,7 @@ app.get('/', function(req, res){
         res.sendFile(__dirname + "/public/index.html");
 
     }
-
+*/
 });
 let datas={};
 app.use(express.static(__dirname + '/public'))

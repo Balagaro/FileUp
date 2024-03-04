@@ -1,23 +1,23 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
 //import { initializeApp } from "firebase/app"
 
+
 const firebaseConfig = {
-    apiKey: "AIzaSyAhowMPtB3KgmajGNl1SL0lKMvU5Ywdv4Y",
-    authDomain: "fileup-41fd2.firebaseapp.com",
-    projectId: "fileup-41fd2",
-    storageBucket: "fileup-41fd2.appspot.com",
-    messagingSenderId: "333356871666",
-    appId: "1:333356871666:web:5dbd5f3aa62e2c3011456b",
-    measurementId: "G-F69VGYLKBE"
+    apiKey: "AIzaSyD6kMvvJNgVDsJTosdN3c_4dOYWfCac5hU",
+    authDomain: "fileup-ca60c.firebaseapp.com",
+    projectId: "fileup-ca60c",
+    storageBucket: "fileup-ca60c.appspot.com",
+    messagingSenderId: "777973548707",
+    appId: "1:777973548707:web:e99b06a451180058652116"
 };
 
 firebase.initializeApp(firebaseConfig);
 
-export function gog(){
+export function gog() {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().setPersistence(this.remember.checked ? fireauth.Auth.Persistence.LOCAL : fireauth.Auth.Persistence.SESSION)
     firebase.auth().signInWithPopup(provider)
-        .then(result =>{
+        .then(result => {
             const user = result.user;
             console.log(`Hello ${user.displayName}`);
         })

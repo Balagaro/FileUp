@@ -20,6 +20,7 @@
     "express-handlebars": "^7.1.2",
     "file-saver": "^2.0.5",
     "firebase": "^10.8.0",
+    "firebase-admin": "^12.0.0",
     "firebasejs": "^1.1.4",
     "grunt": "^1.6.1",
     "grunt-jasmine-runner": "^0.6.0",
