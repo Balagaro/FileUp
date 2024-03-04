@@ -58,18 +58,19 @@ const logger = createLogger({
 let ip2proxy = new IP2Proxy();
 ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");
 
-
 app.get('/', function(req, res){
+    //res.sendFile(__dirname + "/public/index.html");
+    res.render('suti', {});
+});
+app.get('/fileup', function(req, res){
     let ipAddress = req.socket.remoteAddress
     ipAddress=ipAddress.slice(7)
     let all = ip2proxy.getAll(ipAddress);
     let proxie=all.isProxy;
-
+    res.sendFile(__dirname + "/public/index.html");
     //console.log(ipAddress)
     //console.log(proxie)
-
-
-
+/*
     if (proxie===1 || proxie===2){
         res.send("401 Error")
     }else{
@@ -77,8 +78,7 @@ app.get('/', function(req, res){
         logger.info({ message: 'Hello World', labels: { 'env': 'test' } })
         res.sendFile(__dirname + "/public/index.html");
 
-    }
-
+    }*/
 });
 let datas={};
 app.use(express.static(__dirname + '/public'))
