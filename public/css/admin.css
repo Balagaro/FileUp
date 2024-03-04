@@ -1,0 +1,16 @@
+.logout{
+    position: absolute;
+    -ms-transform: translate(-50%, +50%);
+    transform: translate(-50%, +50%);
+    border-radius: 5px;
+    border: .2px solid black;
+    background-color: #ff0000;
+    color: white;
+}
+.out-box{
+    width: 100%;
+}
+.box{
+    width: 100%;
+    height: 200px;
+}

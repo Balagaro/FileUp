@@ -228,7 +228,7 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
             <div class="progresscircle">
             <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
             </div>
-            <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
+            <div class="keszpipa"> <img src="../docs/assets/readytick.svg" alt="kesz"> </div>
             
             </div>
         `;
@@ -281,7 +281,7 @@ document.querySelector("#drop_zone").addEventListener("change",function(e){
             <div class="progresscircle">
             <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
             </div>
-            <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
+            <div class="keszpipa"> <img src="../docs/assets/readytick.svg" alt="kesz"> </div>
             
             </div>
         `;
@@ -383,7 +383,7 @@ const handleDrop = (e) => {
             <div class="progresscircle">
             <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
             </div>
-            <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div>
+            <div class="keszpipa"> <img src="../docs/assets/readytick.svg" alt="kesz"> </div>
             
             </div>`
         document.querySelector(".fileok").appendChild(el);

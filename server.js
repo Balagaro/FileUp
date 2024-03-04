@@ -1,30 +1,14 @@
-const fs = require('fs');
-fs.readFile('./foo.log', 'utf8', (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    fs.writeFile('./logged.txt', data, err => {
-        if (err) {
-            console.error(err);
-        } else {
-            // file written successfully
-        }
-    });
-});
 let lcodes=[];
-
-
-const { createLogger, transports } = require("winston");
-const LokiTransport = require("winston-loki");
-
-
+const fs=require('fs')
+//const asd=require('./public/js/checkcookies')
 const express = require("express");
 const path = require("path");
 const JSZip=require('jszip');
 const FileSaver =require('file-saver');
 const app = express();
 const https = require('https');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
 const server = require("http");
 const vhost=require('vhost');
 const moment = require("moment");
@@ -32,6 +16,62 @@ const options = {
     key: fs.readFileSync(`./ssl/www.fileup.site.key`),
     cert: fs.readFileSync(`./ssl/www.fileup.site.crt`)
 };
+
+let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
+
+let sql="";
+var con = mysql.createConnection({
+    host: "80.252.63.217",
+    user: "SutiVasar",
+    password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
+    database: "sutivasar"
+});
+
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Database connected!");
+});
+
+//insert values
+/*
+sql = "INSERT INTO customers (name, address) VALUES ?";
+let values = [
+    ['John', 'Highway 71'],
+    ['Peter', 'Lowstreet 4'],
+    ['Amy', 'Apple st 652'],
+    ['Hannah', 'Mountain 21'],
+    ['Michael', 'Valley 345'],
+    ['Sandy', 'Ocean blvd 2'],
+    ['Betty', 'Green Grass 1'],
+    ['Richard', 'Sky st 331'],
+    ['Susan', 'One way 98'],
+    ['Vicky', 'Yellow Garden 2'],
+    ['Ben', 'Park Lane 38'],
+    ['William', 'Central st 954'],
+    ['Chuck', 'Main Road 989'],
+    ['Viola', 'Sideway 1633']
+];
+con.query(sql, [values], function (err, result) {
+    if (err) throw err;
+    console.log("Number of records inserted: " + result.affectedRows);
+});
+*/
+//select
+/*
+sql="SELECT name, address FROM customers"
+con.query(sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+  });
+
+
+console.log(result[2].address);
+ */
+
+
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+
 const httpsServer = https.createServer(options, app);
 const httpServer = server.createServer((req, res) => {
     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
@@ -42,18 +82,25 @@ app.set('view engine', 'ejs');
 const io = require("socket.io")(httpsServer);
 const {IP2Proxy} = require("ip2proxy-nodejs");
 
-const logger = createLogger({
-    transports: [
-        new LokiTransport({
-            host: "http://localhost:3100",
-            // Only for development purposes
-            interval: 5,
-            labels: {
-                job: 'nodejs'
-            }
-        })
-    ]
-})
+app.all('/admin/*', (req,res, next) =>{
+    res.send("Nah-ah")
+});
+
+app.get('/admin', (req, res) => {
+    res.render('login', {nono:0});
+    //res.sendFile(__dirname + '/public/login.html');
+});
+
+app.post('/admin', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    if(username===admincreds.user && password===admincreds.pass){
+        res.render('admin/admin', {nono:password});
+    } else {
+        res.render('login', {nono: 1});
+    }
+});
+
 
 let ip2proxy = new IP2Proxy();
 ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");
@@ -81,7 +128,10 @@ app.get('/fileup', function(req, res){
     }*/
 });
 let datas={};
+
+
 app.use(express.static(__dirname + '/public'))
+
 function generateID() {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -172,6 +222,10 @@ app.get('/m/receive', function(req, res){
 app.get('/terms-and-cookies', function(req, res){
     res.sendFile(__dirname + "/public/data.html");
 });
+
+
+
+
 
 io.on("connection", function(socket){
     socket.on("sender-join", function(data){

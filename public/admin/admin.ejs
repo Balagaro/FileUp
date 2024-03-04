@@ -2,22 +2,17 @@
 <html lang="hu">
 
 <head>
-    <script src="modules/grub/src/redirection-mobile.js"></script>
-    <script>
-        SA.redirection_mobile ({
-            mobile_url : "fileup.site/m/",
-            mobile_prefix : "https"
-        });
-    </script>
 
     <meta name="theme-color" content="#ffffff"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>FileUp</title>
+    <title>FileUp - Admin</title>
     <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/frontpage.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/admin.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WS5TP44M9P"></script>
     <script>
@@ -70,8 +65,6 @@
 </head>
 
 <body>
-<script src="js/checkcookies.js"></script>
-
 <div class="block_cookies">
 
 </div>
@@ -81,86 +74,29 @@
 
     <div class="inner-container">
         <div class="leftdiv">
-            <div id="menuoszlop" class="menuoszlop">
-                <div class="logindiv">
-                    <button class="loginbutt" onclick='module.gog()'> <img src="./docs/assets/loginicon.svg"  alt="login"> </button>
-                </div>
 
-            </div>
-
-            <div class="dropdown" onclick="toggleMenu(this)">
-                <div class="bar1"></div>
-                <div class="bar2"></div>
-                <div class="bar3"></div>
-            </div>
 
         </div>
 
         <div class="maindiv">
 
-            <div class="logoline"><a href="/">
-                    <img id="mainlogo" src="/docs/logo/fileuplogo.png" alt="Logo"></a>
+            <div class="logoline"><a href="/admin">
+                    <img id="mainlogo" src="/docs/logo/adminlogo.png" alt="Logo"></a>
             </div>
 
             <div class="out-box">
                 <div class="box">
+                    <button  onclick="eraseCookie('admin')" class="logout">logout</button>
                     <div class="in-box">
-                        <div class="bevezetok">
-                            <h1 class="welcome">Üdvözli a FileUp!</h1>
-                            <p class="bevezetoszoveg">
-                                Oldalunkon könnyedén oszthat meg vagy
-                                fogadhat fájlokat. A megosztás közvetlenül
-                                zajlik a két fél között, így a fájlátvitel
-                                sebessége nagyban függ a felek internetsebességétől.
-                                Kérjük ne zárja be böngészőjét ameddig zajlik a fájlátvitel.
-                            </p>
-                        </div>
-                        <div class="out-choose">
-                            <div class="choose">
-                                <div class="cbox upload">
-                                    <a class="choosehiv" href="/send">
-                                        <button  id="uploadbutt">
-                                            <div class="loadlogo"><img src="/docs/assets/uploadbutton.png"></div>
-                                            <div class="subtype">Küldés</div>
-                                        </button>
 
-                                    </a>
-                                </div>
-                                <div class="cbox download">
-                                    <a class="choosehiv" href="/receive">
-                                        <button  id="downloadbutt">
-                                            <div class="loadlogo"><img src="/docs/assets/downloadbutton.png" alt=""></div>
-                                            <div class="subtype">Fogadás</div>
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="outsimplelogodiv">
-                            <div class="simplelogodiv">
-                                <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
-                            </div>
-                        </div>
-                        <div class="conditions">
-                            <p>A szolgálatás igénybevételével elfogadja annak
-                                általános használati feltételeit,
-                                és adatkezelési nyilatkozatát.</p>
-                        </div>
+                        <div>admin</div>
+
 
                     </div>
                 </div>
             </div>
-
-
         </div>
-
         <div class="rightdiv">
-
-
-            <div><a target=”_blank” href="https://discord.gg/MeqaGhc6QN"><img class="connection-logo"
-                                                                              src="/docs/assets/connections/discord.png" alt=""></a></div>
-            <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
-                                                                                   src="/docs/assets/connections/github.png" alt=""></a></div>
 
         </div>
 
@@ -180,7 +116,14 @@
 
 
 <script>
-    let cookieaccept=`<%= cooc %>`;
+    let nope=`<%= nono %>`;
+    /*
+    setTimeout(function () {
+        if (nope==="1"){
+            window.alert("Biztos jó helyen jár? - Mindenesetre a beírt adatok helytelenek.")
+        }
+    },500);*/
+
 
     function toggleMenu(x) {
         x.classList.toggle("change");
@@ -192,6 +135,7 @@
         navigator.serviceWorker.register('/service_worker.js')
     }
 </script>
+
 <script type="javascript">
 
     const pwaAssetGenerator = require('pwa-asset-generator');
@@ -252,6 +196,7 @@
     module.gog = gog;
 
 </script>
+<script type="text/javascript" src="js/admin.js"></script>
 </body>
 
 </html>

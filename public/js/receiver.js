@@ -99,10 +99,10 @@ socket.on("fs-meta",function(metadata){
     el.innerHTML = `
         <div class="filename">  <div>${filename2}</div> <div>${metadata.filesize}</div> </div>
         <div>
-            <div class="s_indicator"> <img src="docs/assets/stop.svg" alt="stopped"> </div>
+            <div class="s_indicator"> <img src="../docs/assets/stop.svg" alt="stopped"> </div>
             <div class="loader"></div> 
             <div class="out-circle"><div class="in-circle"><span class="progress">0%</span></div></div>
-            <div class="keszpipa"> <img src="docs/assets/readytick.svg" alt="kesz"> </div></div>
+            <div class="keszpipa"> <img src="../docs/assets/readytick.svg" alt="kesz"> </div></div>
             
         </div>
     `;

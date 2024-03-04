@@ -238,6 +238,11 @@
     height: 30px;
     font-size: 20px;
 }
+
+.buy:active{
+    border: none;
+    box-shadow: none;
+}
 .inner-container{
     flex-direction: column;
     justify-content: unset;
@@ -266,4 +271,14 @@
 .bevezetoszoveg{
     text-align: center;
     margin-bottom: 0px;
+}
+html {
+    height: unset;
+    overflow: unset;
+}
+body {
+    min-height: unset;
+    overflow: unset;
+    height: unset;
+    margin: 0px;
 }

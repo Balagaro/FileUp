@@ -36,9 +36,9 @@ function checkCookie(cname) {
 
 
 
-let modalbox = document.getElementById("modalbox");
-let blockbox=document.querySelector('.block_cookies')
-function showModal(){
+//let modalbox = document.getElementById("modalbox");
+//let blockbox=document.querySelector('.block_cookies')
+function showModal(blockbox, modalbox){
     blockbox.classList.add("sutikvegig")
     setTimeout(() => {
         modalbox.style.display = "block"
@@ -49,14 +49,14 @@ function showModal(){
 
 
 
-function checkifcookies(){
+function checkifcookies(blockbox, modalbox){
     const vane=checkCookie("cookies")
     if (vane===0){
-        showModal()
+        showModal(blockbox, modalbox)
     }
 }
 
-function closeModal_accept(){
+function closeModal_accept(blockbox, modalbox){
     modalbox.style.display = "none"
     modalbox.style.zIndex=-1;
     blockbox.classList.remove("sutikvegig")

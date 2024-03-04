@@ -26,7 +26,7 @@
     </script>
 </head>
 
-<body onload="checkifcookies()">
+<body onload="checkifcookies(document.querySelector('.block_cookies'),document.getElementById('modalbox'))">
 
 <div class="block_pass">
 
@@ -38,8 +38,8 @@
     <img src="./docs/images/cookies.png" class="cookies">
     <p>Az oldal optimális és jogszerű használata érdekében, az oldal sütiket és a felhasználó Internet Protocoll Address-ét használja fel. <br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
     <div id="buttons">
-        <button type="button" onclick="closeModal_accept()" >Elfogadás</button>
-        <button type="button" onclick="closeModal_decline()">Elutasítás</button>
+        <button type="button" onclick="closeModal_accept(document.querySelector('.block_cookies'),document.getElementById('modalbox'))" >Elfogadás</button>
+        <button type="button" onclick="closeModal_decline(document.querySelector('.block_cookies'),document.getElementById('modalbox'))">Elutasítás</button>
     </div>
 
 </div>
@@ -169,8 +169,8 @@
 
 
 <script type="text/javascript" src="modules/socket.io/client-dist/socket.io.js"></script>
-<script type="text/javascript" src="send.js"></script>
-<script src="./checkcookies.js"></script>
+<script type="text/javascript" src="js/send.js"></script>
+<script src="js/checkcookies.js"></script>
 <script>
     l_code=`<%= longcode %>`;
     let s_code=`<%= shortcode %>`;

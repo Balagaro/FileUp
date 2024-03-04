@@ -112,7 +112,7 @@
                                 <div class="description">
                                     <div class="adtitle">Gofri</div>
                                     <div class="adprice">600ft</div>
-                                    <button class="buy">Kosárba</button>
+                                    <button onclick="document.addEventListener('touchstart', function() {}, false)" class="buy">Kosárba</button>
                                 </div>
                             </div>
                             <div class="adbles_line">
@@ -120,28 +120,15 @@
                                 <div class="description">
                                     <div class="adtitle">Gofri</div>
                                     <div class="adprice">600ft</div>
-                                    <button class="buy">Kosárba</button>
+                                    <button onclick="document.addEventListener('touchstart', function() {}, false)" class="buy">Kosárba</button>
                                 </div>
-                            </div><div class="adbles_line">
+                            </div>
+                            <div class="adbles_line">
                                 <div class="adpic"><img  src="./sutik/gofri.jpeg" alt="gofri"> </div>
                                 <div class="description">
                                     <div class="adtitle">Gofri</div>
                                     <div class="adprice">600ft</div>
-                                    <button class="buy">Kosárba</button>
-                                </div>
-                            </div><div class="adbles_line">
-                                <div class="adpic"><img  src="./sutik/gofri.jpeg" alt="gofri"> </div>
-                                <div class="description">
-                                    <div class="adtitle">Gofri</div>
-                                    <div class="adprice">600ft</div>
-                                    <button class="buy">Kosárba</button>
-                                </div>
-                            </div><div class="adbles_line">
-                                <div class="adpic"><img  src="./sutik/gofri.jpeg" alt="gofri"> </div>
-                                <div class="description">
-                                    <div class="adtitle">Gofri</div>
-                                    <div class="adprice">600ft</div>
-                                    <button class="buy">Kosárba</button>
+                                    <button onclick="document.addEventListener('touchstart', function() {}, false)" class="buy">Kosárba</button>
                                 </div>
                             </div>
 
@@ -188,13 +175,13 @@
     <img src="./docs/images/cookies.png" class="cookies">
     <p>Az oldal optimális és jogszerű használata érdekében, az oldal sütiket és a felhasználó Internet Protocoll Address-ét használja fel. <br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
     <div id="buttons">
-        <button type="button" onclick="closeModal_accept()" >Elfogadás</button>
-        <button type="button" onclick="closeModal_decline()">Elutasítás</button>
+        <button type="button" onclick="closeModal_accept(document.querySelector('.block_cookies'),document.getElementById('modalbox'))" >Elfogadás</button>
+        <button type="button" onclick="closeModal_decline(document.querySelector('.block_cookies'),document.getElementById('modalbox'))">Elutasítás</button>
     </div>
 
 </div>
 
-<script src="./checkcookies.js"></script>
+<script src="js/checkcookies.js"></script>
 <script>
 
 
@@ -240,7 +227,7 @@
     const module = {};
 </script>
 <script type="module">
-    import { gog } from "/firebase.js";
+    import { gog } from "/js/firebase.js";
 
     module.gog = gog;
 
