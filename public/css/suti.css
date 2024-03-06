@@ -282,3 +282,49 @@ body {
     height: unset;
     margin: 0px;
 }
+#mainlogo{
+    height: 100px;
+    width: unset;
+}
+.backgroundtea {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    z-index: -1;
+
+
+}
+.background{
+    background: url("/sutik/back.svg") 0 0 repeat;
+    background-size: 100px;
+    height: 200%;
+    width: 200%;
+}
+html{
+     min-height:100%;/* make sure it is at least as tall as the viewport */
+     position:relative;
+ }
+
+.logoline{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cartdiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#cart{
+    width: 40px;
+    background: rgba(255, 255, 255, 0.68);
+
+}
+.cartdb{
+    position: absolute;
+    padding-left: 8px;
+    padding-bottom: 2px;
+}

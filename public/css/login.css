@@ -43,6 +43,7 @@ width: 100%;
     padding: 5px;
     width: 100%;
 }
+
 .outloader{
     z-index: 10;
     opacity: 98%;
@@ -75,3 +76,4 @@ width: 100%;
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+

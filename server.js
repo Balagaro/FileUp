@@ -137,7 +137,7 @@ function generateID() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     let counter = 0;
-    while (counter < 25) {
+    while (counter < 50) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
         counter += 1;
     }
@@ -224,9 +224,23 @@ app.get('/terms-and-cookies', function(req, res){
 });
 
 
+io.on("connection", function(socket){
+    socket.on("admin-join", function(data){
+        socket.join("admin");
+    });
+    socket.on("admin-req", function(data){
+        sql="SELECT * FROM tetelek"
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            socket.emit("item-query",result);
+        });
+        socket.in("admin").emit("item-query","result");
+    });
+    socket.on
 
+});
 
-
+/*
 io.on("connection", function(socket){
     socket.on("sender-join", function(data){
         id=data.uid
@@ -273,7 +287,7 @@ io.on("connection", function(socket){
         console.log(moment().format("MM/DD/YYYY HH:mm:ss")+" "+data.uid+" finished the fileshare "+data.name);
     });
 })
-
+*/
 httpServer.listen(80);
 httpsServer.listen(443);
 console.log("SziaSzilard")

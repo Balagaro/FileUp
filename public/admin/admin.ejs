@@ -11,6 +11,7 @@
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/frontpage.css">
+
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/admin.css">
     <!-- Google tag (gtag.js) -->
@@ -57,9 +58,12 @@
     <link rel="apple-touch-startup-image" href="test/apple-splash-640-1136.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="test/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-auth.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap" rel="stylesheet">
 
 
 </head>
@@ -68,7 +72,7 @@
 <div class="block_cookies">
 
 </div>
-<div class="background"></div>
+
 
 <div class="outer-container">
 
@@ -85,11 +89,35 @@
             </div>
 
             <div class="out-box">
+                <!-- style="display: none;position: absolute"-->
+                <div class="outloader" style="display: none;position: absolute">
+                    <div class="loader"></div>
+                    <div class="loadexit">Kilépés...</div>
+                </div>
                 <div class="box">
                     <button  onclick="eraseCookie('admin')" class="logout">logout</button>
                     <div class="in-box">
+                        <div class="boxtitle">Sutivasar Kezelőpult</div>
+                        <div class="chooseboxes">
+                            <div class="chooseb uploadbox hover">
 
-                        <div>admin</div>
+                                <div class="chtitle additem">Tétel hozzáadása</div>
+                                <div class="uploadablebox">
+
+
+                                </div>
+                                <div class="inupload">
+
+
+
+                                </div>
+                            </div>
+                            <div class="chooseb querybox hover">
+
+                                <div class="chtitle">Lekérdezés</div>
+                                <div class="inquery">hdfhdhfdgasdfsdf</div>
+                            </div>
+                        </div>
 
 
                     </div>
@@ -135,7 +163,7 @@
         navigator.serviceWorker.register('/service_worker.js')
     }
 </script>
-
+<script type="text/javascript" src="modules/socket.io/client-dist/socket.io.js"></script>
 <script type="javascript">
 
     const pwaAssetGenerator = require('pwa-asset-generator');

@@ -6,11 +6,209 @@
     border: .2px solid black;
     background-color: #ff0000;
     color: white;
+    transition-duration: 0.2s;
+}
+.logout:hover{
+    cursor: pointer;
+    scale: 1.02;
 }
 .out-box{
     width: 100%;
 }
 .box{
     width: 100%;
-    height: 200px;
+
+}
+
+.outloader{
+    z-index: 10;
+    opacity: 98%;
+    position: absolute;
+    width: 100%;
+    height: 277px;
+}
+.loader {
+    border: 6px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 6px solid #000000;
+    width: 50px;
+    margin: 0;
+    position: absolute;
+    top: 35%;
+    left: 48%;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.loadexit{
+    position: absolute;
+    top: 65%;
+    left: 47%;
+    text-align: center;
+    font-size: 30px
+
+}
+.boxtitle{
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+.in-box{
+    flex-direction: column;
+    justify-content: unset;
+    align-items: center;
+    padding-bottom: 50px;
+}
+.chooseboxes{
+    display: flex;
+    justify-content: space-between;
+    transition-duration: 1s;
+    width: 100%;
+}
+
+.chooseb{
+    width: 45%;
+    border-radius: 15px;
+    border: 1px solid black;
+    height: 100px;
+    padding: 10px;
+    transition-duration: 1s;
+    overflow: hidden;
+}
+.uploadbox{
+    background: rgba(0, 255, 58, 0.6);
+}
+.querybox{
+    background: rgba(255, 0, 0, 0.6);
+}
+.hover:hover{
+    width: 48%;
+}
+
+.disbox{
+    z-index: 20;
+    opacity: 0%;
+    width: 0px;
+}
+
+.chooseb:hover .chooseboxes{
+    flex-direction: column;
+}
+.chtitle{
+    margin-bottom: 200px;
+    transition-duration: 0.8s;
+    padding-left: 10%;
+    padding-top: 35px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.activebox{
+    z-index: 15;
+    width: 100%;
+    height: 1000px;
+}
+.activebox .chtitle{
+    margin-bottom: 15px;
+    text-align: left;
+    padding-top: unset;
+    font-size: 20px;
+    padding-left: unset;
+}
+.selecttoupload{
+    width: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: #dcdcdc;
+    padding: 15px;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin: 10px;
+}
+.seltitle{
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    color: black;
+}
+.selpush{
+    background: #ff0000;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+.selpush:hover{
+    cursor: pointer;
+    scale: 1.02;
+}
+.inupload{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.chtitle:hover{
+    cursor: pointer;
+
+}
+html {
+    height: unset;
+    overflow: unset;
+}
+body {
+    min-height: unset;
+    overflow: unset;
+    height: unset;
+    margin: 0px;
+}
+
+.adpic img{
+    border-radius: 15px;
+    max-width: 140px;
+    max-height: 100px;
+
+}
+.adpic{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.uploadablebox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #00ff3a;
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 10px;
+}
+.uploadableline{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.uploadableline:last-child{
+    margin-bottom: 0px;
+}
+.uploadtitles{
+    display: flex;
+
+}
+.uploadid{
+    margin-right: 15px;
+    margin-left: 15px;
 }
