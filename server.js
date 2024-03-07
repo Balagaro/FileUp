@@ -21,10 +21,10 @@ let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 
 let sql="";
 var con = mysql.createConnection({
-    host: "80.252.63.217",
-    user: "SutiVasar",
-    password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
-    database: "sutivasar"
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "suti"
 });
 
 con.connect(function(err) {
@@ -233,10 +233,19 @@ io.on("connection", function(socket){
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             socket.emit("item-query",result);
+            console.log(result)
         });
         socket.in("admin").emit("item-query","result");
     });
-    socket.on
+    socket.on('to-querry', function (id){
+        sql=`SELECT * FROM storage WHERE storage.id=${id}`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+
+            socket.emit("admin-queried",{id:id, result:result});
+            console.log(result.length)
+        });
+    })
 
 });
 

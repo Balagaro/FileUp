@@ -57,6 +57,9 @@ if (vane===0){
 let upload=document.querySelector('.uploadbox')
 let query=document.querySelector('.querybox')
 
+upload.classList.toggle('activebox')
+upload.classList.toggle('hover')
+query.classList.toggle('disbox')
 
 
 document.querySelector('.additem').addEventListener('click', function (){
@@ -78,8 +81,9 @@ socket.emit('admin-req',{
 })
 let adline="";
 let uploaddiv=document.querySelector('.inupload')
+let indatabase;
 socket.on('item-query',function(data){
-
+    indatabase=data;
     for (let i=0; i<data.length;i++){
         queried[data[i].id]=data[i]
         addline=`
@@ -94,22 +98,74 @@ socket.on('item-query',function(data){
         uploaddiv.insertAdjacentHTML('beforeend', addline);
     }
 });
-
+let addedup=[];
+let addtodatabase={}
 function selectToQuerry(id){
-    addline=`
-    <div class="uploadableline">
+    if (addedup.includes(id)===true){
+        document.querySelector(`.quantity${id}`).value++
+    }else {
+        socket.emit('to-querry',id)
+        addedup.push(id)
+        console.log(queried[id])
+        /*
+        addline = `
+    <div class="uploadableline upline${id}">
         <div class="uploadtitles">
-        <div>X</div>
+            <button onclick="cancelItem(${id})">X</button>
             <div class="uploadid">${id}</div>
-            <div class="uploadtitle">Gofri</div>
+            <div class="uploadtitle">${queried[id].megnev}</div>
         </div>
-        <div>600ft</div>
-        <div>6db</div>
-        <div>+</div>
+        <div><input type="number" id="upprice" class="upprice${id}" name="upprice" value="600" min="1">ft</div>
+        <div><input type="number" id="upquantity" class="quantity${id}" name="upquantity" value="1" min="1">darab</div>
+      
     </div>
     `
-
-
     document.querySelector(".uploadablebox").insertAdjacentHTML('beforeend', addline);
-
+    */}
 }
+
+socket.on('admin-queried',function (data){
+
+    console.log(data.result.length)
+    if (data.result.length===0){
+        console.log("naha")
+        addline = `
+    <div class="uploadableline upline${data.id}">
+        <div class="uploadtitles">
+            <button onclick="cancelItem(${data.id})">X</button>
+            <div class="uploadid">${data.id}</div>
+            <div class="uploadtitle">${queried[data.id].megnev}</div>
+        </div>
+        <div><input type="number" id="upprice" class="upprice${data.id}" name="upprice" value="600" min="1">ft</div>
+        <div><input type="number" id="upquantity" class="quantity${data.id}" name="upquantity" value="1" min="1">darab</div>
+      
+    </div>
+    `
+    } else{
+        addline = `
+    <div class="uploadableline upline${data.id}">
+        <div class="uploadtitles">
+            <button onclick="cancelItem(${data.id})">X</button>
+            <div class="uploadid">${data.id}</div>
+            <div class="uploadtitle">${queried[data.id].megnev}</div>
+        </div>
+        <div><input type="number" id="upprice" class="upprice${data.id}" name="upprice" value="${data.result.ar}" min="1">ft</div>
+        <div><input type="number" id="upquantity" class="quantity${data.id}" name="upquantity" value="1" min="1">darab</div>
+      
+    </div>
+    `}
+        document.querySelector(".uploadablebox").insertAdjacentHTML('beforeend', addline);
+
+
+})
+
+function cancelItem(id){
+    document.querySelector(`.upline${id}`).remove()
+    addedup.pop(id)
+}
+
+document.getElementById('uptodatabase').addEventListener('click', function (){
+    socket.emit('into-database', {
+
+    })
+})

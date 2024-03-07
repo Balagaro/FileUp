@@ -206,9 +206,16 @@ body {
 }
 .uploadtitles{
     display: flex;
-
+    width: 30%;
 }
 .uploadid{
     margin-right: 15px;
     margin-left: 15px;
+}
+
+#upquantity{
+    width: 50px;
+}
+.upprice{
+    width: 90px;
 }
