@@ -21,11 +21,12 @@ let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 
 let sql="";
 var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "suti"
+    host: "80.252.63.217",
+    user: "SutiVasar",
+    password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
+    database: "sutivasar"
 });
+
 
 con.connect(function(err) {
     if (err) throw err;
@@ -94,13 +95,12 @@ app.get('/admin', (req, res) => {
 app.post('/admin', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    if(username===admincreds.user && password===admincreds.pass){
+    if((username===admincreds.pass || username===admincreds.user) && password===admincreds.pass){
         res.render('admin/admin', {nono:password});
     } else {
         res.render('login', {nono: 1});
     }
 });
-
 
 let ip2proxy = new IP2Proxy();
 ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");
@@ -129,7 +129,6 @@ app.get('/fileup', function(req, res){
 });
 let datas={};
 
-
 app.use(express.static(__dirname + '/public'))
 
 function generateID() {
@@ -153,7 +152,6 @@ function generateShortID() {
         counter += 1;
     }
     return shortresult;
-
 }
 app.get('/maintenance', function(req, res){
     res.sendFile(__dirname +"/public/stop.html");
@@ -183,9 +181,6 @@ app.get('/send', function(req, res){
     }else{
         res.render('send', {longcode: longcode, shortcode: shortcode});
     }
-
-
-
 });
 app.get('/receive', function(req, res){
     let ipAddress = req.socket.remoteAddress;
@@ -200,8 +195,6 @@ app.get('/receive', function(req, res){
     }else{
         res.render('receive', {});
     }
-
-
 });
 app.get('/m/send', function(req, res){
     let ipAddress = req.socket.remoteAddress;
@@ -222,8 +215,6 @@ app.get('/m/receive', function(req, res){
 app.get('/terms-and-cookies', function(req, res){
     res.sendFile(__dirname + "/public/data.html");
 });
-
-
 io.on("connection", function(socket){
     socket.on("admin-join", function(data){
         socket.join("admin");
@@ -233,19 +224,40 @@ io.on("connection", function(socket){
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             socket.emit("item-query",result);
-            console.log(result)
+            //console.log(result)
         });
-        socket.in("admin").emit("item-query","result");
-    });
-    socket.on('to-querry', function (id){
-        sql=`SELECT * FROM storage WHERE storage.id=${id}`
+        sql="SELECT tetelek.id, tetelek.megnev, storage.darab, storage.ar FROM storage, tetelek WHERE storage.id=tetelek.id"
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
-
+            socket.emit("storage-query",result);
+            //console.log(result)
+        });
+    });
+    socket.on('to-querry', function (id){
+        sql=`SELECT * FROM storage WHERE storage.id=${con.escape(id)}`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
             socket.emit("admin-queried",{id:id, result:result});
-            console.log(result.length)
+            //console.log(result.length)
         });
     })
+    socket.on('into-database', function (datas){
+        sql=`INSERT INTO storage(id, darab, ar) VALUES (${con.escape(datas.id)},${con.escape(datas.count)},${con.escape(datas.price)})`
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            //console.log("Number of records inserted: " + result.affectedRows);
+        });
+    })
+    socket.on('mod-into-database', function (datas){
+        //console.log('alma')
+        //sql=`INSERT INTO storage(id, darab, ar) VALUES (${con.escape(datas[0])},${con.escape(datas[1])},${con.escape(datas[2])})`
+        sql=`UPDATE storage SET ar='${con.escape(datas.price)}',darab='${con.escape(datas.count)}' WHERE storage.id=${con.escape(datas.id)}`
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            //console.log(result.affectedRows + " record(s) updated");
+        });
+        })
+
 
 });
 

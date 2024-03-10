@@ -103,19 +103,21 @@
 
                                 <div class="chtitle additem">Tétel hozzáadása</div>
                                 <div class="uploadablebox">
-
-                                <button id="uptodatabase">+</button>
-                                </div>
-                                <div class="inupload">
-
-
-
-                                </div>
+                                    <div id="uploadinthis"></div>
+                                <button class="uptodatabase">mehet!</button></div>
+                                <div class="inupload"></div>
                             </div>
                             <div class="chooseb querybox hover">
-
-                                <div class="chtitle">Lekérdezés</div>
-                                <div class="inquery">hdfhdhfdgasdfsdf</div>
+                                <div class="chtitle queryitem">Lekérdezés</div>
+                                <div class="inquery">
+                                    <div class="searchdiv">
+                                        <input type="text" id="storage_bar" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+                                    </div>
+                                    <div class="out-storage">
+                                        <ul id="in-storage">
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

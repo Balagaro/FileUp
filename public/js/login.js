@@ -37,7 +37,7 @@ function checkCookie(cname) {
 
 const vane=checkCookie("admin")
 if (vane!==0){
-    document.querySelector('#user').value="SutiVasar";
+    document.querySelector('#user').value=getCookie("admin");
     document.querySelector('#pass').value=getCookie("admin");
     document.getElementById('logform').submit();
 } else{
