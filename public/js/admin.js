@@ -80,7 +80,7 @@ socket.emit('admin-join',{
     id:"admin"
 })
 let queried={};
-socket.emit('admin-req',{
+socket.emit('items-req',{
     id:"admin"
 })
 let adline="";

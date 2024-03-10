@@ -193,11 +193,7 @@
     margin-top: 20px;
 }
 
-.adpic img{
-    border-radius: 15px;
-    width: 140px;
 
-}
 .adpic{
     display: flex;
     flex-direction: column;
@@ -327,4 +323,10 @@ html{
     position: absolute;
     padding-left: 8px;
     padding-bottom: 2px;
+}
+.adpic img{
+    border-radius: 15px;
+    max-width: 140px;
+    max-height: 100px;
+
 }

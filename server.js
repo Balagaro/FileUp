@@ -219,14 +219,14 @@ io.on("connection", function(socket){
     socket.on("admin-join", function(data){
         socket.join("admin");
     });
-    socket.on("admin-req", function(data){
+    socket.on("items-req", function(data){
         sql="SELECT * FROM tetelek"
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             socket.emit("item-query",result);
             //console.log(result)
         });
-        sql="SELECT tetelek.id, tetelek.megnev, storage.darab, storage.ar FROM storage, tetelek WHERE storage.id=tetelek.id"
+        sql="SELECT tetelek.id, tetelek.megnev, storage.darab, storage.ar, tetelek.picture FROM storage, tetelek WHERE storage.id=tetelek.id"
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             socket.emit("storage-query",result);
@@ -256,6 +256,15 @@ io.on("connection", function(socket){
             if (err) throw err;
             //console.log(result.affectedRows + " record(s) updated");
         });
+    })
+    socket.on('customer-join', function (){
+            //console.log('alma')
+            //sql=`INSERT INTO storage(id, darab, ar) VALUES (${con.escape(datas[0])},${con.escape(datas[1])},${con.escape(datas[2])})`
+            sql=`UPDATE storage SET ar='${con.escape(datas.price)}',darab='${con.escape(datas.count)}' WHERE storage.id=${con.escape(datas.id)}`
+            con.query(sql, function (err, result) {
+                if (err) throw err;
+                //console.log(result.affectedRows + " record(s) updated");
+            });
         })
 
 
