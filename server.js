@@ -20,21 +20,21 @@ const options = {
 let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 
 let sql="";
-/*
+
 var con = mysql.createConnection({
     host: "80.252.63.217",
     user: "SutiVasar",
     password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
     database: "sutivasar"
-});*/
-var con = mysql.createConnection({
+});
+/*var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "suti"
 });
 
-
+*/
 con.connect(function(err) {
     if (err) throw err;
     console.log("Database connected!");
@@ -237,7 +237,7 @@ io.on("connection", function(socket){
             socket.emit("item-query",result);
             //console.log(result)
         });
-        sql="SELECT tetelek.id, tetelek.megnev, storage.darab, storage.ar, tetelek.picture FROM storage, tetelek WHERE storage.id=tetelek.id"
+        sql="SELECT tetelek.id, tetelek.megnev, storage.darab, storage.ar, tetelek.picture, tetelek.type FROM storage, tetelek WHERE storage.id=tetelek.id"
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             socket.emit("storage-query",result);

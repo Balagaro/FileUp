@@ -105,7 +105,7 @@ socket.on('storage-query', function (data){
     instorage=data
     for (let i=0;i<data.length;i++){
         currdata=data[i]
-        if (currdata.darab===9999){
+        if (currdata.darab>5000){
             currdata.darab="sok"
         }
         //console.log(currdata)

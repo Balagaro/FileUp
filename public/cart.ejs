@@ -15,7 +15,7 @@
     <meta name="theme-color" content="#ffffff"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>FileUp</title>
+    <title>FileUp - Kosár</title>
     <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="css/main.css">
@@ -107,10 +107,13 @@
                             </p>
                         </div>
                         <div class="out_adbles">
-
+                            <button class="deleteall" onclick="deleteAll()">Kosár Törlése</button>
 
                         </div>
-
+                        <div class="paydetails">
+                            <div class="fullprice">Ár</div>
+                            <button ontouchstart="document.addEventListener('touchstart', function() {}, false)" class="cassapay">Fizetés a kasszánál</button>
+                        </div>
 
                         <div class="outsimplelogodiv">
                             <div class="simplelogodiv">

@@ -9,7 +9,7 @@ socket.on('storage-query',function(data){
     indatabase=data;
     for (let i=0; i<data.length;i++){
         queried[data[i].id]=data[i]
-        console.log(data[i])
+        //console.log(data[i])
         addline=`
         <div class="adbles_line">
             <div class="adpic"><img  src="./sutik/${data[i].picture}.png" alt="gofri"> </div>
@@ -20,9 +20,11 @@ socket.on('storage-query',function(data){
             </div>
         </div>
         `
-        uploaddiv.insertAdjacentHTML('beforeend', addline);
+        document.querySelector(`.${data[i].type}`).insertAdjacentHTML('beforeend', addline);
     }
+
 });
+
 function getCookie2(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -75,7 +77,7 @@ function addToCart(id) {
     alertison(id)
 
     if (checkCookie2('cart')===0){
-        console.log(`set cookie to ${id}`)
+        //console.log(`set cookie to ${id}`)
         setCookie2('cartamount', 1,1)
         setCookie2('cart', id, 1)
     } else{
@@ -86,7 +88,7 @@ function addToCart(id) {
         });
 
         if(incart.includes(id)){
-            console.log("sokadik")
+            //console.log("sokadik")
             incart=(getCookie2('cart'))
             incart=incart.split(',')
             incart = incart.map(function (x) {
@@ -97,14 +99,14 @@ function addToCart(id) {
             cartamount = cartamount.map(function (x) {
                 return parseInt(x, 10);
             });
-            console.log('2')
+            //console.log('2')
             cartamount[incart.indexOf(id)]++;
-            console.log(cartamount[incart.indexOf(id)])
+            //console.log(cartamount[incart.indexOf(id)])
             setCookie2('cartamount', cartamount,1)
-            console.log(incart)
-            console.log(cartamount)
+            //console.log(incart)
+            //console.log(cartamount)
         } else{
-            console.log("elso")
+            //console.log("elso")
             incart=(getCookie2('cart'))
             incart=incart.split(',')
             incart = incart.map(function (x) {
@@ -115,25 +117,25 @@ function addToCart(id) {
             cartamount = cartamount.map(function (x) {
                 return parseInt(x, 10);
             });
-            console.log('1.1')
+            //console.log('1.1')
             cartamount.push(1);
             incart.push(id)
 
             setCookie2('cartamount', cartamount,1)
             setCookie2('cart', incart, 1)
-            console.log(incart)
-            console.log(cartamount)
+            //console.log(incart)
+            //console.log(cartamount)
         }
 
-        console.log(incart)
+        //console.log(incart)
         //incart+=`, ${id}`
-        console.log(`set cookie to ${incart}`)
+        //console.log(`set cookie to ${incart}`)
 
     }
 
 
-    console.log(getCookie2('cart'))
-    console.log(getCookie2('cartamount'))
+    //console.log(getCookie2('cart'))
+    //console.log(getCookie2('cartamount'))
 
 }
 

@@ -2,6 +2,9 @@
     color: #656565;
     font-weight: normal;
 }
+* button{
+    color: black;
+}
 .bevezetoszoveg{
     text-justify: auto;
     font-size: 20px;
@@ -175,6 +178,12 @@
     flex-direction: column;
     align-items: center;
 }
+.in_adbles{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .in-box{
     display: flex;
     flex-direction: column;
@@ -184,12 +193,12 @@
 
 .adbles_line{
     border: 1px solid grey;
-    border-radius: 15px;
+    border-radius: 25px;
     background: rgba(222, 222, 222, 0.56);
     display: flex;
     align-items: center;
     height: 120px;
-    width: 95%;
+    width: 98%;
     margin-top: 20px;
 }
 
@@ -204,7 +213,7 @@
     font-family: "Madimi One", sans-serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 30px;
+    font-size: 25px;
     color: black;
 
 }
@@ -256,13 +265,17 @@
     display: flex;
 }
 .box{
-    padding: 5px;
-    width: 94%;
+    padding: 0px;
+    width: 100%;
+    border-radius: 20px;
+    border: none;
+    border-top: 1px solid grey;
     padding-top: 20px;
 }
 .welcome{
     font-size: 30px;
     text-align: center;
+    margin-top: 0px;
 }
 .bevezetoszoveg{
     text-align: center;
@@ -367,4 +380,83 @@ html{
     font-size: 30px;
     margin-top: 15px;
     margin-bottom: 15px;
+}
+.adblestitle{
+    border-top: 1px solid grey;
+    margin-top: 30px;
+    padding-top: 5px;
+    font-size: 30px;
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.cartdbin{
+    width: 30px;
+    margin-right: 5px;
+    background: #00ff3a;
+    border: 0.5px solid grey;
+    color: black;
+    text-align: center;
+    border-radius: 15px;
+}
+.cart_db{
+    display: flex;
+    align-items: center;
+}
+.deleteimg{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+}
+.deleteimg:active{
+    border: none;
+}
+.deleteimg img{
+    width: 25px;
+    color: black;
+}
+.titleprice{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.deleteall{
+    border-radius: 15px;
+    width: 30%;
+    background: #00ff3a;
+    border: 0.5px solid grey;
+    margin-top: 10px;
+    color: black;
+}
+
+.fullprice{
+    display: flex;
+    justify-content: center;
+    border-top: 4px solid grey;
+    margin-top: 30px;
+    color: black;
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 35px;
+    color: black;
+}
+.cassapay{
+    width: 100%;
+    border-radius: 15px;
+    border: 0.5px solid grey;
+    height: 30px;
+}
+.cassapay:active{
+    scale: 1.05;
+}
+.paydetails{
+    width: 60%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
