@@ -65,10 +65,7 @@ document.querySelector('.additem').addEventListener('click', function (){
     query.classList.toggle('disbox')
 
 });
-upload.classList.toggle('hover')
-query.classList.toggle('hover')
-upload.classList.toggle('disbox')
-query.classList.toggle('activebox')
+
 document.querySelector('.queryitem').addEventListener('click', function (){
     upload.classList.toggle('hover')
     query.classList.toggle('hover')
@@ -108,7 +105,10 @@ socket.on('storage-query', function (data){
     instorage=data
     for (let i=0;i<data.length;i++){
         currdata=data[i]
-        console.log(currdata)
+        if (currdata.darab===9999){
+            currdata.darab="sok"
+        }
+        //console.log(currdata)
         addline=`
         <li id="${i}_${currdata.id}">
         <div class="storid">${currdata.id}</div>
@@ -124,12 +124,13 @@ socket.on('storage-query', function (data){
 })
 let modli;
 function modStor(index, id){
-    console.log(index)
-    console.log(id)
+    //console.log(index)
+    //console.log(id)
     currdata=instorage[index]
     modli=document.getElementById(`${index}_${id}`)
-    console.log(modli.innerHTML)
+    //console.log(modli.innerHTML)
     addline=`
+    <button class="xstor" onclick="cancelStor(${id})">X</button>
     <div class="storid">${id}</div>
         <a href="#">${currdata.megnev}</a>
         <div class="storcount"><div class="upquantity_c"><input type="text" pattern="\\d*" id="upquantity" class="freshquantity${id}" name="upquantity" maxlength="3" value="${currdata.darab}" min="1">db</div></div>
@@ -138,31 +139,51 @@ function modStor(index, id){
     `
     modli.innerHTML=addline
 }
+
+function cancelStor(id){
+    document.querySelector(`.freshquantity${id}`).value='-'
+    document.querySelector(`.freshprice${id}`).value='-'
+
+}
+
 function freshStor(index, id){
-    console.log(id)
+    //console.log(id)
     let freshcount=document.querySelector(`.freshquantity${id}`).value
     let freshprice=document.querySelector(`.freshprice${id}`).value
-    console.log(freshprice)
-    console.log(freshcount)
+    if (freshcount==='sok'){
+        to_push={
+            id:id,
+            price:freshprice*1,
+            count:9999
+        }
+    } else{
+    if (freshprice==="" && freshcount==="-"){
+        to_push={
+            id:id,
+            price:"delete",
+            count:"delete"
+        }
+    } else{
     to_push={
         id:id,
         price:freshprice*1,
-        count:(freshcount*1)
-    }
-    console.log(to_push)
-    //console.log("megy")
-    socket.emit('mod-into-database',to_push)
-    setTimeout(function () {
-        refresh()
-    },500);
+        count:(freshcount*1),
+    }}
 
+    }
+    socket.emit('mod-into-database',to_push)
+    refresh()
 }
 function refresh(){
-    document.querySelector('#in-storage').innerHTML="";
-    document.querySelector('.inupload').innerHTML=""
-    socket.emit('admin-req',{
-        id:"admin"
-    })
+    setTimeout(function () {
+        document.querySelector('#in-storage').innerHTML="";
+        document.querySelector('.inupload').innerHTML=""
+        socket.emit('items-req',{
+            id:"admin"
+        })
+    },500);
+
+
 }
 let addedup_exitst=[];
 let addedup_exitst_ids={};
@@ -184,7 +205,9 @@ socket.on('admin-queried',function (data){
             <div class="uploadtitle">${queried[data.id].megnev}</div>
         </div>
         <div class="upprice_c"><input type="number" id="upprice" class="upprice${data.id}" name="upprice" value="500" min="1">ft</div>
-        <div class="upquantity_c"><input type="text" pattern="\\d*" id="upquantity" class="quantity${data.id}" name="upquantity" maxlength="3" value="1" min="1">darab</div>
+        <div class="upquantity_c">
+        <input type="checkbox" id="countcheck${data.id}" name="quantity" value="count">
+        <input type="text" pattern="\\d*" id="upquantity" class="quantity${data.id}" name="upquantity" onkeyup="checkTheBox(${data.id})"  maxlength="3" value="-" min="1">darab</div>
       
     </div>
     `
@@ -200,7 +223,9 @@ socket.on('admin-queried',function (data){
             <div class="uploadtitle">${queried[data.id].megnev}</div>
         </div>
         <div><input type="number" id="upprice" class="upprice${data.id}" name="upprice" value="${data.result[0].ar}" min="1">ft</div>
-        <div><input type="text" pattern="\\d*" id="upquantity" class="quantity${data.id}" name="upquantity" value="1" min="1" maxlength="3">darab</div>
+        <div class="countline">
+        <input type="checkbox" id="countcheck${data.id}" name="quantity" value="count">
+        <input type="text" pattern="\\d*" id="upquantity" class="quantity${data.id}" name="upquantity" onkeyup="checkTheBox(${data.id})" value="-" min="1" maxlength="3">darab</div>
     </div>
     `}
         document.querySelector("#uploadinthis").insertAdjacentHTML('beforeend', addline);
@@ -208,7 +233,9 @@ socket.on('admin-queried',function (data){
 
 
 })
-
+function checkTheBox(id){
+    document.querySelector(`#countcheck${id}`).checked=true
+}
 function cancelItem(id){
     document.querySelector(`.upline${id}`).remove()
     if (addedup_exitst.indexOf(id)>=0){
@@ -224,16 +251,23 @@ function cancelItem(id){
 document.querySelector('.uptodatabase').addEventListener('click', function (){
     //console.log("menjen");
     let to_push={};
-    let price;
-    let count;
+    let price, count, countcheck;
     for (let i=0; i<addedup_new.length;i++){
         count=document.querySelector(`.quantity${addedup_new[i]}`).value
         price=document.querySelector(`.upprice${addedup_new[i]}`).value
+        countcheck=document.querySelector(`#countcheck${addedup_new[i]}`).checked
         //to_push=[addedup_exitst[i].id, price*1,count*1]
+        if (countcheck){
         to_push={
             id:addedup_new[i],
             price:price*1,
             count:count*1
+        }}else{
+            to_push={
+                id:addedup_new[i],
+                price:price*1,
+                count:9999
+            }
         }
         //console.log(to_push)
         socket.emit('into-database',to_push)
@@ -241,13 +275,21 @@ document.querySelector('.uptodatabase').addEventListener('click', function (){
     for (let i=0; i<addedup_exitst.length;i++){
         count=document.querySelector(`.quantity${addedup_exitst[i].id}`).value
         price=document.querySelector(`.upprice${addedup_exitst[i].id}`).value
+        countcheck=document.querySelector(`#countcheck${addedup_exitst[i].id}`).checked
         //to_push=[addedup_new[i], price*1,count*1]
+        if (countcheck){
         to_push={
             id:addedup_exitst[i].id,
             price:price*1,
-            count:(count*1)+addedup_exitst[i].result[0].darab
+            count:(count*1)
+        }}else{
+            to_push={
+                id:addedup_exitst[i].id,
+                price:price*1,
+                count:9999
+            }
         }
-        console.log(to_push)
+        //console.log(to_push)
         //console.log("megy")
         socket.emit('mod-into-database',to_push)
     }
@@ -258,7 +300,8 @@ document.querySelector('.uptodatabase').addEventListener('click', function (){
     document.querySelector('.uptodatabase').classList.remove('activeinsert')
     //console.log(to_push)
     //socket.emit('into-database',to_push.slice(0, -1))
-    alert('Elküldve')
+    //alert('Elküldve')
+    refresh()
 })
 
 function myFunction() {

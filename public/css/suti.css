@@ -313,8 +313,12 @@ html{
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
+    font-style: unset;
+    color: black;
 }
-#cart{
+
+#cartimg{
     width: 40px;
     background: rgba(255, 255, 255, 0.68);
 
@@ -329,4 +333,38 @@ html{
     max-width: 140px;
     max-height: 100px;
 
+}
+
+
+.fromtopalert{
+    height: 0px;
+    top: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+    transition-duration: 0.2s;
+    position: fixed;
+}
+.alerttext{
+    height: 40px;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    background: #00ff3a;
+    border-radius: 15px;
+    align-items: center;
+    color: black;
+    text-align: center;
+    border: 1px solid grey;
+}
+.alerting{
+    z-index: 30;
+    height: 80px;
+}
+.ureskosar{
+    font-size: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

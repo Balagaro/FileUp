@@ -29,8 +29,6 @@ function checkCookie(cname) {
         return user
     } else {
         return 0
-
-
     }
 }
 

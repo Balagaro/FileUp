@@ -315,7 +315,7 @@ body {
     background-color: #f6f6f6;
     padding: 12px;
     display: flex;
-
+    align-items: center;
     width: 60%;
 }
 #in-storage li a{
@@ -348,4 +348,24 @@ body {
 }
 .storprice #upprice{
     width: 50px;
+}
+.countline{
+    display: flex;
+
+}
+
+.xstor{
+    background: none;
+    display: flex;
+    align-items: center;
+    background: #ff0000;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0px;
+    border-radius: 5px;
+    color: white;
+}
+.xstor:hover{
+    cursor: pointer;
 }

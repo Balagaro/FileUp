@@ -63,8 +63,8 @@
     <link rel="apple-touch-startup-image" href="test/apple-splash-1334-750.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
     <link rel="apple-touch-startup-image" href="test/apple-splash-640-1136.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="test/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-<!--
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />-->
+    <!--
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />-->
     <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-auth.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,9 +80,8 @@
 </div>
 
 
-<div class="block_cookies">
-
-</div>
+<div class="block_pass"></div>
+<div class="block_cookies"></div>
 
 <div class="backgroundtea">
     <div class="background"></div>
@@ -94,24 +93,21 @@
 
         <div class="maindiv">
 
-            <div class="logoline"><a href="/">
+            <div class="logolinecart"><a href="/">
                     <img id="mainlogo" src="/sutik/fileupxtea.png" alt="Logo"></a>
-                <a class="cartdiv" href="/cart">
-                    <img id="cartimg" src="/sutik/cart.svg" alt="kosar">
-                    <div class="cartdb">0</div>
-                </a>
             </div>
 
             <div class="out-box">
                 <div class="box">
                     <div class="in-box">
                         <div class="bevezetok">
-                            <h1 class="welcome">Üdvözli a FileUp - Teaház!</h1>
+                            <h1 class="welcome">Kosár</h1>
                             <p class="bevezetoszoveg">
                                 Add le rendelésed, fizess online, vagy a kasszánál!
                             </p>
                         </div>
                         <div class="out_adbles">
+
 
                         </div>
 
@@ -150,7 +146,7 @@
 
 <div id="modalbox">
     <img src="./docs/images/cookies.png" class="cookies">
-    <p>Az oldal sütiket használ.<br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
+    <p>Az oldal sütiket használ. <br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
     <div id="buttons">
         <button type="button" onclick="closeModal_accept(document.querySelector('.block_cookies'),document.getElementById('modalbox'))" >Elfogadás</button>
         <button type="button" onclick="closeModal_decline(document.querySelector('.block_cookies'),document.getElementById('modalbox'))">Elutasítás</button>
@@ -158,7 +154,7 @@
 
 </div>
 <script type="text/javascript" src="modules/socket.io/client-dist/socket.io.js"></script>
-<script src="js/suti.js"></script>
+<script src="js/cart.js"></script>
 <script src="/mobile/checkcookies.js"></script>
 <script>
 

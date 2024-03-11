@@ -20,11 +20,18 @@ const options = {
 let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 
 let sql="";
+/*
 var con = mysql.createConnection({
     host: "80.252.63.217",
     user: "SutiVasar",
     password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
     database: "sutivasar"
+});*/
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "suti"
 });
 
 
@@ -108,6 +115,10 @@ ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-
 app.get('/', function(req, res){
     //res.sendFile(__dirname + "/public/index.html");
     res.render('suti', {});
+});
+app.get('/cart', function(req, res){
+    //res.sendFile(__dirname + "/public/index.html");
+    res.render('cart', {});
 });
 app.get('/fileup', function(req, res){
     let ipAddress = req.socket.remoteAddress
@@ -249,13 +260,19 @@ io.on("connection", function(socket){
         });
     })
     socket.on('mod-into-database', function (datas){
-        //console.log('alma')
-        //sql=`INSERT INTO storage(id, darab, ar) VALUES (${con.escape(datas[0])},${con.escape(datas[1])},${con.escape(datas[2])})`
-        sql=`UPDATE storage SET ar='${con.escape(datas.price)}',darab='${con.escape(datas.count)}' WHERE storage.id=${con.escape(datas.id)}`
-        con.query(sql, function (err, result) {
+        if (datas.price==="delete" && datas.count==="delete"){
+            sql=`DELETE FROM storage WHERE storage.id=${con.escape(datas.id)}`;
+            con.query(sql, function (err, result) {
+                if (err) throw err;
+            });
+        }else {
+            //console.log('alma')
+            //sql=`INSERT INTO storage(id, darab, ar) VALUES (${con.escape(datas[0])},${con.escape(datas[1])},${con.escape(datas[2])})`
+            sql = `UPDATE storage SET ar='${con.escape(datas.price)}',darab='${con.escape(datas.count)}' WHERE storage.id=${con.escape(datas.id)}`
+            con.query(sql, function (err, result) {
             if (err) throw err;
             //console.log(result.affectedRows + " record(s) updated");
-        });
+        });}
     })
     socket.on('customer-join', function (){
             //console.log('alma')
