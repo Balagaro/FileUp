@@ -75,6 +75,13 @@
     transition-duration: 1s;
     width: 100%;
 }
+.secondboxes{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    transition-duration: 1s;
+    width: 100%;
+}
 
 .chooseb{
     width: 45%;
@@ -88,11 +95,19 @@
 .uploadbox{
     background: rgba(0, 255, 58, 0.6);
 }
+.variations{
+    background: rgba(255, 213, 0, 0.6);
+}
 .querybox{
     background: rgba(255, 0, 0, 0.6);
 }
+.modvar{
+    background: rgba(255, 89, 0, 0.6);
+}
+
 .hover:hover{
     width: 48%;
+    box-shadow: inset gray 0px 0px 60px -12px;
 }
 
 .disbox{
@@ -160,6 +175,11 @@
     flex-wrap: wrap;
 
 }
+.modinupload{
+    display: flex;
+    flex-wrap: wrap;
+
+}
 .chtitle:hover{
     cursor: pointer;
 
@@ -196,6 +216,15 @@ body {
     border: 1px solid grey;
     border-radius: 10px;
 }
+.uploadablemodbox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 89, 0, 0.6);
+    padding: 10px;
+    border: 1px solid rgba(112, 39, 0, 0.6);
+    border-radius: 10px;
+}
 .uploadableline{
     width: 90%;
     display: flex;
@@ -221,6 +250,13 @@ body {
     width: 90px;
 }
 #uploadinthis{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+#uploadmodinthis{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -270,6 +306,17 @@ body {
     align-items: center;
 }
 .uptodatabase{
+    display: none;
+    position: absolute;
+    background: #ff0000;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+}
+.upmodtodatabase{
     display: none;
     position: absolute;
     background: #ff0000;
@@ -368,4 +415,17 @@ body {
 }
 .xstor:hover{
     cursor: pointer;
+}
+.uptypes{
+    display: flex;
+    align-items: center;
+}
+.uptypeform{
+    margin-left: 10px;
+}
+.upvalues{
+    display: flex;
+}
+.upvalueform{
+    margin-left: 10px;
 }

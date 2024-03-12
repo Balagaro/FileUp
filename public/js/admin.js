@@ -1,4 +1,4 @@
-
+let addmodline;
 const socket = io();
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
@@ -54,8 +54,10 @@ if (vane===0){
 
 
 
-let upload=document.querySelector('.uploadbox')
-let query=document.querySelector('.querybox')
+const upload=document.querySelector('.uploadbox')
+const query=document.querySelector('.querybox')
+const addvari=document.querySelector('.variations')
+const modvari=document.querySelector('.modvar')
 
 
 document.querySelector('.additem').addEventListener('click', function (){
@@ -64,13 +66,35 @@ document.querySelector('.additem').addEventListener('click', function (){
     query.classList.toggle('hover')
     query.classList.toggle('disbox')
 
+
 });
 
 document.querySelector('.queryitem').addEventListener('click', function (){
     upload.classList.toggle('hover')
     query.classList.toggle('hover')
+    addvari.classList.toggle('hover')
+    modvari.classList.toggle('hover')
     upload.classList.toggle('disbox')
+
     query.classList.toggle('activebox')
+});
+//ezezez
+upload.classList.toggle('hover')
+query.classList.toggle('hover')
+addvari.classList.toggle('hover')
+modvari.classList.toggle('hover')
+
+modvari.classList.toggle('disbox')
+addvari.classList.toggle('activebox')
+//eddig
+document.querySelector('.queryvar').addEventListener('click', function (){
+    upload.classList.toggle('hover')
+    query.classList.toggle('hover')
+    addvari.classList.toggle('hover')
+    modvari.classList.toggle('hover')
+
+    modvari.classList.toggle('disbox')
+    addvari.classList.toggle('activebox')
 });
 
 socket.emit('admin-join',{
@@ -82,6 +106,7 @@ socket.emit('items-req',{
 })
 let adline="";
 let uploaddiv=document.querySelector('.inupload')
+let uploadmoddiv=document.querySelector('.modinupload')
 let indatabase;
 socket.on('item-query',function(data){
     indatabase=data;
@@ -96,11 +121,86 @@ socket.on('item-query',function(data){
             <button onclick="selectToQuerry(${data[i].id})" class="selpush">Kiválasztás</button>
         </div>
         `
+        addmodline=`
+        <div class="selecttoupload">
+            <div class="selpic">
+            <div class="adpic"><img  src="./sutik/${data[i].picture}.png" alt="gofri"> </div>
+            </div>
+            <div class="seltitle">${data[i].megnev}</div>
+            <button onclick="selectToMod(${data[i].id})" class="selpush">Kiválasztás</button>
+        </div>
+        `
         uploaddiv.insertAdjacentHTML('beforeend', addline);
+        uploadmoddiv.insertAdjacentHTML('beforeend', addmodline);
     }
 });
-let instorage;
-let currdata;
+let instorage,currdata;
+let insertvari=[];
+let insertvardb=[]
+
+function selectToMod(id){
+    socket.emit('get-variations', id)
+}
+
+socket.on('variations-queried', function (data){
+        //console.log(currdata)
+    if (insertvari.includes(data.id)===false){
+        insertvari.push(data.id)
+        insertvardb.push(1)
+    }else{
+        insertvardb[insertvari.indexOf(data.id)]++
+    }
+
+        //console.log(data)
+        addline = `
+    <div class="uploadableline upline${data.id}">
+        <div class="uploadtitles">
+            <button onclick="cancelItem(${data.id})">X</button>
+            <div class="uploadid">id: ${data.id}</div>
+            <div class="uploadtitle">${queried[data.id].megnev}</div>
+        </div>
+        <div class="uptypes">tipus:
+            <form class="uptypeform">
+              <input list="typenames${data.id}" name="types">
+              <datalist id="typenames${data.id}"></datalist>
+            </form>
+        </div>
+        <div class="upvalues">érték:
+            <form class="upvalueform">
+              <input list="valuenames${data.id}" name="values">
+              <datalist id="valuenames${data.id}">
+                <option value="Alma">
+                <option value="Körte">
+              </datalist>
+            </form>
+        </div>
+    </div>
+    `
+    document.querySelector("#uploadmodinthis").insertAdjacentHTML('beforeend', addline);
+    document.querySelector('.upmodtodatabase').classList.add('activeinsert')
+    let valuenm=document.querySelector(`#valuenames${data.id}`)
+    let typenm=document.querySelector(`#typenames${data.id}`)
+    for(i=0;i<data.result.length;i++){
+        console.log(data.result[i])
+        insertval=`
+        <option value="${data.result[i].type}">
+        `
+        typenm.insertAdjacentHTML('beforeend', insertval);
+        insertval=`
+        <option value="${data.result[i].value}">
+        `
+        valuenm.insertAdjacentHTML('beforeend', insertval);
+
+    }
+})
+
+document.querySelector('.upmodtodatabase').addEventListener('click', function (){
+    console.log(insertvari)
+    for (i=0;i<insertvari.length;i++){
+        console.log(i)
+    }
+    console.log(insertvardb)
+})
 socket.on('storage-query', function (data){
     instorage=data
     for (let i=0;i<data.length;i++){

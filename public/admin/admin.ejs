@@ -101,7 +101,7 @@
                         <div class="chooseboxes">
                             <div class="chooseb uploadbox hover">
 
-                                <div class="chtitle additem">Tétel hozzáadása</div>
+                                <div class="chtitle additem">Tételek hozzáadása</div>
                                 <div class="uploadablebox">
                                     <div id="uploadinthis">
 
@@ -110,7 +110,36 @@
                                 <div class="inupload"></div>
                             </div>
                             <div class="chooseb querybox hover">
-                                <div class="chtitle queryitem">Lekérdezés</div>
+                                <div class="chtitle queryitem">Tételek módosítása</div>
+                                <div class="inquery">
+                                    <div class="searchdiv">
+                                        <input type="text" id="storage_bar" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+                                    </div>
+                                    <div class="out-storage">
+                                        <ul id="in-storage">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="secondboxes">
+
+                        <div class="chooseb variations hover">
+                            <div class="chtitle queryvar">Variációk hozzáadása</div>
+                            <div class="uploadablemodbox">
+                                <div id="uploadmodinthis">
+
+                                </div>
+                                <button class="upmodtodatabase">mehet!</button>
+                                </div>
+
+                            <div class="modinupload"></div></div>
+
+
+                            <div class="chooseb modvar hover">
+                                <div class="chtitle modifyvar">Variációk módosítása</div>
                                 <div class="inquery">
                                     <div class="searchdiv">
                                         <input type="text" id="storage_bar" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
@@ -122,7 +151,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        </div>
 
                     </div>
                 </div>
@@ -229,6 +258,7 @@
 
 </script>
 <script type="text/javascript" src="js/admin.js"></script>
+<script type="text/javascript" src="js/adminmods.js"></script>
 </body>
 
 </html>

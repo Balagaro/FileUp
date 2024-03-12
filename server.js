@@ -17,6 +17,8 @@ const options = {
     cert: fs.readFileSync(`./ssl/www.fileup.site.crt`)
 };
 
+
+
 let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 
 let sql="";
@@ -249,6 +251,23 @@ io.on("connection", function(socket){
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             socket.emit("admin-queried",{id:id, result:result});
+            //console.log(result.length)
+        });
+    })
+    socket.on('get-variations', function (id){
+        sql=`SELECT * FROM variations WHERE variations.tetel_id=${con.escape(id)}`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            socket.emit("variations-queried",{id:id, result:result});
+            //console.log(result.length)
+        });
+    })
+    socket.on('insert-variations', function (datas){
+
+        sql=`SELECT * FROM variations WHERE variations.tetel_id=${con.escape(id)}`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            socket.emit("variations-queried",{id:id, result:result});
             //console.log(result.length)
         });
     })
