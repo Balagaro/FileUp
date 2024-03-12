@@ -137,6 +137,7 @@ socket.on('item-query',function(data){
 let instorage,currdata;
 let insertvari=[];
 let insertvardb=[]
+let alreadytyped={}
 
 function selectToMod(id){
     socket.emit('get-variations', id)
@@ -180,7 +181,14 @@ socket.on('variations-queried', function (data){
     document.querySelector('.upmodtodatabase').classList.add('activeinsert')
     let valuenm=document.querySelector(`#valuenames${data.id}`)
     let typenm=document.querySelector(`#typenames${data.id}`)
+
     for(i=0;i<data.result.length;i++){
+        console.log(data.result[i].type)
+        console.log(alreadytyped)
+        if (false){
+            console.log('votma')
+        } else{
+           console.log(data.result[i].type)
         console.log(data.result[i])
         insertval=`
         <option value="${data.result[i].type}">
@@ -189,7 +197,7 @@ socket.on('variations-queried', function (data){
         insertval=`
         <option value="${data.result[i].value}">
         `
-        valuenm.insertAdjacentHTML('beforeend', insertval);
+        valuenm.insertAdjacentHTML('beforeend', insertval);}
 
     }
 })
@@ -197,7 +205,11 @@ socket.on('variations-queried', function (data){
 document.querySelector('.upmodtodatabase').addEventListener('click', function (){
     console.log(insertvari)
     for (i=0;i<insertvari.length;i++){
-        console.log(i)
+        console.log(insertvari[i])
+        for (k=0;k<insertvardb[i];k++){
+
+            console.log(k)
+        }
     }
     console.log(insertvardb)
 })
