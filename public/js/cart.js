@@ -10,7 +10,7 @@ socket.on('storage-query',function(data){
     for (let i=0; i<data.length;i++){
         queried[`${data[i].id}`]=data[i]
         //console.log(data[i])
-        addline=`
+        /*addline=`
         <div class="adbles_line">
             <div class="adpic"><img  src="./sutik/${data[i].picture}.png" alt="gofri"> </div>
             <div class="description">
@@ -19,7 +19,7 @@ socket.on('storage-query',function(data){
                 <button ontouchstart="document.addEventListener('touchstart', function() {}, false)" onclick="addToCart(${data[i].id})" class="buy">Kosárba</button>
             </div>
         </div>
-        `
+        `*/
         //uploaddiv.insertAdjacentHTML('beforeend', addline);
     }
     if(checkCookie2("cart")===0){
@@ -32,16 +32,23 @@ socket.on('storage-query',function(data){
         incart = incart.map(function (x) {
             return parseInt(x, 10);
         });
+
+
         cartamount = (getCookie2('cartamount'))
         cartamount = cartamount.split(',')
         cartamount = cartamount.map(function (x) {
             return parseInt(x, 10);
         });
+        console.log(incart)
         for (i = 0; i < incart.length; i++) {
             //console.log(queried[incart[i]].megnev)
+            socket.emit('get-variations', queried[incart[i]].id)
             fullprice+=(queried[incart[i]].ar*cartamount[i])
             addline = `
+<div class="out_adcart" id="out_adcart${queried[incart[i]].id}">
+<input style="display: none;position: absolute" type="number" name="id" value="${queried[incart[i]].id}">
             <div id="adline${queried[incart[i]].id}" class="adbles_line ">
+  
                 <div class="adpic"><img  src="./sutik/${queried[incart[i]].picture}.png" alt="gofri"> </div>
                 <div class="description">
                 <div class="adtitle">${queried[incart[i]].megnev}</div>
@@ -51,6 +58,14 @@ socket.on('storage-query',function(data){
                     <div class="cart_db"><input onchange="changeQuantity(${queried[incart[i]].id})" inputmode="numeric" pattern="[0-9]*" type="text" id="cartdbid${queried[incart[i]].id}" class="cartdbin" maxlength="1" minlength="1" name="cartdb" value="${cartamount[i]}" min="1">db</div>
                     <button onclick="removeItem(${queried[incart[i]].id})" class="deleteimg"><img src="./sutik/trash.svg" alt="torles"> </button>
                 </div></div>
+                
+                <div>
+                
+</div>
+                
+            </div>
+            
+            
             </div>
             `
 
@@ -59,6 +74,51 @@ socket.on('storage-query',function(data){
         document.querySelector('.fullprice').innerHTML=`${fullprice}Ft`
         //console.log()
     }});
+
+let element, id;
+/*
+socket.on("variations-queried", function (result){
+    let contents=[];
+    let vari={}
+    let varid={}
+    element=result.result
+    console.log(element)
+    for (f=0;f<element.length;f++){
+        vari[element[f].type]=[]
+        varid[element[f].type]=[]
+        if (contents.includes(element[f].type)===false){contents.push(element[f].type)}
+    }
+    for (f=0;f<element.length;f++){
+        vari[element[f].type].push(element[f].value)
+        varid[element[f].type].push(element[f].variation_id)
+    }
+    console.log(varid)
+    console.log(vari)
+    console.log(contents)
+    for (f=0;f<contents.length;f++){
+        console.log(contents[f])
+
+        let addtoadd="";
+        for (a=0;a<(vari[contents[f]]).length;a++){
+            addtoadd+=`<div class="feltetsor">
+<label for="varin_${(varid[contents[f]])[a]}">${(vari[contents[f]])[a]}</label>
+<input type="checkbox" id="varin_${(varid[contents[f]])[a]}" name="${(vari[contents[f]])[a]}" value="Bike">
+  
+</div>
+`
+        }
+        console.log(vari[contents[f]])
+
+        addline=`
+            <div id="vars_${result.id}_${contents[f]}" class="out_varbox">
+            <div class="varbox_title">${contents[f]}</div>
+            ${addtoadd}
+            </div>
+        `
+        document.querySelector(`#out_adcart${result.id}`).insertAdjacentHTML('beforeend', addline)
+
+    }
+})*/
 function changeQuantity(id){
     cartamount[incart.indexOf(id)]=(document.querySelector(`#cartdbid${id}`).value)
     fullprice=0;
@@ -89,7 +149,10 @@ function removeItem(id){
 
     setCookie2('cartamount', cartamount,1)
     setCookie2('cart', incart, 1)
-    document.querySelector(`#adline${id}`).remove()
+    document.querySelector(`#out_adcart${id}`).remove()
+    setTimeout(function () {
+        location.replace(location.href);
+    },500);
 }
 
 function alertison(aler){
@@ -180,3 +243,7 @@ function deleteAll(){
         document.location.href="/";
     },500);
 }
+
+document.querySelector('.cassapay').addEventListener('click', function (){
+    console.log("anyad")
+})

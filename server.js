@@ -95,7 +95,34 @@ const {IP2Proxy} = require("ip2proxy-nodejs");
 app.all('/admin/*', (req,res, next) =>{
     res.send("Nah-ah")
 });
+app.get('/cart', function(req, res){
+    //res.sendFile(__dirname + "/public/index.html");
+    res.render('cart', {});
+});
+app.post('/cart', (req, res) => {
+    res.send('jojo')
+    console.log(req.body)
+    let ids=req.body.id
+    ids = ids.map(function (x) {
+        return parseInt(x, 10);
+    });
+    let db=req.body.id
+    db = db.map(function (x) {
+        return parseInt(x, 10);
+    });
+    console.log(ids)
+    console.log(db)
+    let bebox="";
+    let addbox;
+    for (l=0;l<ids.length;l++){
+        sql=`SELECT * FROM variations,tetelek where variations.tetel_id=tetelek.id and tetel_id=${con.escape(ids[l])}`
+        con.query(sql, function (err, result, fields) {
+            console.log(result)
 
+        });
+    }
+
+});
 app.get('/admin', (req, res) => {
     res.render('login', {nono:0});
     //res.sendFile(__dirname + '/public/login.html');
@@ -118,10 +145,9 @@ app.get('/', function(req, res){
     //res.sendFile(__dirname + "/public/index.html");
     res.render('suti', {});
 });
-app.get('/cart', function(req, res){
-    //res.sendFile(__dirname + "/public/index.html");
-    res.render('cart', {});
-});
+
+
+
 app.get('/fileup', function(req, res){
     let ipAddress = req.socket.remoteAddress
     ipAddress=ipAddress.slice(7)
@@ -245,6 +271,7 @@ io.on("connection", function(socket){
             socket.emit("storage-query",result);
             //console.log(result)
         });
+
     });
     socket.on('to-querry', function (id){
         sql=`SELECT * FROM storage WHERE storage.id=${con.escape(id)}`
@@ -262,13 +289,21 @@ io.on("connection", function(socket){
             //console.log(result.length)
         });
     })
-    socket.on('insert-variations', function (datas){
-
-        sql=`SELECT * FROM variations WHERE variations.tetel_id=${con.escape(id)}`
+    socket.on('get-all-variations', function (admin){
+        sql=`SELECT * FROM variations,tetelek where variations.tetel_id=tetelek.id`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
-            socket.emit("variations-queried",{id:id, result:result});
+            if (admin==="admin"){
+            socket.emit("all-variations-queried",result)}
             //console.log(result.length)
+        });
+    })
+    socket.on('insert-variations', function (datas){
+
+        sql=`INSERT INTO variations(tetel_id, type, value) VALUES (${con.escape(datas.id)},${con.escape(datas.typeval)},${con.escape(datas.valval)})`
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            //console.log("Number of records inserted: " + result.affectedRows);
         });
     })
     socket.on('into-database', function (datas){

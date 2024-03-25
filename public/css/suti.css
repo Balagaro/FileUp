@@ -192,12 +192,23 @@
 }
 
 .adbles_line{
+
+
+
+    display: flex;
+    align-items: center;
+    height: 120px;
+    width: 100%;
+}
+
+.out_adcart{
     border: 1px solid grey;
     border-radius: 25px;
     background: rgba(222, 222, 222, 0.56);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    height: 120px;
+
     width: 98%;
     margin-top: 20px;
 }
@@ -456,6 +467,46 @@ html{
 .paydetails{
     width: 60%;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.in_adcart{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.out_varbox{
+    width: 80%;
+    padding: 15px;
+    border-radius: 15px;
+    background: #949494;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.varbox_title{
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+}
+
+.feltetsor{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.feltetsor input{
+    width: 20px;
+    height: 20px;
+}
+.formclass{
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;

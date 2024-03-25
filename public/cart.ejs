@@ -106,15 +106,16 @@
                                 Add le rendelésed, fizess online, vagy a kasszánál!
                             </p>
                         </div>
+                        <form class="formclass" action="/cart" method="post">
                         <div class="out_adbles">
                             <button class="deleteall" onclick="deleteAll()">Kosár Törlése</button>
 
                         </div>
                         <div class="paydetails">
                             <div class="fullprice">Ár</div>
-                            <button ontouchstart="document.addEventListener('touchstart', function() {}, false)" class="cassapay">Fizetés a kasszánál</button>
+                            <input type="submit" ontouchstart="document.addEventListener('touchstart', function() {}, false)" class="cassapay" value="Tovább a testreszabáshoz"></input>
                         </div>
-
+                        </form>
                         <div class="outsimplelogodiv">
                             <div class="simplelogodiv">
                                 <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
