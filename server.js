@@ -40,6 +40,16 @@ var con = mysql.createConnection({
 con.connect(function(err) {
     if (err) throw err;
     console.log("Database connected!");
+    sql= "DROP TABLE IF EXISTS rendeles";
+    con.query(sql, function (err, result) {
+        if (err) throw err;
+        //console.log("Number of records deleted: " + result.affectedRows);
+    });
+    sql= "CREATE TABLE rendeles (id INT(11) NOT NULL AUTO_INCREMENT,client_id VARCHAR(25),prog INT(11) NOT NULL, PRIMARY KEY (id), UNIQUE KEY client (client_id))";
+    con.query(sql, function (err, result) {
+        if (err) throw err;
+        //console.log("Number of records deleted: " + result.affectedRows);
+    });
 });
 
 //insert values
@@ -97,7 +107,7 @@ app.all('/admin/*', (req,res, next) =>{
 });
 app.get('/cart', function(req, res){
     //res.sendFile(__dirname + "/public/index.html");
-    res.render('cart', {});
+    res.render('cart', {id:generateShortID()});
 });
 app.post('/cart', (req, res) => {
     res.send('jojo')
@@ -137,7 +147,31 @@ app.post('/admin', (req, res) => {
         res.render('login', {nono: 1});
     }
 });
+app.get('/rendeles', (req, res) => {
+    let clientid=generateShortID()
+    console.log(clientid)
+    res.render('rendeles', {clientid:clientid, majom:""});
+    //res.sendFile(__dirname + '/public/login.html');
+});
 
+app.post('/rendeles', (req, res) => {
+    let client_id=req.body.clientid
+    let sorszam, clientid;
+    sql = `INSERT INTO rendeles(client_id, prog) VALUES ("${client_id}",0)`
+    con.query(sql, function (err, result) {
+        if (err) throw err;
+    });
+    sql=`SELECT * FROM rendeles WHERE rendeles.client_id="${client_id}"`
+    con.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        console.log(result);
+        sorszam=result[0].id
+        clientid=result[0].client_id
+        console.log(sorszam)
+        res.render('rendeles', {clientid:client_id, majom:sorszam});
+    });
+
+});
 let ip2proxy = new IP2Proxy();
 ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");
 
@@ -186,7 +220,7 @@ function generateShortID() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     let counter = 0;
-    while (counter < 5) {
+    while (counter < 20) {
         shortresult += characters.charAt(Math.floor(Math.random() * charactersLength));
         counter += 1;
     }
