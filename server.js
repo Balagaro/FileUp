@@ -220,7 +220,7 @@ app.post('/rendeles', (req, res) => {
             sorszam=result[0].id
             clientid=result[0].client_id
             //console.log(sorszam)
-            res.render('rendeles', {clientid:client_id, majom:sorszam});
+            res.render('rendeles', {clientid:clientid, majom:sorszam});
         } else{
             sql = `INSERT INTO rendeles(client_id, prog,ar) VALUES ("${client_id}",0,${con.escape(price)})`
             con.query(sql, function (err, result) {
@@ -236,7 +236,7 @@ app.post('/rendeles', (req, res) => {
                 sorszam=result[0].id
                 clientid=result[0].client_id
                 //console.log(sorszam)
-                res.render('rendeles', {clientid:client_id, majom:sorszam,price:price});
+                res.render('rendeles', {clientid:clientid, majom:sorszam,price:price});
                 //console.log(req.body.vari)
                 let posted=req.body
                 //console.log(sorszam)
