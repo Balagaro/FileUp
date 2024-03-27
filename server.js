@@ -202,7 +202,7 @@ app.post('/admin', (req, res) => {
     }
 });
 app.get('/rendeles', (req, res) => {
-    res.render('rendeles', { majom:"Önnek nincsen aktív rendelése."});
+    res.render('rendeles', { clientid:"", majom:"Önnek nincsen aktív rendelése."});
 });
 
 app.post('/rendeles', (req, res) => {
@@ -220,7 +220,7 @@ app.post('/rendeles', (req, res) => {
             sorszam=result[0].id
             clientid=result[0].client_id
             //console.log(sorszam)
-            res.render('rendeles', {clientid:clientid, majom:sorszam});
+            res.render('rendeles', {clientid:client_id, majom:sorszam});
         } else{
             sql = `INSERT INTO rendeles(client_id, prog,ar) VALUES ("${client_id}",0,${con.escape(price)})`
             con.query(sql, function (err, result) {
@@ -236,7 +236,7 @@ app.post('/rendeles', (req, res) => {
                 sorszam=result[0].id
                 clientid=result[0].client_id
                 //console.log(sorszam)
-                res.render('rendeles', {clientid:clientid, majom:sorszam,price:price});
+                res.render('rendeles', {clientid:client_id, majom:sorszam,price:price});
                 //console.log(req.body.vari)
                 let posted=req.body
                 //console.log(sorszam)
@@ -456,12 +456,13 @@ io.on("connection", function(socket){
                 curdb=curdb.map(function (x) {
                     return parseInt(x, 10);
                 });
-                //console.log(curid)
-                sql=`SELECT variations.type, tetelek.id, tetelek.megnev, variations.tetel_id, variations.value, variations.variation_id, tetelek.picture FROM variations,tetelek WHERE variations.tetel_id=tetelek.id and variations.variation_id=${con.escape(curdb[0])}`
-                con.query(sql, function (err, results, fields) {
+                let circur=curdb[b]
+                console.log(curdb)
+                //let sqlci=[`SELECT variations.type, tetelek.id, tetelek.megnev, variations.tetel_id, variations.value, variations.variation_id, tetelek.picture FROM variations,tetelek WHERE variations.tetel_id=tetelek.id and variations.variation_id=${con.escape(curdb[0])}`,circur]
+                /*con.query(sql, function (err, results, fields) {
                     if (err) throw err;
                     varrakas.push([results,curdb[1]])
-                });
+                });*/
             }
             setTimeout(function () {
                 socket.in('admin').emit('minem',[varrakas, titok])
@@ -587,11 +588,13 @@ io.on("connection", function(socket){
                 },500);
 
                 for (b=0;b<varis.length;b++){
+
                     let curdb=varis[b].split('_')
+                    console.log(curdb)
                     curdb=curdb.map(function (x) {
                         return parseInt(x, 10);
                     });
-                    if (curdb.length===0){
+                    if (curdb.length===0 || curdb[0]==="NaN"){
                         sql=`SELECT variations.type, tetelek.id, tetelek.megnev, variations.tetel_id, variations.value, variations.variation_id, tetelek.picture FROM variations,tetelek WHERE variations.tetel_id=tetelek.id`
                         con.query(sql, function (err, results, fields) {
                             if (err) throw err;

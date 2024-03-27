@@ -100,5 +100,3 @@ function checkCookie(cname) {
     }
 }
 
-eraseCookie('cart')
-eraseCookie('cartamount')
