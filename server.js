@@ -42,7 +42,7 @@ var con = mysql.createConnection({
 con.connect(function(err) {
     if (err) throw err;
     console.log("Database connected!");
-    /*
+
     sql= "DROP TABLE IF EXISTS rendeles";
     con.query(sql, function (err, result) {
         if (err) throw err;
@@ -58,7 +58,7 @@ con.connect(function(err) {
         if (err) throw err;
         //console.log("Number of records deleted: " + result.affectedRows);
     });
-    //sql= "CREATE TABLE rendeles (id INT(11) NOT NULL AUTO_INCREMENT,client_id VARCHAR(25),prog INT(11) NOT NULL, PRIMARY KEY (id), UNIQUE KEY client (client_id))";
+    //sql= "CREATE TABLE rendeles (id INT(11) NOT NULL AUTO_INCREMENT,client_id VARCHAR(25),prog INT(11) NOT NULL,ar INT(11) NOT NULL, PRIMARY KEY (id), UNIQUE KEY client (client_id))";
     sql=`CREATE TABLE ordered (
         order_id int(11) NOT NULL AUTO_INCREMENT,
         sorszam int(11) NOT NULL,
@@ -70,7 +70,7 @@ con.connect(function(err) {
     con.query(sql, function (err, result) {
         if (err) throw err;
         //console.log("Number of records deleted: " + result.affectedRows);
-    });*/
+    });
 });
 
 //insert values
