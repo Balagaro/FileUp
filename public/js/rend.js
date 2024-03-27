@@ -69,7 +69,6 @@ function eraseCookie(name) {
 }*/
 
 function eraseCookie(name) {
-    document.querySelector('.outloader').style=
         document.cookie = name+'=; Max-Age=-99999999;';
 
     setTimeout(function () {
