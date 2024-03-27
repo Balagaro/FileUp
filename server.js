@@ -458,11 +458,12 @@ io.on("connection", function(socket){
                 });
                 let circur=curdb[b]
                 console.log(curdb)
-                //let sqlci=[`SELECT variations.type, tetelek.id, tetelek.megnev, variations.tetel_id, variations.value, variations.variation_id, tetelek.picture FROM variations,tetelek WHERE variations.tetel_id=tetelek.id and variations.variation_id=${con.escape(curdb[0])}`,circur]
-                /*con.query(sql, function (err, results, fields) {
+                if (curdb.length!==0 || curdb[0]!=="NaN"){
+                sql=`SELECT variations.type, tetelek.id, tetelek.megnev, variations.tetel_id, variations.value, variations.variation_id, tetelek.picture FROM variations,tetelek WHERE variations.tetel_id=tetelek.id and variations.variation_id=${con.escape(curdb[0])}`
+                con.query(sql, function (err, results, fields) {
                     if (err) throw err;
                     varrakas.push([results,curdb[1]])
-                });*/
+                });}
             }
             setTimeout(function () {
                 socket.in('admin').emit('minem',[varrakas, titok])
