@@ -48,7 +48,7 @@ con.connect(function(err) {
         if (err) throw err;
         //console.log("Number of records deleted: " + result.affectedRows);
     });
-    sql= "CREATE TABLE rendeles (id INT(11) NOT NULL AUTO_INCREMENT,client_id VARCHAR(25),prog INT(11) NOT NULL, PRIMARY KEY (id), UNIQUE KEY client (client_id))";
+    sql= "CREATE TABLE rendeles (id INT(11) NOT NULL AUTO_INCREMENT,client_id VARCHAR(25),prog INT(11) NOT NULL, PRIMARY KEY (id),ar INT(11) NOT NULL, UNIQUE KEY client (client_id))";
     con.query(sql, function (err, result) {
         if (err) throw err;
         //console.log("Number of records deleted: " + result.affectedRows);
