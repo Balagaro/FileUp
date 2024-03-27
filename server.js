@@ -470,7 +470,7 @@ io.on("connection", function(socket){
                     con.query(sql, function (err, results, fields) {
                         if (err) throw err;
                         varrakas.push([results,curdb[1]])
-                    });}catch(e){
+                    });}catch(error){
                         sql=`SELECT variations.type, tetelek.id, tetelek.megnev, variations.tetel_id, variations.value, variations.variation_id, tetelek.picture FROM variations,tetelek WHERE variations.tetel_id=tetelek.id`
                         con.query(sql, function (err, results, fields) {
                             if (err) throw err;
