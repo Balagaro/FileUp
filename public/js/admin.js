@@ -1,5 +1,6 @@
 let addmodline;
 const socket = io();
+socket.emit('admin-join', 'admin')
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -85,10 +86,10 @@ document.querySelector('.modifyvar').addEventListener('click', function (){
     modvari.classList.toggle('hover')
     addvari.classList.toggle('disbox')
     modvari.classList.toggle('activebox')
-    socket.emit('get-all-variations',"admin")
+    //socket.emit('get-all-variations',"admin")
 
 })
-
+socket.emit('get-all-variations',"admin")
 document.querySelector('.queryvar').addEventListener('click', function (){
     upload.classList.toggle('hover')
     query.classList.toggle('hover')
@@ -98,9 +99,8 @@ document.querySelector('.queryvar').addEventListener('click', function (){
     addvari.classList.toggle('activebox')
 });
 
-socket.emit('admin-join',{
-    id:"admin"
-})
+
+
 let queried={};
 socket.emit('items-req',{
     id:"admin"
@@ -481,7 +481,118 @@ function myFunction() {
         }
     }
 }
+function myFunctionVar() {
+    let input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("storage_barvar");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("in-vari");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
 
-socket.on('all-variations-queried', function (datas){
+
+let adduzenet;
+let varakozok1=[]
+let varakozok2=[]
+let varakozok3=[]
+
+socket.on('titkosuzenet', function (uzenet){
+    if (varakozok3.includes(uzenet['client_id'])){}else{
+        varakozok3.push(uzenet['client_id'])
+
+    adduzenet=`
+    
+    <div class="orderbox" id="${uzenet['client_id']}">
+    <div class="ordermontitle"><button onclick="ready('${uzenet['client_id']}')">elkeszult</button>
+    
+    <div class="sorszambox">${uzenet['sorszam']}</div></div>
+    <div class="arbox">${uzenet['ar']}Ft</div>
+    <input class="fizetette" type="checkbox">
+    
+</div>
+    `
+    document.querySelector('.rendelesek').insertAdjacentHTML('beforeend',adduzenet)
+
+    }})
+
+socket.on('tibike', function (datas){
+    let data=datas[0]
     console.log(datas)
+    if (varakozok1.indexOf(datas[1])===-1){
+        for (a=0;a<data.length;a++){
+            adduzenet=`
+<div class="orderboxsor_title">${data[a][0]}</div>
+            <div class="orderbox_sor" id="${datas[1]}${data[a][0]}${data[a][1]}">
+            
+
+</div>
+            `
+            document.querySelector(`#${datas[1]}`).insertAdjacentHTML('beforeend', adduzenet)
+
+            }
+            varakozok1.push(datas[1],223232323)
+        }
+    console.log(varakozok1)
+})
+
+socket.on('minem', function (datas){
+    console.log(datas)
+        if (varakozok2.includes(datas[1])){}else{
+            let data = datas[0]
+            console.log(data)
+
+            for (x = 0; x < data.length; x++) {
+                adduzenet = `
+        <div >${data[x][0][0]['type']} : ${data[x][0][0]['value']}</div>
+        `
+
+                //let mukod = `${data[x][0][0]['picture']}_${data[x][1]}`
+                //console.log(mukod)
+                //console.log(document.getElementById(`mukod`).innerHTML)
+                //document.querySelector(`#${data[x][0]['picture']}_${data[x][1]}_${datas[1]}`).insertAdjacentHTML('beforeend', adduzenet)
+                console.log(`#${datas[1]}${data[x][0][0]['picture']}${data[x][1]}`)
+                document.querySelector(`#${datas[1]}${data[x][0][0]['picture']}${data[x][1]}`).insertAdjacentHTML('beforeend', adduzenet)
+            }
+
+            varakozok2.push(datas[1])
+        }
+})
+
+
+function ready(id){
+    varakozok1 = varakozok1.filter(e => e !== id);
+    varakozok2 = varakozok2.filter(e => e !== id);
+    varakozok3 = varakozok3.filter(e => e !== id);
+    socket.emit('elkeszult-neger',id)
+    document.getElementById(`${id}`).remove();
+}
+
+socket.emit('adide','alma')
+
+
+socket.on('all-variations-queried', function (data){
+    //console.log(data)
+    instorage=data
+    for (let i=0;i<data.length;i++){
+        currdata=data[i]
+        console.log(currdata)
+        addline=`
+        <li id="${i}_${currdata.variation_id}">
+        <div class="storid">${currdata.id}</div>
+        <a href="#">${currdata.megnev}</a>
+        <div class="storcount">${currdata.value}</div>
+        <button onclick="modStor(${i},${currdata.id})" class="varmod">modify</button>
+        
+        </li>
+        `
+        document.querySelector('#in-vari').insertAdjacentHTML('beforeend', addline);
+    }
 })

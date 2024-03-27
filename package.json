@@ -37,6 +37,7 @@
     "serve": "^14.2.1",
     "socket.io": "^4.7.2",
     "vhost": "^3.0.2",
+    "wait-until": "^0.0.2",
     "winston": "^3.11.0",
     "winston-loki": "^6.0.8"
   },

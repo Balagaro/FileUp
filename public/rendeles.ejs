@@ -28,6 +28,7 @@
         gtag('js', new Date());
 
         gtag('config', 'G-WS5TP44M9P');
+        const client=`<%=clientid%>`
     </script>
     <link rel="apple-touch-icon" href="test/apple-icon-180.png">
 
@@ -108,18 +109,22 @@
                         <div class="bevezetok">
                             <h1 class="welcome">Üdvözli a FileUp - Teaház!</h1>
                             <p class="bevezetoszoveg">
-                                Add le rendelésed online!
+                                Köszönjük a rendelésed!
+                            </p>
+                            <p class="bevezetoszoveg">
+
+                            </p>
+                            <p class="bevezetoszoveg">
+                                Amíg elkészítjük a rendelést, kérjük fizessen a kasszánál.
                             </p>
                         </div>
 
-                        <form action="/rendeles" method="post">
-                            <input type="text" name="clientid" value=<%= clientid %>>
-                            <input type="submit">
-                        </form>
+
                         <div class="rendelessor">
                             <div>Rendelésed száma:</div>
-                            <div style="font-size: 30px"><%=majom%></div>
+                            <div class="order_number"><%=majom%></div>
                         </div>
+                        <div class="readyrendel"></div>
                         <div class="outsimplelogodiv">
                             <div class="simplelogodiv">
                                 <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
@@ -162,7 +167,7 @@
 
 </div>
 <script type="text/javascript" src="modules/socket.io/client-dist/socket.io.js"></script>
-<script src="js/suti.js"></script>
+<script type="text/javascript" src="js/rend.js"  ></script>
 <script src="/mobile/checkcookies.js"></script>
 <script>
 

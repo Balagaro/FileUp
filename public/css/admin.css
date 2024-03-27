@@ -429,3 +429,84 @@ body {
 .upvalueform{
     margin-left: 10px;
 }
+.orderbox{
+    margin: 15px;
+    width: 300px;
+    margin-top: 30px;
+    background: #b2b2b2;
+    border: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.orderbox button{
+    background: none;
+
+    display: flex;
+    align-items: center;
+    background: #ff0000;
+    justify-content: center;
+    width: 150px;
+    height: 30px;
+    padding: 0px;
+    border-radius: 5px;
+    color: white;
+}
+.orderbox button:hover{
+    cursor: pointer;
+}
+.ordermontitle{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sorszambox{
+    font-size: 30px;
+}
+
+.orderboxsor_title{
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    color: black;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+    border-top: 1px solid black;
+}
+.rendelesek{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.arbox{
+    font-size: 40px;
+}
+.fizetette{
+    height: 40px;
+    width: 40px;
+    border-radius: 40%;
+}
+#storage_barvar{
+    width: 90%;
+    height: 40px;
+}
+#in-vari{
+    list-style: none;
+
+}
+#in-vari li{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    margin: auto;
+}
+#in-vari li a{
+    text-decoration: none;
+    color: black;
+}
+#in-vari li a:hover{
+    cursor: unset;
+}

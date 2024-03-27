@@ -143,11 +143,13 @@ function addToCart(id) {
 Notification.requestPermission().then(function (permission) {
     console.log(permission);
 });
-
+/*
 const maxVisibleActions = window.Notification?.maxActions;
 
 if (maxVisibleActions) {
     options.body = `Up to ${maxVisibleActions} notification actions can be displayed.`;
 } else {
     options.body = 'Notification actions are not supported.';
-}ration.showNotification(title, options);
+}ration.showNotification(title, options);*/
+
+

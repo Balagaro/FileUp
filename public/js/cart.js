@@ -71,7 +71,7 @@ socket.on('storage-query',function(data){
 
             document.querySelector(`.out_adbles`).insertAdjacentHTML('beforeend', addline);
 }
-        document.querySelector('.fullprice').innerHTML=`${fullprice}Ft`
+        document.querySelector('.fullprice').value=`${fullprice}Ft`
         //console.log()
     }});
 

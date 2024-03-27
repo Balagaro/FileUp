@@ -2,18 +2,24 @@
 <html lang="hu">
 
 <head>
+    <!--<script src="modules/grub/src/redirection-mobile.js"></script>
+
+
+   <script>
+       SA.redirection_mobile ({
+           mobile_url : "fileup.site/m/",
+           mobile_prefix : "https"
+       });
+   </script>-->
 
     <meta name="theme-color" content="#ffffff"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>FileUp - Admin</title>
+    <title>FileUp - Kosár</title>
     <link rel="icon" type="image/x-icon" href="docs/logo/favicon.ico">
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/frontpage.css">
-
-    <link rel="stylesheet" href="css/login.css">
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/suti.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WS5TP44M9P"></script>
     <script>
@@ -57,116 +63,88 @@
     <link rel="apple-touch-startup-image" href="test/apple-splash-1334-750.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
     <link rel="apple-touch-startup-image" href="test/apple-splash-640-1136.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="test/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-
+    <!--
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />-->
     <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-auth.js"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap" rel="stylesheet">
-
-
+    <script>
+        let idk=`<%=id%>`
+        let dbk=`<%=dbok%>`
+        const clientid=`<%=clientid%>`
+    </script>
 </head>
 
-<body>
-<div class="block_cookies">
+<body onload="checkifcookies()">
 
+<div class="fromtopalert">
+    <div class="alerttext">fortnite battlepass megvasarolva</div>
 </div>
 
 
+<div class="block_pass"></div>
+<div class="block_cookies"></div>
+
+<div class="backgroundtea">
+    <div class="background"></div>
+</div>
 <div class="outer-container">
 
     <div class="inner-container">
-        <div class="leftdiv">
 
-
-        </div>
 
         <div class="maindiv">
 
-            <div class="logoline"><a href="/admin">
-                    <img id="mainlogo" src="/docs/logo/adminlogo.png" alt="Logo"></a>
+            <div class="logolinecart"><a href="/">
+                    <img id="mainlogo" src="/sutik/fileupxtea.png" alt="Logo"></a>
             </div>
 
             <div class="out-box">
-                <!-- style="display: none;position: absolute"-->
-                <div class="outloader" style="display: none;position: absolute">
-                    <div class="loader"></div>
-                    <div class="loadexit">Kilépés...</div>
-                </div>
                 <div class="box">
-                    <button  onclick="eraseCookie('admin')" class="logout">logout</button>
                     <div class="in-box">
-                        <div class="boxtitle">Sutivasar Kezelopult</div>
-                        <div class="chooseboxes">
-                            <div class="chooseb uploadbox hover">
-
-                                <div class="chtitle additem">Tételek hozzáadása</div>
-                                <div class="uploadablebox">
-                                    <div id="uploadinthis">
-
-                                    </div>
-                                <button class="uptodatabase">mehet!</button></div>
-                                <div class="inupload"></div>
-                            </div>
-                            <div class="chooseb querybox hover">
-                                <div class="chtitle queryitem">Tételek módosítása</div>
-                                <div class="inquery">
-                                    <div class="searchdiv">
-                                        <input type="text" id="storage_bar" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-                                    </div>
-                                    <div class="out-storage">
-                                        <ul id="in-storage">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <div class="bevezetok">
+                            <h1 class="welcome">Kosár</h1>
+                            <p class="bevezetoszoveg">
+                                Add le rendelésed online, és fizess kasszánál!
+                            </p>
                         </div>
+                        <form class="formclass" action="/rendeles" method="post">
+                            <input style="display: none;position: absolute" name="clientid" type="text" readonly value=<%=clientid%>>
+                            <div class="out_adbles">
 
-                        <div class="secondboxes">
-
-                        <div class="chooseb variations hover">
-                            <div class="chtitle queryvar">Variációk hozzáadása</div>
-                            <div class="uploadablemodbox">
-                                <div id="uploadmodinthis">
-
-                                </div>
-                                <button class="upmodtodatabase">mehet!</button>
-                                </div>
-
-                            <div class="modinupload"></div></div>
-
-
-                            <div class="chooseb modvar hover">
-                                <div class="chtitle modifyvar">Variációk módosítása</div>
-                                <div class="inquery">
-                                    <div class="searchdiv">
-                                        <input type="text" id="storage_barvar" onkeyup="myFunctionVar()" placeholder="Search for names.." title="Type in a name">
-                                    </div>
-                                    <div class="out-vari">
-                                        <ul id="in-vari">
-                                        </ul>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="paydetails">
+                                <input readonly class="fullprice" name="price" type="text" value="<%=price%>">
+                                <input type="submit" ontouchstart="document.addEventListener('touchstart', function() {}, false)" class="cassapay" value="Fizetés a kasszánál"></input>
+                            </div>
+                        </form>
+                        <div class="outsimplelogodiv">
+                            <div class="simplelogodiv">
+                                <img src="/docs/logo/logosimple.png" alt="easy, quick, safe">
                             </div>
                         </div>
-
-                        <div class="rendelesek">
-
-
-
-
-
-                        </div>
-
+                        <div class="conditions">
+                            <p>A szolgálatás igénybevételével elfogadja annak
+                                általános használati feltételeit,
+                                és adatkezelési nyilatkozatát.</p>
                         </div>
 
                     </div>
                 </div>
             </div>
+
+
         </div>
+
         <div class="rightdiv">
+
+
+            <div><a target=”_blank” href="https://discord.gg/MeqaGhc6QN"><img class="connection-logo"
+                                                                              src="/docs/assets/connections/discord.png" alt=""></a></div>
+            <div><a target=”_blank” href="https://github.com/Balagaro/FileUp"><img class="connection-logo"
+                                                                                   src="/docs/assets/connections/github.png" alt=""></a></div>
 
         </div>
 
@@ -176,24 +154,17 @@
 
 <div id="modalbox">
     <img src="./docs/images/cookies.png" class="cookies">
-    <p>Az oldal optimális és jogszerű használata érdekében, az oldal sütiket és a felhasználó Internet Protocoll Address-ét használja fel. <br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
+    <p>Az oldal sütiket használ. <br> <!--<a href="https://en.wikipedia.org/wiki/HTTP_cookie">More info...</a>--> </p>
     <div id="buttons">
-        <button type="button" onclick="closeModal_accept()" >Elfogadás</button>
-        <button type="button" onclick="closeModal_decline()">Elutasítás</button>
+        <button type="button" onclick="closeModal_accept(document.querySelector('.block_cookies'),document.getElementById('modalbox'))" >Elfogadás</button>
+        <button type="button" onclick="closeModal_decline(document.querySelector('.block_cookies'),document.getElementById('modalbox'))">Elutasítás</button>
     </div>
 
 </div>
-
-
+<script type="text/javascript" src="modules/socket.io/client-dist/socket.io.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+<script src="/mobile/checkcookies.js"></script>
 <script>
-    let nope=`<%= nono %>`;
-    /*
-    setTimeout(function () {
-        if (nope==="1"){
-            window.alert("Biztos jó helyen jár? - Mindenesetre a beírt adatok helytelenek.")
-        }
-    },500);*/
-
 
     function toggleMenu(x) {
         x.classList.toggle("change");
@@ -205,7 +176,6 @@
         navigator.serviceWorker.register('/service_worker.js')
     }
 </script>
-<script type="text/javascript" src="modules/socket.io/client-dist/socket.io.js"></script>
 <script type="javascript">
 
     const pwaAssetGenerator = require('pwa-asset-generator');
@@ -232,30 +202,7 @@
         navigator.serviceWorker.register('/service_worker.json')
     }
 </script>
-<script id="cookies-script">
 
-    let modalbox = document.getElementById("modalbox");
-    let blockbox=document.querySelector('.block_cookies')
-    function showModal(){
-        blockbox.classList.add("sutikvegig")
-        setTimeout(() => {
-            modalbox.style.display = "block"
-
-        }, 500);
-    }
-
-
-
-    function closeModal_accept(){
-        modalbox.style.display = "none"
-        blockbox.classList.remove("sutikvegig")
-    }
-
-    function closeModal_decline(){
-        modalbox.style.display = "none"
-    }
-
-</script>
 
 <script type="text/javascript">
     const module = {};
@@ -266,8 +213,6 @@
     module.gog = gog;
 
 </script>
-<script type="text/javascript" src="js/admin.js"></script>
-<script type="text/javascript" src="js/adminmods.js"></script>
 </body>
 
 </html>

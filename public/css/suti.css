@@ -192,9 +192,6 @@
 }
 
 .adbles_line{
-
-
-
     display: flex;
     align-items: center;
     height: 120px;
@@ -446,14 +443,19 @@ html{
 .fullprice{
     display: flex;
     justify-content: center;
+    border: none;
+    background: none;
+    text-align: center;
     border-top: 4px solid grey;
     margin-top: 30px;
     color: black;
+    width: 120px;
     font-family: "Madimi One", sans-serif;
     font-weight: 400;
     font-style: normal;
     font-size: 35px;
     color: black;
+
 }
 .cassapay{
     width: 100%;
@@ -511,8 +513,67 @@ html{
     flex-direction: column;
     align-items: center;
 }
+.custom_line{
+    display: flex;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    border-radius: 15px;
+    border: 1px solid grey;
+    background: #bdbdbd;
+}
 .rendelessor{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.order_number{
+    font-size: 50px;
+}
+.cust_box{
+    width: 80%;
+
+    border: 3px solid black;
+    padding: 15px;
+    border-radius: 15px;
+    margin-top: 20px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.cust_title{
+    width: 100%;
+    text-align: center;
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    color: black;
+
+}
+.cust_inline{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+ }
+.cust_inline label{
+    font-size: 20px;
+}
+.cust_inline input{
+    width: 30px;
+    height: 30px;
+}
+.readyrendel img{
+    width: 200px;
+    margin-top: 20px;
+}
+.readyrendel{
     display: flex;
     flex-direction: column;
     align-items: center;
