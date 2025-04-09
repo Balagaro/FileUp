@@ -23,12 +23,45 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WS5TP44M9P"></script>
     <script>
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) === 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            let expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
         gtag('config', 'G-WS5TP44M9P');
-        const client=`<%=clientid%>`
+        let client;
+
+
+        try {
+            client=`<%=clientid%>`;
+
+            setCookie('clientid', client);
+        } catch (e) {
+            client = getCookie('clientid');
+        }
+
+
+        //const client=getCookie('clientid');
     </script>
     <link rel="apple-touch-icon" href="test/apple-icon-180.png">
 
@@ -171,7 +204,7 @@
 <script src="/mobile/checkcookies.js"></script>
 <script>
 
-
+    console.log(client);
     function toggleMenu(x) {
         x.classList.toggle("change");
         document.getElementById('menuoszlop').classList.toggle('activeoszlop');

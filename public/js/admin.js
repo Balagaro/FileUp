@@ -525,7 +525,7 @@ socket.on('titkosuzenet', function (uzenet){
 
 socket.on('tibike', function (datas){
     let data=datas[0]
-    console.log(datas)
+    console.log("jöttvalami")
     if (varakozok1.indexOf(datas[1])===-1){
         for (a=0;a<data.length;a++){
             adduzenet=`

@@ -26,7 +26,7 @@ let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 let sql="";
 
 var con = mysql.createConnection({
-    host: "80.252.63.217",
+    host: "localhost",
     user: "SutiVasar",
     password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
     database: "sutivasar"
@@ -132,7 +132,18 @@ app.get('/cart', function(req, res){
 });
 app.post('/customise', (req, res) => {
     //console.log("req.body")
-    let clientid=generateShortID()
+    let clientid
+    let jolesz=false;
+
+    clientid=generateShortID()
+    sql=`SELECT * FROM history WHERE history.id="${clientid}"`
+    con.query(sql, function (err, result, fields) {
+        console.log(result);
+        if (result.length!==0){
+            clientid=generateShortID()
+        }
+    });
+
     let ids=req.body.id
     let price=req.body.price
     let db=req.body.cartdb
@@ -144,8 +155,8 @@ app.post('/customise', (req, res) => {
         db = db.map(function (x) {
             return parseInt(x, 10);});
     }
-    console.log(ids)
-    console.log(db)
+   //console.log(ids)
+   //console.log(db)
     let current,curres;
     let insert=[];
     res.render('custom', {id:ids, dbok:db, clientid:clientid, price:price})
@@ -202,64 +213,77 @@ app.post('/admin', (req, res) => {
     }
 });
 app.get('/rendeles', (req, res) => {
-    res.render('rendeles', { majom:"Önnek nincsen aktív rendelése."});
+    res.render('rendeles', { majom:"Nincs aktív rendelésed."});
 });
 
 app.post('/rendeles', (req, res) => {
     let client_id=req.body.clientid
     let price=req.body.price
     price=parseInt(price.slice(0, -2))
-    console.log(client_id)
-    console.log(req.body)
-    let sorszam, clientid;
+   //console.log(client_id)
+   //console.log('anyad')
+   //console.log(req.body)
+    let sorszamok, clientid;
     sql=`SELECT * FROM rendeles WHERE rendeles.client_id="${client_id}"`
     con.query(sql, function (err, result, fields) {
         if (err) throw err;
-        //console.log(result);
+        console.log(result);
         if (result.length!==0){
-            sorszam=result[0].id
+            sorszamok=result[0].id
             clientid=result[0].client_id
             //console.log(sorszam)
-            res.render('rendeles', {clientid:client_id, majom:sorszam});
+            res.render('rendeles', {clientid:client_id, majom:sorszamok});
         } else{
-            sql = `INSERT INTO rendeles(client_id, prog,ar) VALUES ("${client_id}",0,${con.escape(price)})`
-            con.query(sql, function (err, result) {
-                if (err) throw err;
-            });
-            sql=`SELECT * FROM rendeles WHERE rendeles.client_id="${client_id}"`
+            sql=`SELECT * FROM history WHERE history.id="${client_id}"`
             con.query(sql, function (err, result, fields) {
-                if (err) throw err;
-                //console.log('res1')
-                //console.log(result);
-                //console.log('res2')
+                if (result.length===0){
 
-                sorszam=result[0].id
-                clientid=result[0].client_id
-                //console.log(sorszam)
-                res.render('rendeles', {clientid:client_id, majom:sorszam,price:price});
-                //console.log(req.body.vari)
-                let posted=req.body
-                //console.log(sorszam)
-                //console.log(posted['tetel'])
-                if (posted['tetel']!==undefined){
-                    if (posted['vari']===undefined){
-                        sql = `INSERT INTO ordered(sorszam, ids, vari) VALUES (${con.escape(sorszam)},'${(posted['tetel'])}','')`
-                    } else{
-                        sql = `INSERT INTO ordered(sorszam, ids, vari) VALUES (${con.escape(sorszam)},'${(posted['tetel'])}','${(posted['vari'])}')`
-                    }
-
+                    sql = `INSERT INTO rendeles(client_id, prog,ar) VALUES ("${client_id}",0,${con.escape(price)})`
                     con.query(sql, function (err, result) {
                         if (err) throw err;
                     });
-                }
-                //let date_ob = new Date();
-                //console.log(date_ob.getHours()+":"+date_ob.getMinutes()+":"+date_ob.getSeconds() )
-                /*sql = `INSERT INTO ordered(sorszam, ids, dbs) VALUES (${con.escape(sorszam)},${con.escape(posted['tetel'])},${con.escape(posted['vari'])})`
-                con.query(sql, function (err, result) {
-                    if (err) throw err;
-                });*/
+                    sql=`SELECT * FROM rendeles WHERE rendeles.client_id="${client_id}"`
+                    con.query(sql, function (err, result, fields) {
+                        if (err) throw err;
+                        //console.log('res1')
+                        //console.log(result);
+                        //console.log('res2')
 
+                        sorszamok=(result[0].id)
+                        clientid=result[0].client_id
+                        //console.log(sorszam)
+                        res.render('rendeles', {clientid:client_id, majom:sorszamok,price:price});
+                        //console.log(req.body.vari)
+                        let posted=req.body
+                        //console.log(sorszam)
+                        //console.log(posted['tetel'])
+                        if (posted['tetel']!==undefined){
+                            if (posted['vari']===undefined){
+                                sql = `INSERT INTO ordered(sorszam, ids, vari) VALUES (${con.escape(sorszamok)},'${(posted['tetel'])}','')`
+                            } else{
+                                sql = `INSERT INTO ordered(sorszam, ids, vari) VALUES (${con.escape(sorszamok)},'${(posted['tetel'])}','${(posted['vari'])}')`
+                            }
+
+                            con.query(sql, function (err, result) {
+                                if (err) throw err;
+                            });
+                        }
+                        //let date_ob = new Date();
+                        //console.log(date_ob.getHours()+":"+date_ob.getMinutes()+":"+date_ob.getSeconds() )
+                        /*sql = `INSERT INTO ordered(sorszam, ids, dbs) VALUES (${con.escape(sorszam)},${con.escape(posted['tetel'])},${con.escape(posted['vari'])})`
+                        con.query(sql, function (err, result) {
+                            if (err) throw err;
+                        });*/
+
+                    });
+
+
+                }else{
+                    res.render('rendeles', {clientid:client_id, majom:"Nincs aktív rendelésed."});
+                }
             });
+
+
 
                     
 
@@ -407,10 +431,17 @@ io.on("connection", function(socket){
 
     });
     socket.on('elkeszult-neger', function (id){
-       // //console.log('naja')
-        //console.log(id)
+       //console.log('naja')
+       //console.log(id)
         socket.in(id).emit('gyeremacig',id)
-        var sql = `DELETE FROM ordered , rendeles USING ordered , rendeles  where ordered.sorszam=rendeles.id and rendeles.client_id=${con.escape(id)}`;
+        var sql = `DELETE FROM ordered, rendeles  USING ordered , rendeles  where ordered.sorszam=rendeles.id and rendeles.client_id=${con.escape(id)}`;
+       //console.log(sql)
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            //console.log("Number of records deleted: " + result.affectedRows);
+        });
+        var sql = `INSERT INTO history(id, rendeles) VALUES (${con.escape(id)},'kitudja')`
+        //console.log(sql)
         con.query(sql, function (err, result) {
             if (err) throw err;
             //console.log("Number of records deleted: " + result.affectedRows);
@@ -419,7 +450,8 @@ io.on("connection", function(socket){
     socket.on('utonazuzenet', function (titok){
         //console.log('proba')
         socket.join(titok)
-        //console.log(titok)
+       //console.log(titok)
+       //console.log("titok");
         sql=`SELECT * FROM rendeles,ordered WHERE rendeles.id=ordered.sorszam and rendeles.client_id=${con.escape(titok)}`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
@@ -449,10 +481,12 @@ io.on("connection", function(socket){
              }
             setTimeout(function () {
                 socket.in('admin').emit('tibike',[osszerakas, titok])
-            },500);
+            },1500);
 
+            if (varis[0]!==''){
             for (b=0;b<varis.length;b++){
                 let curdb=varis[b].split('_')
+               //console.log(varis)
                 curdb=curdb.map(function (x) {
                     return parseInt(x, 10);
                 });
@@ -462,10 +496,10 @@ io.on("connection", function(socket){
                     if (err) throw err;
                     varrakas.push([results,curdb[1]])
                 });
-            }
+            }}
             setTimeout(function () {
                 socket.in('admin').emit('minem',[varrakas, titok])
-            },500);
+            },1500);
 
 
         }});
@@ -477,19 +511,19 @@ io.on("connection", function(socket){
         let dbok=ins[1];
         let curid,curdb,sql2;
 
-        console.log(ins)
+       //console.log(ins)
         for (k=0;k<ids.length;k++){
             curid=ids[k]
             curdb=dbok[k]
             let sql_1=[`SELECT ${curdb} db,variations.type,variations.tetel_id, tetelek.megnev, tetelek.picture FROM variations,tetelek where variations.tetel_id=tetelek.id and tetel_id=${con.escape(curid)} GROUP by variations.type`,curid]
 
             con.query(sql_1[0], function (err, result, fields) {
-                console.log(result, "sima", sql_1)
+               //console.log(result, "sima", sql_1)
                 if (result.length===0){
                     sql2=`SELECT ${curdb} db, tetelek.megnev, tetelek.id tetel_id, tetelek.picture FROM tetelek where tetelek.id=${con.escape(sql_1[1])}`
-                    console.log(sql2, "2.sql")
+                   //console.log(sql2, "2.sql")
                     con.query(sql2, function (err, resultok, fields) {
-                        console.log(resultok, "fortnite", sql_1[1])
+                       //console.log(resultok, "fortnite", sql_1[1])
                         socket.emit('requed-var',[0,resultok])
                     })
                 }else{
@@ -585,7 +619,7 @@ io.on("connection", function(socket){
                 setTimeout(function () {
                     socket.emit('tibike',[osszerakas, titok])
                 },500);
-
+                if (varis[0]!==''){
                 for (b=0;b<varis.length;b++){
                     let curdb=varis[b].split('_')
                     curdb=curdb.map(function (x) {
@@ -603,7 +637,7 @@ io.on("connection", function(socket){
                     con.query(sql, function (err, results, fields) {
                         if (err) throw err;
                         varrakas.push([results,curdb[1]])
-                    });}
+                    });}}
                 }
                 setTimeout(function () {
                     socket.emit('minem',[varrakas, titok])
@@ -643,6 +677,7 @@ io.on("connection", function(socket){
             //console.log(result.affectedRows + " record(s) updated");
         });}
     })
+
     socket.on('customer-join', function (){
             //console.log('alma')
             //sql=`INSERT INTO storage(id, darab, ar) VALUES (${con.escape(datas[0])},${con.escape(datas[1])},${con.escape(datas[2])})`
@@ -704,8 +739,8 @@ io.on("connection", function(socket){
     });
 })
 */
-httpServer.listen(80);
-httpsServer.listen(443);
+httpServer.listen(8080);
+httpsServer.listen(4433);
 console.log("SziaSzilard")}
 catch (error){
     //console.log(error)

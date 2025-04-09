@@ -194,8 +194,9 @@
 .adbles_line{
     display: flex;
     align-items: center;
-    height: 120px;
+    height: 150px;
     width: 100%;
+
 }
 
 .out_adcart{
@@ -223,7 +224,7 @@
     font-style: normal;
     font-size: 25px;
     color: black;
-
+    text-align: center;
 }
 
 .description{
