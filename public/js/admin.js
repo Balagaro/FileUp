@@ -522,25 +522,35 @@ socket.on('titkosuzenet', function (uzenet){
     document.querySelector('.rendelesek').insertAdjacentHTML('beforeend',adduzenet)
 
     }})
-
+let gypsy;
 socket.on('tibike', function (datas){
     let data=datas[0]
+    console.log(data)
     console.log("jöttvalami")
-    if (varakozok1.indexOf(datas[1])===-1){
+    if (varakozok1.indexOf(datas[0][1])===-1){
+        console.log(data.length)
         for (a=0;a<data.length;a++){
+
+            gypsy=data[a][0]
+            console.log(gypsy)
             adduzenet=`
-<div class="orderboxsor_title">${data[a][0]}</div>
+<div class="orderboxsor_title">${gypsy}</div>
             <div class="orderbox_sor" id="${datas[1]}${data[a][0]}${data[a][1]}">
             
 
 </div>
             `
-            document.querySelector(`#${datas[1]}`).insertAdjacentHTML('beforeend', adduzenet)
+
+            document.getElementById(`${datas[1]}`).insertAdjacentHTML('beforeend', adduzenet)
+                //document.querySelector(`#${datas[1]}`).insertAdjacentHTML('beforeend', adduzenet)
+
+
+
 
             }
-            varakozok1.push(datas[1],223232323)
+            varakozok1.push(datas[0][1],223232323)
         }
-    console.log(varakozok1)
+    //console.log(varakozok1)
 })
 
 socket.on('minem', function (datas){

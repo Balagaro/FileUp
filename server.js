@@ -213,7 +213,7 @@ app.post('/admin', (req, res) => {
     }
 });
 app.get('/rendeles', (req, res) => {
-    res.render('rendeles', { majom:"Nincs aktív rendelésed."});
+    res.render('rendeles', { majom:"Nincs aktív rendelésed.", clientid:'nincs'});
 });
 
 app.post('/rendeles', (req, res) => {
@@ -572,6 +572,17 @@ io.on("connection", function(socket){
             //console.log(result.length)
         });
     })
+    socket.on('addaszamot', function (id){
+        socket.join(id)
+        console.log('intezem')
+        sql=`SELECT id FROM rendeles WHERE rendeles.client_id="${id}"`
+        con.query(sql, function (err, result, fields) {
+            if (result.length!==0){
+            socket.emit('kaptalszamot', result[0].id);
+            console.log(result[0]);}else{
+                socket.emit('kaptalszamot', 'Nincs aktív rendelésed.');
+            }
+    });});
     socket.on('get-variations', function (id){
         sql=`SELECT * FROM variations WHERE variations.tetel_id=${con.escape(id)}`
         con.query(sql, function (err, result, fields) {
@@ -617,6 +628,7 @@ io.on("connection", function(socket){
                     });
                 }
                 setTimeout(function () {
+                    console.log(osszerakas)
                     socket.emit('tibike',[osszerakas, titok])
                 },500);
                 if (varis[0]!==''){
@@ -739,8 +751,8 @@ io.on("connection", function(socket){
     });
 })
 */
-httpServer.listen(8080);
-httpsServer.listen(4433);
+httpServer.listen(80);
+httpsServer.listen(443);
 console.log("SziaSzilard")}
 catch (error){
     //console.log(error)

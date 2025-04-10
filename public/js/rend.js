@@ -15,9 +15,17 @@ socket=io()
 
 
 
-
+if (refreshed===false){
 socket.emit('utonazuzenet', client)
-
+}else{
+    socket.emit('addaszamot', client)
+}
+socket.on('kaptalszamot', function (id){
+    console.log('fortinajti')
+    document.querySelector('.order_number').innerHTML=`
+    ${id}
+    `
+})
 
 socket.on('gyeremacig', function (id){
     console.log("jovok", id)

@@ -50,12 +50,20 @@
 
         gtag('config', 'G-WS5TP44M9P');
         let client;
-
+        let refreshed=false;
 
         try {
             client=`<%=clientid%>`;
+            if (client==="nincs"){
+                client = getCookie('clientid');
+                refreshed=true;
 
-            setCookie('clientid', client);
+
+
+            } else{
+                setCookie('clientid', client);
+            }
+
         } catch (e) {
             client = getCookie('clientid');
         }
