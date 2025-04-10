@@ -511,7 +511,7 @@ socket.on('titkosuzenet', function (uzenet){
     adduzenet=`
     
     <div class="orderbox" id="${uzenet['client_id']}">
-    <div class="ordermontitle"><button onclick="ready('${uzenet['client_id']}')">elkeszult</button>
+    <div class="ordermontitle"><button class="nemkeszgomb" onclick="ready(['${uzenet['client_id']}', this])">elkészült</button>
     
     <div class="sorszambox">${uzenet['sorszam']}</div></div>
     <div class="arbox">${uzenet['ar']}Ft</div>
@@ -523,6 +523,8 @@ socket.on('titkosuzenet', function (uzenet){
 
     }})
 let gypsy;
+let inrendeles;
+let rendelesilista;
 socket.on('tibike', function (datas){
     let data=datas[0]
     console.log(data)
@@ -544,7 +546,13 @@ socket.on('tibike', function (datas){
             document.getElementById(`${datas[1]}`).insertAdjacentHTML('beforeend', adduzenet)
                 //document.querySelector(`#${datas[1]}`).insertAdjacentHTML('beforeend', adduzenet)
 
-
+            inrendeles=document.getElementById(`${datas[1]}`).getAttribute('ikszde');
+            if (inrendeles===null){
+                rendelesilista=gypsy;
+            }else{
+            rendelesilista=rendelesilista+" "+gypsy}
+            document.getElementById(`${datas[1]}`).setAttribute('ikszde', rendelesilista);
+            console.log(rendelesilista)
 
 
             }
@@ -554,7 +562,8 @@ socket.on('tibike', function (datas){
 })
 
 socket.on('minem', function (datas){
-    console.log(datas)
+    //console.log(datas)
+
         if (varakozok2.includes(datas[1])){}else{
             let data = datas[0]
             console.log(data)
@@ -569,7 +578,7 @@ socket.on('minem', function (datas){
                 //console.log(document.getElementById(`mukod`).innerHTML)
                 //document.querySelector(`#${data[x][0]['picture']}_${data[x][1]}_${datas[1]}`).insertAdjacentHTML('beforeend', adduzenet)
                 console.log(`#${datas[1]}${data[x][0][0]['picture']}${data[x][1]}`)
-                document.querySelector(`#${datas[1]}${data[x][0][0]['picture']}${data[x][1]}`).insertAdjacentHTML('beforeend', adduzenet)
+                document.getElementById(`${datas[1]}${data[x][0][0]['picture']}${data[x][1]}`).insertAdjacentHTML('beforeend', adduzenet)
             }
 
             varakozok2.push(datas[1])
@@ -577,23 +586,38 @@ socket.on('minem', function (datas){
 })
 
 
-function ready(id){
+function ready(datas){
+    let id=datas[0];
+    let ez=datas[1];
+    let kitudja= document.getElementById(`${id}`).getAttribute('ikszde');
+    //console.log(id)
+    //console.log(ez)
+    ez.innerHTML='kész - X';
+    ez.classList.add('keszgomb');
     varakozok1 = varakozok1.filter(e => e !== id);
     varakozok2 = varakozok2.filter(e => e !== id);
     varakozok3 = varakozok3.filter(e => e !== id);
-    socket.emit('elkeszult-neger',id)
+    socket.emit('elkeszult-neger',[id, kitudja])
+    //console.log(ez.getAttribute('ikszde'));
     document.getElementById(`${id}`).remove();
+
+    //ez.setAttribute('onclick', `removeblock('${id}')`)
 }
 
 socket.emit('adide','alma')
-
+/*
+function removeblock(id){
+    //console.log(id)
+    document.getElementById(`${id}`).remove()
+    //document.getElementById(`${id}`).remove()
+}*/
 
 socket.on('all-variations-queried', function (data){
     //console.log(data)
     instorage=data
     for (let i=0;i<data.length;i++){
         currdata=data[i]
-        console.log(currdata)
+        //console.log(currdata)
         addline=`
         <li id="${i}_${currdata.variation_id}">
         <div class="storid">${currdata.id}</div>
@@ -605,4 +629,42 @@ socket.on('all-variations-queried', function (data){
         `
         document.querySelector('#in-vari').insertAdjacentHTML('beforeend', addline);
     }
+})
+
+
+
+function recall(){
+    socket.emit('visszahiv', '10')
+    console.log('kicseng')
+}
+
+socket.on('visszahivva', function(data){
+    console.log(data)
+
+    let szov = data.map(user => `<br>Sorszám: ${user.db} Rendelés: ${user.rendeles}`)
+    szov = `   <div style="display: flex; flex-direction: column; margin-top: 15px; align-items: center "> <div id="visszavissza"><button onclick="visszavissza()">X</button> Korabbi rendelesek:</div> <div >${szov.join(' ')}</div></div>`
+
+
+    document.getElementById('visszabox').innerHTML=szov
+})
+
+function visszavissza(){
+    document.getElementById('visszabox').innerHTML=""
+}
+
+document.querySelector('#skbidifixgomb').addEventListener('click', function(){
+    if (document.querySelector('#skbidijelszo').value==='heisenberg'){
+        socket.emit('sqlreset', 'admin')
+    }
+    document.querySelector('.skibidimikulas').classList.toggle('hidemiku')
+    location.replace(location.href);
+})
+
+function fullreset(){
+    //socket.emit('sqlreset', 'admin')
+}
+
+document.querySelector('.resetgomb').addEventListener('click', function (){
+    console.log('halal')
+    document.querySelector('.skibidimikulas').classList.toggle('hidemiku')
 })

@@ -138,7 +138,7 @@ app.post('/customise', (req, res) => {
     clientid=generateShortID()
     sql=`SELECT * FROM history WHERE history.id="${clientid}"`
     con.query(sql, function (err, result, fields) {
-        console.log(result);
+        //console.log(result);
         if (result.length!==0){
             clientid=generateShortID()
         }
@@ -227,7 +227,7 @@ app.post('/rendeles', (req, res) => {
     sql=`SELECT * FROM rendeles WHERE rendeles.client_id="${client_id}"`
     con.query(sql, function (err, result, fields) {
         if (err) throw err;
-        console.log(result);
+        //console.log(result);
         if (result.length!==0){
             sorszamok=result[0].id
             clientid=result[0].client_id
@@ -430,7 +430,8 @@ io.on("connection", function(socket){
         });
 
     });
-    socket.on('elkeszult-neger', function (id){
+    socket.on('elkeszult-neger', function (datas){
+        let id=datas[0]
        //console.log('naja')
        //console.log(id)
         socket.in(id).emit('gyeremacig',id)
@@ -440,7 +441,7 @@ io.on("connection", function(socket){
             if (err) throw err;
             //console.log("Number of records deleted: " + result.affectedRows);
         });
-        var sql = `INSERT INTO history(id, rendeles) VALUES (${con.escape(id)},'kitudja')`
+        var sql = `INSERT INTO history(id, rendeles) VALUES (${con.escape(id)},${con.escape(datas[1])})`
         //console.log(sql)
         con.query(sql, function (err, result) {
             if (err) throw err;
@@ -515,15 +516,17 @@ io.on("connection", function(socket){
         for (k=0;k<ids.length;k++){
             curid=ids[k]
             curdb=dbok[k]
+            //console.log(curid, curdb)
+
             let sql_1=[`SELECT ${curdb} db,variations.type,variations.tetel_id, tetelek.megnev, tetelek.picture FROM variations,tetelek where variations.tetel_id=tetelek.id and tetel_id=${con.escape(curid)} GROUP by variations.type`,curid]
 
-            con.query(sql_1[0], function (err, result, fields) {
+            con.query(sql_1[0], function (err, result, fields) {    //vannak-e variacioi
                //console.log(result, "sima", sql_1)
-                if (result.length===0){
+                if (result.length===0){   //ha nincsenek variacioi
                     sql2=`SELECT ${curdb} db, tetelek.megnev, tetelek.id tetel_id, tetelek.picture FROM tetelek where tetelek.id=${con.escape(sql_1[1])}`
                    //console.log(sql2, "2.sql")
                     con.query(sql2, function (err, resultok, fields) {
-                       //console.log(resultok, "fortnite", sql_1[1])
+                       //console.log(resultok, "fortnite", sql_1[1]) //mibol hany darab +pic+id
                         socket.emit('requed-var',[0,resultok])
                     })
                 }else{
@@ -532,9 +535,9 @@ io.on("connection", function(socket){
                 for (j=0;j<result.length;j++){
                     //console.log(result[j]["type"])
                     sql=`SELECT ${con.escape(result[j]["db"])} db, tetelek.megnev, tetelek.picture, variations.variation_id, variations.tetel_id, variations.type, variations.value FROM variations,tetelek where variations.tetel_id=tetelek.id and tetel_id=${con.escape(result[j]["tetel_id"])} and variations.type=${con.escape(result[j]["type"])}`
-                    //console.log(sql)
+                    console.log(sql)
                     con.query(sql, function (err, results, fields) {
-                        //console.log(results)
+                        console.log(results)
                         socket.emit('requed-var',[1,results])
                     })
                 }
@@ -572,14 +575,24 @@ io.on("connection", function(socket){
             //console.log(result.length)
         });
     })
+    socket.on('visszahiv', function (data){
+        //console.log('joj')
+        sql='SELECT * FROM `history` WHERE 1 order by db desc limit 10'
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            //console.log(result);
+            socket.emit("visszahivva",result);
+            //console.log(result.length)
+        });
+    })
     socket.on('addaszamot', function (id){
         socket.join(id)
-        console.log('intezem')
+        //console.log('intezem')
         sql=`SELECT id FROM rendeles WHERE rendeles.client_id="${id}"`
         con.query(sql, function (err, result, fields) {
             if (result.length!==0){
             socket.emit('kaptalszamot', result[0].id);
-            console.log(result[0]);}else{
+            //console.log(result[0]);}else{
                 socket.emit('kaptalszamot', 'Nincs aktív rendelésed.');
             }
     });});
@@ -591,6 +604,22 @@ io.on("connection", function(socket){
             //console.log(result.length)
         });
     })
+
+    socket.on('sqlreset', function(data){
+        sql=`Truncate table history`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+        });
+        sql=`Truncate table rendeles`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+        });
+        sql=`Truncate table ordered`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+        });
+    })
+
     socket.on('get-all-variations', function (admin){
         sql=`SELECT * FROM variations,tetelek where variations.tetel_id=tetelek.id`
         con.query(sql, function (err, result, fields) {
@@ -628,7 +657,7 @@ io.on("connection", function(socket){
                     });
                 }
                 setTimeout(function () {
-                    console.log(osszerakas)
+                    //console.log(osszerakas)
                     socket.emit('tibike',[osszerakas, titok])
                 },500);
                 if (varis[0]!==''){
@@ -653,7 +682,7 @@ io.on("connection", function(socket){
                 }
                 setTimeout(function () {
                     socket.emit('minem',[varrakas, titok])
-                },500);
+                },1500);
             }
                 //socket.emit("adomam",result)
             //console.log(result.length)

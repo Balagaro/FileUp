@@ -8,6 +8,15 @@
     color: white;
     transition-duration: 0.2s;
 }
+.nemkeszgomb{
+    color: white;
+    background: #ff0000;
+}
+
+.keszgomb{
+    color:black;
+    background: #00ff3a;
+}
 .logout:hover{
     cursor: pointer;
     scale: 1.02;
@@ -440,11 +449,11 @@ body {
     align-items: center;
 }
 .orderbox button{
-    background: none;
+
 
     display: flex;
     align-items: center;
-    background: #ff0000;
+
     justify-content: center;
     width: 150px;
     height: 30px;
@@ -481,6 +490,12 @@ body {
     flex-wrap: wrap;
     justify-content: space-around;
 }
+.visszabox{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .arbox{
     font-size: 40px;
 }
@@ -509,4 +524,66 @@ body {
 }
 #in-vari li a:hover{
     cursor: unset;
+}
+
+
+
+.recallbutt{
+    position: absolute;
+    -ms-transform: translate(+50%, +50%);
+    transform: translate(+50%, +50%);
+    border-radius: 5px;
+    border: .2px solid black;
+    background-color: #ff0000;
+    color: white;
+    transition-duration: 0.2s;
+}
+
+.recallbutt:hover{
+    cursor: pointer;
+    scale: 1.02;
+}
+
+.hidemiku{
+    position: absolute;
+    display: none;
+}
+
+#visszavissza button{
+    border-radius: 5px;
+    border: .2px solid black;
+    background-color: #ff0000;
+    color: white;
+    transition-duration: 0.2s;
+}
+#visszavissza button:hover{
+    cursor: pointer;
+    scale: 1.02;
+}
+#skbidifixgomb {
+    border-radius: 5px;
+    border: .2px solid black;
+    background-color: #ff0000;
+    color: white;
+    transition-duration: 0.2s;
+}
+#skbidifixgomb:hover{
+    cursor: pointer;
+    scale: 1.02;
+}
+.resetgomb{
+    margin-top: 135px;
+    border-radius: 5px;
+    border: .2px solid #7a0000;
+    background-color: #a9a9a9;
+    color: white;
+    transition-duration: 0.2s;
+}
+.resetgomb:hover{
+    cursor: pointer;
+    scale: 1.02;
+}
+
+#skbidijelszo{
+    margin-top: 10px;
 }

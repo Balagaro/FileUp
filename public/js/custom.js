@@ -1,5 +1,5 @@
-console.log(dbk)
-console.log(idk)
+//console.log(dbk)
+//console.log(idk)
 console.log(clientid)
 dbk=dbk.split(',');
 idk=idk.split(',');
@@ -10,6 +10,8 @@ idk = idk.map(function (x) {
     return parseInt(x, 10);
 });
 const socket=io()
+console.log(idk)
+console.log(dbk)
 socket.emit('req-var', [idk, dbk])
 let inshtml="";
 let intoline,darabszam;
