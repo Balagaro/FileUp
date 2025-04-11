@@ -14,7 +14,10 @@ const mysql = require('mysql');
 const server = require("http");
 const vhost=require('vhost');
 const moment = require("moment");
-
+const options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/sajatdomain.hu/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/sajatdomain.hu/fullchain.pem')
+};
 
 
 let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
@@ -109,7 +112,7 @@ console.log(result[2].address);
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-const httpsServer = https.createServer(app);
+const httpsServer = https.createServer(options, app);
 const httpServer = server.createServer((req, res) => {
     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
     res.end();
