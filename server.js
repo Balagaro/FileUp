@@ -14,10 +14,6 @@ const mysql = require('mysql');
 const server = require("http");
 const vhost=require('vhost');
 const moment = require("moment");
-const options = {
-    key: fs.readFileSync(`./ssl/www.fileup.site.key`),
-    cert: fs.readFileSync(`./ssl/www.fileup.site.crt`)
-};
 
 
 
@@ -113,7 +109,7 @@ console.log(result[2].address);
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-const httpsServer = https.createServer(options, app);
+const httpsServer = https.createServer(app);
 const httpServer = server.createServer((req, res) => {
     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
     res.end();
