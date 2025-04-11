@@ -10,21 +10,23 @@ idk = idk.map(function (x) {
     return parseInt(x, 10);
 });
 const socket=io()
-console.log(idk)
-console.log(dbk)
+//console.log(idk)
+//console.log(dbk)
 socket.emit('req-var', [idk, dbk])
 let inshtml="";
 let intoline,darabszam;
 socket.on('requed-var', function(into){
-    //console.log(into)
+
     intoline=into[1]
 
-    console.log(intoline)
+    console.log("line", intoline)
 
     if (into[1].length>0){
         darabszam=into[1][0]["db"]
+        console.log("db", darabszam)
+        console.log("into", into[0])
         for (dbsz=0;dbsz<darabszam;dbsz++){
-            console.log(into)
+
     if (into[0]===0){
 
        inshtml= `

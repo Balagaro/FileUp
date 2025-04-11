@@ -136,6 +136,7 @@ socket.on('item-query',function(data){
     }
 });
 let instorage,currdata;
+let allvar;
 let insertvari=[];
 let insertvardb=[]
 let alreadytyped={}
@@ -345,6 +346,10 @@ function refresh(){
 
 
 }
+
+
+
+
 let addedup_exitst=[];
 let addedup_exitst_ids={};
 let addedup_new=[];
@@ -614,22 +619,66 @@ function removeblock(id){
 
 socket.on('all-variations-queried', function (data){
     //console.log(data)
-    instorage=data
+    allvar=data
     for (let i=0;i<data.length;i++){
         currdata=data[i]
         //console.log(currdata)
         addline=`
-        <li id="${i}_${currdata.variation_id}">
+        <li id="${i}_${currdata.variation_id}_V">
         <div class="storid">${currdata.id}</div>
         <a href="#">${currdata.megnev}</a>
         <div class="storcount">${currdata.value}</div>
-        <button onclick="modStor(${i},${currdata.id})" class="varmod">modify</button>
+        <button onclick="modVtor(${i},${currdata.id},${currdata.variation_id})" class="varmod">modify</button>
         
         </li>
         `
         document.querySelector('#in-vari').insertAdjacentHTML('beforeend', addline);
     }
 })
+
+function modVtor(index, id, i){
+    //console.log(index)
+
+
+    currdata=allvar[index]
+
+    modli=document.getElementById(`${index}_${i}_V`)
+    //console.log(modli.innerHTML)
+    addline=`
+    <button class="xstor" onclick="cancelVtor(${currdata.variation_id})">X</button>
+    <div class="storid">${currdata.id}</div>
+        <a href="#">${currdata.megnev}</a>
+        <div class="storcount">${currdata.value}</div>
+        <button onclick="megsemVtor('${index}_${i}_V', '${index}', '${currdata.variation_id}')" class="stormod">modify</button>
+    `
+    //freshStor(${index},${currdata.variation_id})
+    modli.innerHTML=addline
+}
+function megsemVtor(id, index, i){
+    modli=document.getElementById(`${id}`)
+    currdata=allvar[index]
+    console.log(currdata)
+    addline=`
+
+        <div class="storid">${currdata.id}</div>
+        <a href="#">${currdata.megnev}</a>
+        <div class="storcount">${currdata.value}</div>
+        <button onclick="modVtor(${i},${currdata.id},${currdata.variation_id})" class="varmod">modify</button>
+        
+        
+        `
+    modli.innerHTML=addline
+}
+
+
+function cancelVtor(id){
+    socket.emit('delete-vari', id)
+    setTimeout(function () {
+        document.querySelector('#in-vari').innerHTML="";
+        socket.emit('get-all-variations',"admin")
+    },1500);
+}
+
 
 
 
