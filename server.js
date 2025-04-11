@@ -793,5 +793,5 @@ httpServer.listen(80);
 httpsServer.listen(443);
 console.log("SziaSzilard")}
 catch (error){
-    //console.log(error)
+    console.log(error)
 }
