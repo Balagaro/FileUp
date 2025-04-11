@@ -15,9 +15,10 @@ const server = require("http");
 const vhost=require('vhost');
 const moment = require("moment");
 const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/sajatdomain.hu/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/sajatdomain.hu/fullchain.pem')
+    key: fs.readFileSync(`./ssl/privkey.pem`),
+    cert: fs.readFileSync(`./ssl/fullchain.pem`)
 };
+
 
 
 let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
