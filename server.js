@@ -26,7 +26,7 @@ let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 let sql="";
 
 var con = mysql.createConnection({
-    host: "localhost",
+    host: "46.107.96.52",
     user: "SutiVasar",
     password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
     database: "sutivasar"
