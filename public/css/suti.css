@@ -76,11 +76,15 @@
     width: 100%;
 
 }
-.conditions, .conditions p{
+.conditions{
+    width: 90%;
+    margin-bottom: 1px;
+}
+.conditions p{
     filter: invert(65%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
     width: 100%;
     text-align: center;
-    margin-bottom: 1px;
+
     font-size: 10px;}
 
 #uploadbutt:hover{
@@ -392,13 +396,26 @@ html{
 }
 .adblestitle{
     border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
     margin-top: 30px;
     padding-top: 5px;
+    padding-bottom: 5px;
     font-size: 30px;
     font-family: "Madimi One", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
+.credits{
+    margin-top: 20px;
+}
+.credits *{
+    filter: invert(30%) saturate(0%) hue-rotate(277deg) brightness(94%) contrast(79%);
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1px;
+    font-size: 10px;
+}
+
 .cartdbin{
     width: 30px;
     margin-right: 5px;
@@ -533,7 +550,19 @@ html{
     align-items: center;
 }
 .order_number{
-    font-size: 50px;
+    font-size: 100px;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+.nincsmajom{
+    font-size: 30px;
+    margin-top: 20px;
+}
+.readyrendtext{
+    font-size: 30px;
+    font-family: "Pacifico", cursive;
+    font-style: normal;
 }
 .cust_box{
     width: 80%;
@@ -578,4 +607,8 @@ html{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.rendszam{
+    font-size: 20px;
+    margin-top: 20px;
 }

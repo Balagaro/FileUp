@@ -214,6 +214,8 @@ app.post('/admin', (req, res) => {
 });
 app.get('/rendeles', (req, res) => {
     res.render('rendeles', { majom:"Nincs aktív rendelésed.", clientid:'nincs'});
+    let client_id=req.body.clientid
+    //console.log(client_id)
 });
 
 app.post('/rendeles', (req, res) => {
@@ -431,6 +433,7 @@ io.on("connection", function(socket){
 
     });
     socket.on('elkeszult-neger', function (datas){
+        const now = new Date();
         let id=datas[0]
        //console.log('naja')
        //console.log(id)
@@ -441,7 +444,7 @@ io.on("connection", function(socket){
             if (err) throw err;
             //console.log("Number of records deleted: " + result.affectedRows);
         });
-        var sql = `INSERT INTO history(id, rendeles) VALUES (${con.escape(id)},${con.escape(datas[1])})`
+        var sql = `INSERT INTO history(id, rendeles, kiadas) VALUES (${con.escape(id)},${con.escape(datas[1])}, ${con.escape(now)})`
         //console.log(sql)
         con.query(sql, function (err, result) {
             if (err) throw err;
@@ -516,7 +519,7 @@ io.on("connection", function(socket){
         for (k=0;k<ids.length;k++){
             curid=ids[k]
             curdb=dbok[k]
-            console.log(curid, curdb)
+            //console.log(curid, curdb)
 
             let sql_1=[`SELECT ${curdb} db,variations.type,variations.tetel_id, tetelek.megnev, tetelek.picture FROM variations,tetelek where variations.tetel_id=tetelek.id and tetel_id=${con.escape(curid)} GROUP by variations.type`,curid]
 
@@ -538,7 +541,7 @@ io.on("connection", function(socket){
                     sql=`SELECT ${con.escape(result[j]["db"])} db, tetelek.megnev, tetelek.picture, variations.variation_id, variations.tetel_id, variations.type, variations.value FROM variations,tetelek where variations.tetel_id=tetelek.id and tetel_id=${con.escape(result[j]["tetel_id"])} and variations.type=${con.escape(result[j]["type"])}`
                     //console.log(sql)
                     con.query(sql, function (err, results, fields) {
-                        console.log(results)
+                        //console.log(results)
                         socket.emit('requed-var',[1,results])
                     })
                 }
@@ -593,7 +596,7 @@ io.on("connection", function(socket){
         con.query(sql, function (err, result, fields) {
             if (result.length!==0){
             socket.emit('kaptalszamot', result[0].id);
-            //console.log(result[0]);}else{
+            }else{
                 socket.emit('kaptalszamot', 'Nincs aktív rendelésed.');
             }
     });});

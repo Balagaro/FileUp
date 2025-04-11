@@ -21,10 +21,12 @@ socket.emit('utonazuzenet', client)
     socket.emit('addaszamot', client)
 }
 socket.on('kaptalszamot', function (id){
+    if (id==='Nincs aktív rendelésed.'){
+        document.querySelector('.order_number').innerHTML=`${id}`
+        document.querySelector('.order_number').classList.add('nincsmajom');
+    }
     console.log('fortinajti')
-    document.querySelector('.order_number').innerHTML=`
-    ${id}
-    `
+    document.querySelector('.order_number').innerHTML=`${id}`
 })
 
 socket.on('gyeremacig', function (id){
@@ -32,11 +34,9 @@ socket.on('gyeremacig', function (id){
     document.querySelector('.readyrendel').innerHTML=`
 <div><img src="sutik/ready.png"></div>
     
-   <div>A rendelésed elkészült!</div>
+   <div class="readyrendtext">A rendelésed elkészült!</div>
     `
-    document.querySelector('.bevezetoszoveg').innerHTML=`
-    A rendelésed elkészült!
-    `
+
 
 })
 
