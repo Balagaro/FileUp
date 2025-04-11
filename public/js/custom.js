@@ -50,6 +50,30 @@ socket.on('requed-var', function(into){
         inshtml+="</div>"
         document.querySelector('.out_adbles').insertAdjacentHTML('beforeend',inshtml)
     }else{
+        if (into[0]===-1){
+            inshtml= `
+    <div style="display: none; position: absolute" class="custom_line" >
+    <input style="position: absolute;display: none" type="text" name="tetel" value="${intoline[0]['tetel_id']}_${dbsz}">
+    <div class="adpic"><img src="sutik/${intoline[0].picture}.png" alt="suti"></div>
+    <div class="description">
+    <div class="adtitle">${intoline[0].megnev}</div>
+    
+</div>
+    `
+            if (intoline[0]["type"]!==undefined){
+                for (d=0;d<intoline.length;d++){
+                    inshtml+=`
+            <div style="display: none; position: absolute" class="cust_box" id="cust_${intoline[d]["tetel_id"]}_${intoline[d]["type"]}_${dbsz}">
+            <div  class="cust_title">${intoline[d]["type"]}</div>
+            
+            </div>
+            `
+                }}
+            inshtml+="</div>"
+            document.querySelector('.out_adbles').insertAdjacentHTML('beforeend',inshtml)
+
+
+        }else{
     for (m=0;m<into[1].length;m++){
 
         console.log(`#cust_${into[1][m]['tetel_id']}_${into[1][m]['type']}_${dbsz}`)
@@ -62,7 +86,7 @@ socket.on('requed-var', function(into){
 </div>
        `
         document.querySelector(`#cust_${into[1][m]['tetel_id']}_${into[1][m]['type']}_${dbsz}`).insertAdjacentHTML('beforeend', inshtml)
-    }
+    }}
 }}}})
 
 

@@ -32,7 +32,7 @@ var con = mysql.createConnection({
     database: "sutivasar"
 });
 /*var con = mysql.createConnection({
-    host: "localhost",
+    host: "46.107.96.52",
     user: "root",
     password: "",
     database: "suti"
@@ -522,15 +522,15 @@ io.on("connection", function(socket){
 
             con.query(sql_1[0], function (err, result, fields) {    //vannak-e variacioi
                //console.log(result, "sima", sql_1)
-                //if (result.length===0){   //ha nincsenek variacioi
-                    //sql2=`SELECT ${curdb} db, tetelek.megnev, tetelek.id tetel_id, tetelek.picture FROM tetelek where tetelek.id=${con.escape(sql_1[1])}`
+                if (result.length===0){   //ha nincsenek variacioi
+                    sql2=`SELECT ${curdb} db, tetelek.megnev, tetelek.id tetel_id, tetelek.picture FROM tetelek where tetelek.id=${con.escape(sql_1[1])}`
                    //console.log(sql2, "2.sql")
-                    //con.query(sql2, function (err, resultok, fields) {
+                    con.query(sql2, function (err, resultok, fields) {
                        //console.log(resultok, "fortnite", sql_1[1]) //mibol hany darab +pic+id
-                        //socket.emit('requed-var',[0,resultok])
-                    //})
-                //}else{
-                if (result.length!==0){
+                        socket.emit('requed-var',[-1,resultok])
+                    })
+                }else{
+                //if (result.length!==0){
                     socket.emit('requed-var',[0,result])
 
                 for (j=0;j<result.length;j++){
