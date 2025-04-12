@@ -205,53 +205,34 @@ const environment = new paypal.core.SandboxEnvironment(
     process.env.PAYPAL_CLIENT_ID,
     process.env.PAYPAL_CLIENT_SECRET
 );
+
+
 const paypalClient = new paypal.core.PayPalHttpClient(environment);
+    app.post('/api/fizetes', async (req, res) => {
+        try {
+            const paymentData = req.body;
+            const stripeToken = paymentData.paymentMethodData.tokenizationData.token; // Stripe token
 
-app.post('/api/fizetes', async (req, res) => {
-    try {
-        const paymentData = req.body;
-        const paypalToken = paymentData.paymentMethodData.tokenizationData.token;
+            const charge = await stripe.charges.create({
+                amount: 1000, // 1000 HUF = 10.00 HUF
+                currency: 'huf',
+                source: stripeToken,
+                description: 'Táncsics Teaház fizetés',
+            });
 
-        const request = new paypal.orders.OrdersCreateRequest();
-        request.requestBody({
-            intent: 'CAPTURE',
-            purchase_units: [{
-                amount: {
-                    currency_code: 'HUF',
-                    value: '10'
-                }
-            }],
-            payment_source: {
-                paypal: {
-                    experience_context: {
-                        payment_method_preference: 'IMMEDIATE_PAYMENT_REQUIRED'
-                    }
-                }
+            if (charge.status === 'succeeded') {
+                console.log('Sikeres Stripe fizetés:', charge);
+                res.json({ success: true, chargeId: charge.id });
+            } else {
+                console.error('Hiba a Stripe fizetés során:', charge);
+                res.status(500).json({ error: 'Hiba történt a Stripe fizetés során.' });
             }
-        });
 
-        const order = await paypalClient.execute(request);
-        const orderID = order.result.id;
-
-        // Itt a PayPal tranzakció azonosítóját (token) használhatod a PayPal API-val való interakcióhoz,
-        // például a fizetés jóváhagyásához (capture).
-
-        const captureRequest = new paypal.orders.OrdersCaptureRequest(orderID);
-        const captureResponse = await paypalClient.execute(captureRequest);
-
-        if (captureResponse.statusCode === 201) {
-            console.log('Sikeres PayPal fizetés:', captureResponse);
-            res.json({ success: true, orderID: orderID, captureID: captureResponse.result.id });
-        } else {
-            console.error('Hiba a PayPal fizetés véglegesítése során:', captureResponse);
-            res.status(500).json({ error: 'Hiba történt a PayPal fizetés véglegesítése során.' });
+        } catch (error) {
+            console.error('Hiba a Stripe fizetés feldolgozása során:', error);
+            res.status(500).json({ error: 'Hiba történt a Stripe fizetés feldolgozása során.' });
         }
-
-    } catch (error) {
-        console.error('Hiba a PayPal fizetés feldolgozása során:', error);
-        res.status(500).json({ error: 'Hiba történt a PayPal fizetés feldolgozása során.' });
-    }
-});
+    });
 
 
 let ip2proxy = new IP2Proxy();

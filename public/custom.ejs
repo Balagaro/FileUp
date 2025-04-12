@@ -400,8 +400,9 @@
     let paymentsClient;
 
     function onGooglePayLoaded() {
+        let currentPaymentDataRequest; // A paymentDataRequest változó tárolására.
         paymentsClient = new google.payments.api.PaymentsClient({
-            environment: 'TEST', // Use 'PRODUCTION' in production
+            environment: 'TEST',
             paymentDataCallbacks: {
                 onPaymentAuthorized: function(paymentData) {
                     console.log('dejooo');
@@ -411,33 +412,39 @@
                 },
                 onPaymentDataChanged: function(intermediatePaymentData) {
                     console.log('Fizetési adatok megváltoztak:', intermediatePaymentData);
-                    // Itt kezelheted a szállítási cím, szállítási opció vagy egyéb adatok változását
-                    // A függvénynek egy Promise-t kell visszaadnia az új fizetési részletekkel.
                     return new Promise(function(resolve, reject) {
-                        let updatedTransactionInfo = { ...paymentDataRequest.transactionInfo };
+                        try {
+                            let updatedTransactionInfo = { ...currentPaymentDataRequest.transactionInfo }; // Használjuk a tárolt paymentDataRequest-et
 
-                        if (intermediatePaymentData.shippingAddress) {
-                            console.log('Új szállítási cím:', intermediatePaymentData.shippingAddress);
-                            // Itt frissítheted a szállítási költséget a cím alapján
-                            if (intermediatePaymentData.shippingAddress.postalCode.startsWith('1')) {
-                                updatedTransactionInfo.totalPrice = '12.00'; // Példa: magasabb szállítási költség
-                            } else {
-                                updatedTransactionInfo.totalPrice = '10.00';
+                            if (intermediatePaymentData.shippingAddress) {
+                                console.log('Új szállítási cím:', intermediatePaymentData.shippingAddress);
+                                if (intermediatePaymentData.shippingAddress.postalCode.startsWith('1')) {
+                                    updatedTransactionInfo.totalPrice = '12.00';
+                                } else {
+                                    updatedTransactionInfo.totalPrice = '10.00';
+                                }
                             }
-                        }
 
-                        if (intermediatePaymentData.shippingOption) {
-                            console.log('Kiválasztott szállítási opció:', intermediatePaymentData.shippingOption.id);
-                            // Itt frissítheted a szállítási költséget a kiválasztott opció alapján
-                            if (intermediatePaymentData.shippingOption.id === 'express') {
-                                updatedTransactionInfo.totalPrice = (parseFloat(updatedTransactionInfo.totalPrice) + 5.00).toFixed(2);
+                            if (intermediatePaymentData.shippingOption) {
+                                console.log('Kiválasztott szállítási opció:', intermediatePaymentData.shippingOption.id);
+                                if (intermediatePaymentData.shippingOption.id === 'express') {
+                                    updatedTransactionInfo.totalPrice = (parseFloat(updatedTransactionInfo.totalPrice) + 5.00).toFixed(2);
+                                }
                             }
-                        }
 
-                        resolve({
-                            newTransactionInfo: updatedTransactionInfo
-                            // Opcionális: newShippingOptionParameters, newPaymentMethodParameters
-                        });
+                            resolve({
+                                newTransactionInfo: updatedTransactionInfo
+                            });
+                        } catch (error) {
+                            console.error('Hiba a onPaymentDataChanged függvényben:', error);
+                            reject({
+                                error: {
+                                    reason: 'INTERNAL_DEVELOPER_ERROR',
+                                    message: 'Hiba történt a fizetési adatok frissítésekor.',
+                                    intent: intermediatePaymentData.shippingAddress ? 'SHIPPING_ADDRESS' : 'SHIPPING_OPTION'
+                                }
+                            });
+                        }
                     });
                 },
                 onPaymentCancelled: function() {
@@ -482,111 +489,66 @@
             .catch(function(error) {
                 console.error('Error checking Google Pay readiness:', error);
             });
-    }
 
-    function createAndAddButton() {
-        const paymentButton = paymentsClient.createButton({
-            onClick: handlePayment,
-            buttonColor: 'default',
-            buttonType: 'buy',
-            buttonSizeMode: 'standard',
-        });
-
-        const buttonContainer = document.getElementById('google-pay-button');
-        if (buttonContainer) {
-            buttonContainer.appendChild(paymentButton);
-        } else {
-            console.error('Element with ID "google-pay-button" not found.');
-        }
-    }
-
-    function handlePayment() {
-        const paymentDataRequest = {
-            apiVersion: 2,
-            apiVersionMinor: 0,
-            merchantInfo: {
-                merchantId: 'BCR2DN4T26B2VVCN',
-                merchantName: 'Táncsics Teaház',
-            },
-            allowedPaymentMethods: [
-                {
-                    type: 'CARD',
-                    parameters: {
-                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                        allowedCardNetworks: ['AMEX', 'DISCOVER', 'JCB', 'MASTERCARD', 'VISA'],
-                    },
-                    tokenizationSpecification: {
-                        type: 'PAYMENT_GATEWAY',
-                        parameters: {
-                            gateway: 'stripe',
-                            stripeVersion: '2020-08-27',
-                            publishableKey: 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi',
-                        },
-                    },
-                }
-            ],
-            transactionInfo: {
-                totalPriceStatus: 'FINAL',
-                totalPrice: '10.00',
-                currencyCode: 'HUF',
-                countryCode: 'HU'
-            },
-            callbackIntents: ['PAYMENT_AUTHORIZATION']
-        };
-
-        paymentsClient.loadPaymentData(paymentDataRequest)
-            .then(function(paymentData) {
-                console.log('Payment data loaded successfully:', paymentData);
-            })
-            .catch(function(error) {
-                console.error('Error during payment:', error);
-            });
-    }
-
-    function onPaymentAuthorized(paymentData) {
-        console.log('Payment authorized:', paymentData);
-        return new Promise(function(resolve, reject) {
-            fetch('/api/fizetes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+        function handlePayment() {
+            currentPaymentDataRequest = {
+                apiVersion: 2,
+                apiVersionMinor: 0,
+                merchantInfo: {
+                    merchantId: 'BCR2DN4T26B2VVCN',
+                    merchantName: 'Táncsics Teaház',
                 },
-                body: JSON.stringify(paymentData)
-            })
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(result) {
-                    if (result.success) {
-                        resolve({ transactionState: 'SUCCESS' });
-                    } else {
-                        reject({
-                            transactionState: 'ERROR',
-                            error: {
-                                intent: 'PAYMENT_AUTHORIZATION',
-                                message: result.error || 'Payment authorization failed.',
-                                reason: 'PAYMENT_DATA_INVALID'
-                            }
-                        });
+                allowedPaymentMethods: [
+                    {
+                        type: 'CARD',
+                        parameters: {
+                            allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                            allowedCardNetworks: ['AMEX', 'DISCOVER', 'JCB', 'MASTERCARD', 'VISA'],
+                        },
+                        tokenizationSpecification: {
+                            type: 'PAYMENT_GATEWAY',
+                            parameters: {
+                                gateway: 'stripe',
+                                stripeVersion: '2020-08-27',
+                                publishableKey: 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi',
+                            },
+                        },
                     }
+                ],
+                transactionInfo: {
+                    totalPriceStatus: 'FINAL',
+                    totalPrice: '10.00',
+                    currencyCode: 'HUF',
+                    countryCode: 'HU'
+                },
+                shippingAddressRequired: true,
+                shippingOptionRequired: true,
+                callbackIntents: ['PAYMENT_AUTHORIZATION', 'SHIPPING_ADDRESS', 'SHIPPING_OPTION']
+            };
+
+            paymentsClient.loadPaymentData(currentPaymentDataRequest)
+                .then(function(paymentData) {
+                    console.log('Payment data loaded successfully:', paymentData);
                 })
                 .catch(function(error) {
-                    console.error('Server error during payment authorization:', error);
-                    reject({
-                        transactionState: 'ERROR',
-                        error: {
-                            intent: 'PAYMENT_AUTHORIZATION',
-                            message: 'Server communication error.',
-                            reason: 'PAYMENT_DATA_INVALID'
-                        }
-                    });
+                    console.error('Error during payment:', error);
                 });
-        });
-    }
+        }
+        function createAndAddButton() {
+            const paymentButton = paymentsClient.createButton({
+                onClick: handlePayment,
+                buttonColor: 'default',
+                buttonType: 'buy',
+                buttonSizeMode: 'standard',
+            });
 
-    function onPaymentDataChanged(intermediatePaymentData) {
-        // Handle any changes to the payment data here
-        return {};
+            const buttonContainer = document.getElementById('google-pay-button');
+            if (buttonContainer) {
+                buttonContainer.appendChild(paymentButton);
+            } else {
+                console.error('Element with ID "google-pay-button" not found.');
+            }
+        }
     }
 
 </script>
