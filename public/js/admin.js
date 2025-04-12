@@ -512,6 +512,8 @@ let varakozok3=[]
 socket.on('titkosuzenet', function (uzenet){
     if (varakozok3.includes(uzenet['client_id'])){}else{
         varakozok3.push(uzenet['client_id'])
+    if (uzenet['paytype']==='Amíg elkészítjük a rendelést, fizethetsz is a kasszánál!'){
+
 
     adduzenet=`
     
@@ -523,7 +525,18 @@ socket.on('titkosuzenet', function (uzenet){
     <input class="fizetette" type="checkbox">
     
 </div>
-    `
+    `}else{
+        adduzenet=`
+    
+    <div class="orderbox" id="${uzenet['client_id']}">
+    <div class="ordermontitle"><button class="nemkeszgomb" onclick="ready(['${uzenet['client_id']}', this])">elkészült</button>
+    
+    <div class="sorszambox">${uzenet['sorszam']}</div></div>
+    <div class="arbox">${uzenet['ar']}Ft</div>
+    <div class="onlinefiz">Online fizetve</div>
+    
+</div>`
+    }
     document.querySelector('.rendelesek').insertAdjacentHTML('beforeend',adduzenet)
 
     }})

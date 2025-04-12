@@ -1,5 +1,162 @@
 //console.log(dbk)
 //console.log(idk)
+
+let paymentsClient;
+
+function onGooglePayLoaded() {
+    let currentPaymentDataRequest = {
+        transactionInfo: {
+            totalPrice: '0.00',
+            currencyCode: 'HUF',
+            countryCode: 'HU'
+        }
+    };
+    paymentsClient = new google.payments.api.PaymentsClient({
+        environment: 'TEST',
+        paymentDataCallbacks: {
+            onPaymentAuthorized: function(paymentData) {
+                console.log("siker");
+            },
+            onPaymentCancelled: function() {
+                console.log('canceled')
+                alert("Fizetés visszavonva");
+            },
+            onError: function(error) {
+                alert("Fizetési hiba");
+            }
+        }
+    });
+
+    const isReadyToPayRequest = {
+        apiVersion: 2,
+        apiVersionMinor: 0,
+        allowedPaymentMethods: [
+            {
+                type: 'CARD',
+                parameters: {
+                    allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                    allowedCardNetworks: ['AMEX', 'DISCOVER', 'JCB', 'MASTERCARD', 'VISA'],
+                },
+                tokenizationSpecification: {
+                    type: 'PAYMENT_GATEWAY',
+                    parameters: {
+                        gateway: 'stripe',
+                        stripeVersion: '2025-03-31.basil',
+                        publishableKey: 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi',
+                    },
+                },
+            }
+        ],
+    };
+
+    paymentsClient.isReadyToPay(isReadyToPayRequest)
+        .then(function(response) {
+            if (response.result) {
+                createAndAddButton();
+            } else {
+                console.log('Google Pay is not available on this device.');
+            }
+        })
+        .catch(function(error) {
+            console.error('Error checking Google Pay readiness:', error);
+        });
+
+    function handlePayment() {
+        console.log('Google Pay gomb megnyomva');
+
+        const currentPaymentDataRequest = {
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            merchantInfo: {
+                merchantId: 'BCR2DN4T26B2VVCN',
+                merchantName: 'Táncsics Teaház',
+            },
+            allowedPaymentMethods: [
+                {
+                    type: 'CARD',
+                    parameters: {
+                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                        allowedCardNetworks: ['AMEX', 'DISCOVER', 'JCB', 'MASTERCARD', 'VISA'],
+                    },
+                    tokenizationSpecification: {
+                        type: 'PAYMENT_GATEWAY',
+                        parameters: {
+                            gateway: 'stripe',
+                            stripeVersion: '2025-03-31.basil',
+                            publishableKey: 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi',
+                        },
+                    },
+                }
+            ],
+            transactionInfo: {
+                totalPriceStatus: 'FINAL',
+                totalPrice: '17500',
+                currencyCode: 'HUF',
+                countryCode: 'HU'
+            },
+            shippingAddressRequired: false,
+            shippingOptionRequired: false,
+            callbackIntents: ['PAYMENT_AUTHORIZATION']
+        };
+
+        console.log('Payment data request:', currentPaymentDataRequest);
+
+        paymentsClient.loadPaymentData(currentPaymentDataRequest)
+            .then(function(paymentData) {
+                console.log('Payment data loaded successfully:', paymentData);
+
+                // Fizetési adatok elküldése a szervernek
+                fetch('/api/fizetes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(paymentData),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Sikeres fizetés esetén futtassuk a kívánt kódot
+                            document.getElementById('paytype').value = 0;
+                            document.getElementById('formsub').submit();
+                        } else {
+                            // Hiba kezelése (pl. hibaüzenet megjelenítése)
+                            console.error('Fizetés sikertelen:', data.error);
+                            alert('A fizetés sikertelen volt. Kérjük, próbálja újra.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Hiba a fizetés során:', error);
+                        alert('Hiba történt a fizetés során. Kérjük, próbálja újra.');
+                    });
+
+            })
+            .catch(function(error) {
+                console.error('Error during payment:', error);
+                alert("Fizetési hiba");
+            });
+    }
+
+    function createAndAddButton() {
+        const paymentButton = paymentsClient.createButton({
+            onClick: handlePayment,
+            buttonColor: 'default',
+            buttonType: 'buy',
+            buttonSizeMode: 'standard',
+        });
+
+        const buttonContainer = document.getElementById('google-pay-button');
+        if (buttonContainer) {
+            buttonContainer.appendChild(paymentButton);
+        } else {
+            console.error('Element with ID "google-pay-button" not found.');
+        }
+    }
+}
+
+
+
+
 console.log(clientid)
 dbk=dbk.split(',');
 idk=idk.split(',');
@@ -90,4 +247,13 @@ socket.on('requed-var', function(into){
 }}}})
 
 
+document.getElementById('fortgomb').onclick = function(){
+    document.getElementById('paytype').value=1
+    document.getElementById('formsub').submit();
+}
 
+document.getElementById('fizeteskasszanal').onclick = function(){
+
+    document.getElementById('paytype').value=0
+    document.getElementById('formsub').submit();
+}

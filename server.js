@@ -47,10 +47,17 @@ con.connect(function(err) {
     console.log("Database connected!");
 });
 
-
+let payt;
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+
 
 const httpsServer = https.createServer(options, app);
 const httpServer = server.createServer((req, res) => {
@@ -124,6 +131,8 @@ app.get('/rendeles', (req, res) => {
 app.post('/rendeles', (req, res) => {
     let client_id=req.body.clientid
     let price=req.body.price
+    payt=req.body.paytype
+    console.log(payt)
     price=parseInt(price.slice(0, -2))
    //console.log(client_id)
    //console.log('anyad')
@@ -136,14 +145,22 @@ app.post('/rendeles', (req, res) => {
         if (result.length!==0){
             sorszamok=result[0].id
             clientid=result[0].client_id
+            payt=result[0].paytype
+
             //console.log(sorszam)
-            res.render('rendeles', {clientid:client_id, majom:sorszamok});
+            res.render('rendeles', {clientid:client_id, majom:sorszamok, paytype:payt})
+
         } else{
             sql=`SELECT * FROM history WHERE history.id="${client_id}"`
             con.query(sql, function (err, result, fields) {
                 if (result.length===0){
-
-                    sql = `INSERT INTO rendeles(client_id, prog,ar) VALUES ("${client_id}",0,${con.escape(price)})`
+                    console.log(payt, "payt")
+                    if (payt==="0"){
+                        sql = `INSERT INTO rendeles(client_id, prog,ar,paytype) VALUES ("${client_id}",0,${con.escape(price)},'Amíg elkészítjük a rendelést, fizethetsz is a kasszánál!')`
+                    }else{
+                        if (payt==="1"){
+                        sql = `INSERT INTO rendeles(client_id, prog,ar,paytype) VALUES ("${client_id}",0,${con.escape(price)},'Sikeres online fizetés.')`}}
+                    //sql = `INSERT INTO rendeles(client_id, prog,ar,paytype) VALUES ("${client_id}",0,${con.escape(price)},)`
                     con.query(sql, function (err, result) {
                         if (err) throw err;
                     });
@@ -156,8 +173,9 @@ app.post('/rendeles', (req, res) => {
 
                         sorszamok=(result[0].id)
                         clientid=result[0].client_id
+                        payt=result[0].paytype
                         //console.log(sorszam)
-                        res.render('rendeles', {clientid:client_id, majom:sorszamok,price:price});
+                        res.render('rendeles', {clientid:client_id, majom:sorszamok,price:price,paytype:payt});
                         //console.log(req.body.vari)
                         let posted=req.body
                         //console.log(sorszam)
@@ -184,7 +202,7 @@ app.post('/rendeles', (req, res) => {
 
 
                 }else{
-                    res.render('rendeles', {clientid:client_id, majom:"Nincs aktív rendelésed."});
+                    res.render('rendeles', {clientid:client_id, majom:"Nincs aktív rendelésed.", paytype:""});
                 }
             });
 
@@ -207,35 +225,41 @@ const environment = new paypal.core.SandboxEnvironment(
 );
 
 
-const paypalClient = new paypal.core.PayPalHttpClient(environment);
+
     app.post('/api/fizetes', async (req, res) => {
+        console.log('fizet')
         try {
             const paymentData = req.body;
-            const stripeToken = paymentData.paymentMethodData.tokenizationData.token; // Stripe token
+            const stripeToken = paymentData.paymentMethodData.tokenizationData.token; // A Stripe token a Google Pay-től
+
+            // A totalPrice-t centekben kell megadni, ezért szorozzuk 100-zal.
+            const amount = parseFloat(paymentData.transactionInfo.totalPrice) * 100;
+            const currency = paymentData.transactionInfo.currencyCode.toLowerCase(); // a stripe a kisbetűs currency code-ot várja
 
             const charge = await stripe.charges.create({
-                amount: 1000, // 1000 HUF = 10.00 HUF
-                currency: 'huf',
+                amount: amount,
+                currency: currency,
                 source: stripeToken,
-                description: 'Táncsics Teaház fizetés',
+                description: 'Google Pay fizetés',
             });
 
             if (charge.status === 'succeeded') {
                 console.log('Sikeres Stripe fizetés:', charge);
-                res.json({ success: true, chargeId: charge.id });
+                res.json({ success: true, chargeId: charge.id }); // Helyes válasz
             } else {
                 console.error('Hiba a Stripe fizetés során:', charge);
-                res.status(500).json({ error: 'Hiba történt a Stripe fizetés során.' });
+                res.status(500).json({ success: false, error: 'Hiba történt a fizetés során.' }); // Helyes válasz
             }
 
         } catch (error) {
             console.error('Hiba a Stripe fizetés feldolgozása során:', error);
-            res.status(500).json({ error: 'Hiba történt a Stripe fizetés feldolgozása során.' });
+            res.status(500).json({ success: false, error: 'Hiba történt a Stripe fizetés feldolgozása során.' }); // Helyes válasz
         }
     });
 
 
-let ip2proxy = new IP2Proxy();
+
+                let ip2proxy = new IP2Proxy();
 ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");
 
 app.get('/', function(req, res){

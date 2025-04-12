@@ -325,6 +325,9 @@ body {
     font-size: 20px;
     margin-top: 20px;
 }
+.onlinefiz{
+    font-size: 20px;
+}
 .upmodtodatabase{
     display: none;
     position: absolute;
