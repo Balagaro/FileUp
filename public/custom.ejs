@@ -117,6 +117,10 @@
                             </div>
                             <div class="paydetails">
                                 <input readonly class="fullprice" name="price" type="text" value="<%=price%>">
+                                <div id="google-pay-button"></div>
+
+
+
                                 <input type="submit" ontouchstart="document.addEventListener('touchstart', function() {}, false)" class="cassapay" value="Fizetés a kasszánál"></input>
                             </div>
                         </form>
@@ -208,11 +212,390 @@
     if ('serviceWorker' in navigator){
         navigator.serviceWorker.register('/service_worker.json')
     }
+
+
+
+
+
+
 </script>
+
+<script type="text/javascript">
+    /*let paymentsClient;
+
+    function onGooglePayLoaded() {
+        paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' }); // Használj 'PRODUCTION' éles környezetben
+
+        const isReadyToPayRequest = {
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            allowedPaymentMethods: [
+                {
+                    type: 'CARD',
+                    parameters: {
+                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                        allowedCardNetworks: ['AMEX', 'DISCOVER', 'JCB', 'MASTERCARD', 'VISA'],
+                    },
+                },
+                {
+                    type: 'PAYPAL',
+                    parameters: {
+                        purchase_context: {
+                            purchase_units: [{
+                                amount: {
+                                    currency_code: 'HUF',
+                                    value: '10.00' // Példaösszeg
+                                }
+                            }]
+                        }
+                    }
+                }
+                // További engedélyezett fizetési módok (pl. ANDROID_PAY)
+            ],
+        };
+
+        paymentsClient.isReadyToPay(isReadyToPayRequest)
+            .then(function(response) {
+                if (response.result) {
+                    createAndAddButton();
+                } else {
+                    console.log('Google Pay nem érhető el ezen az eszközön.');
+                    // Itt megjeleníthetsz egy alternatív fizetési módot
+                }
+            })
+            .catch(function(error) {
+                console.error('Hiba a Google Pay elérhetőségének ellenőrzésekor:', error);
+            });
+    }
+    function createAndAddButton() {
+        const paymentButton = paymentsClient.createButton({
+            onClick: handlePayment,
+            buttonColor: 'default', // 'default', 'black', 'white'
+            buttonType: 'buy',     // 'book', 'checkout', 'donate', 'order', 'pay', 'subscribe'
+            buttonSizeMode: 'standard', // 'standard', 'wide'
+            // További opcionális beállítások a Google Pay gomb stílusához
+        });
+
+        // Keresd meg azt a HTML elemet, ahova a gombot be szeretnéd illeszteni
+        const buttonContainer = document.getElementById('google-pay-button');
+        if (buttonContainer) {
+            buttonContainer.appendChild(paymentButton);
+        } else {
+            console.error('A "google-pay-button" ID-vel rendelkező elem nem található.');
+        }
+    }
+    function handlePayment() {
+        const paymentDataRequest = {
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            merchantInfo: {
+                merchantId: 'BCR2DN4T26B2VVCN', // A Google Pay Merchant ID-d
+                merchantName: 'Tancsics Teahaz',
+            },
+            allowedPaymentMethods: [
+                {
+                    type: 'CARD',
+                    parameters: {
+                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                        allowedCardNetworks: ['AMEX', 'DISCOVER', 'JCB', 'MASTERCARD', 'VISA'],
+                    },
+                    tokenizationSpecification: {
+                        type: 'PAYMENT_GATEWAY',
+                        parameters: {
+                            gateway: 'stripe', // A használt fizetési átjáró neve
+                            stripeVersion: '2020-08-27',
+                            publishableKey: 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi', // A fizetési átjáró publikus kulcsa
+                        },
+                    },
+                },
+                {
+                    type: 'PAYPAL',
+                    parameters: {
+                        purchase_context: {
+                            purchase_units: [{
+                                amount: {
+                                    currency_code: 'HUF',
+                                    value: '10'
+                                }
+                            }]
+                        }
+                    },
+                    tokenizationSpecification: {
+                        type: 'PAYPAL',
+                        parameters: {
+                            // Nincsenek specifikus paraméterek a PayPal tokenizációhoz a Google Pay-en keresztül
+                        }
+                    }
+                }
+                // További engedélyezett fizetési módok konfigurációja
+            ],
+            transactionInfo: {
+                totalPriceStatus: 'FINAL',
+                totalPrice: '10.00',
+                currencyCode: 'HUF',
+                countryCode: 'HU' // Opcionális: az országkód
+            },
+            callbackIntents: ['PAYMENT_AUTHORIZATION'] // Szükséges a fizetés megerősítéséhez
+            // Opcionális: szállítási cím és egyéb kérések
+        };
+
+        paymentsClient.loadPaymentData({ // A módosítás itt történik!
+            ...paymentDataRequest,
+            paymentDataCallbacks: {
+                onPaymentAuthorized: function(paymentData) {
+                    console.log('Fizetés engedélyezve:', paymentData);
+                    // Itt küldheted el a paymentData-t a szerveroldalra a véglegesítéshez
+                    return new Promise(function(resolve, reject) {
+                        fetch('/api/fizetes', { // Cseréld le a saját szerveroldali végpontodra
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(paymentData)
+                        })
+                            .then(function(response) {
+                                return response.json();
+                            })
+                            .then(function(result) {
+                                if (result.success) {
+                                    resolve({ transactionState: 'SUCCESS' });
+                                } else {
+                                    reject({
+                                        errorCode: 'PAYMENT_FAILED',
+                                        errorDescription: result.error || 'A fizetés engedélyezése sikertelen.'
+                                    });
+                                }
+                            })
+                            .catch(function(error) {
+                                console.error('Hiba a fizetés engedélyezésekor a szerveren:', error);
+                                reject({
+                                    errorCode: 'SERVER_ERROR',
+                                    errorDescription: 'Hiba történt a szerverrel való kommunikáció során.'
+                                });
+                            });
+                    });
+                },
+                onPaymentCancelled: function() {
+                    console.log('A felhasználó megszakította a fizetést.');
+                    // Itt kezelheted a fizetés megszakítását
+                },
+                onError: function(error) {
+                    console.error('Hiba a Google Pay folyamat során:', error);
+                    // Itt kezelheted az általános hibákat
+                }
+                // Opcionális: onPaymentDataChanged
+            }
+        })
+            .then(function(paymentData) {
+                // Ez a then blokk már nem feltétlenül szükséges, mivel az onPaymentAuthorized
+                // callback-ben kezeled a sikeres engedélyezést és a szerverrel való kommunikációt.
+                // Ha itt is szeretnél valamit tenni, azt a Promise feloldása után teheted.
+                console.log('loadPaymentData sikeres:', paymentData);
+            })
+            .catch(function(error) {
+                console.error('Hiba a fizetés során:', error);
+                // Kezeld a hibát (pl. jeleníts meg hibaüzenetet a felhasználónak)
+            });
+    }*/
+    let paymentsClient;
+
+    function onGooglePayLoaded() {
+        paymentsClient = new google.payments.api.PaymentsClient({
+            environment: 'TEST', // Use 'PRODUCTION' in production
+            paymentDataCallbacks: {
+                onPaymentAuthorized: function(paymentData) {
+                    console.log('dejooo');
+                    return new Promise(function(resolve, reject) {
+                        // ...
+                    });
+                },
+                onPaymentDataChanged: function(intermediatePaymentData) {
+                    console.log('Fizetési adatok megváltoztak:', intermediatePaymentData);
+                    // Itt kezelheted a szállítási cím, szállítási opció vagy egyéb adatok változását
+                    // A függvénynek egy Promise-t kell visszaadnia az új fizetési részletekkel.
+                    return new Promise(function(resolve, reject) {
+                        let updatedTransactionInfo = { ...paymentDataRequest.transactionInfo };
+
+                        if (intermediatePaymentData.shippingAddress) {
+                            console.log('Új szállítási cím:', intermediatePaymentData.shippingAddress);
+                            // Itt frissítheted a szállítási költséget a cím alapján
+                            if (intermediatePaymentData.shippingAddress.postalCode.startsWith('1')) {
+                                updatedTransactionInfo.totalPrice = '12.00'; // Példa: magasabb szállítási költség
+                            } else {
+                                updatedTransactionInfo.totalPrice = '10.00';
+                            }
+                        }
+
+                        if (intermediatePaymentData.shippingOption) {
+                            console.log('Kiválasztott szállítási opció:', intermediatePaymentData.shippingOption.id);
+                            // Itt frissítheted a szállítási költséget a kiválasztott opció alapján
+                            if (intermediatePaymentData.shippingOption.id === 'express') {
+                                updatedTransactionInfo.totalPrice = (parseFloat(updatedTransactionInfo.totalPrice) + 5.00).toFixed(2);
+                            }
+                        }
+
+                        resolve({
+                            newTransactionInfo: updatedTransactionInfo
+                            // Opcionális: newShippingOptionParameters, newPaymentMethodParameters
+                        });
+                    });
+                },
+                onPaymentCancelled: function() {
+                    // ...
+                },
+                onError: function(error) {
+                    // ...
+                }
+            }
+        });
+
+        const isReadyToPayRequest = {
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            allowedPaymentMethods: [
+                {
+                    type: 'CARD',
+                    parameters: {
+                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                        allowedCardNetworks: ['AMEX', 'DISCOVER', 'JCB', 'MASTERCARD', 'VISA'],
+                    },
+                    tokenizationSpecification: {
+                        type: 'PAYMENT_GATEWAY',
+                        parameters: {
+                            gateway: 'stripe',
+                            stripeVersion: '2020-08-27',
+                            publishableKey: 'your-publishable-key',
+                        },
+                    },
+                }
+            ],
+        };
+
+        paymentsClient.isReadyToPay(isReadyToPayRequest)
+            .then(function(response) {
+                if (response.result) {
+                    createAndAddButton();
+                } else {
+                    console.log('Google Pay is not available on this device.');
+                }
+            })
+            .catch(function(error) {
+                console.error('Error checking Google Pay readiness:', error);
+            });
+    }
+
+    function createAndAddButton() {
+        const paymentButton = paymentsClient.createButton({
+            onClick: handlePayment,
+            buttonColor: 'default',
+            buttonType: 'buy',
+            buttonSizeMode: 'standard',
+        });
+
+        const buttonContainer = document.getElementById('google-pay-button');
+        if (buttonContainer) {
+            buttonContainer.appendChild(paymentButton);
+        } else {
+            console.error('Element with ID "google-pay-button" not found.');
+        }
+    }
+
+    function handlePayment() {
+        const paymentDataRequest = {
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            merchantInfo: {
+                merchantId: 'BCR2DN4T26B2VVCN',
+                merchantName: 'Táncsics Teaház',
+            },
+            allowedPaymentMethods: [
+                {
+                    type: 'CARD',
+                    parameters: {
+                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                        allowedCardNetworks: ['AMEX', 'DISCOVER', 'JCB', 'MASTERCARD', 'VISA'],
+                    },
+                    tokenizationSpecification: {
+                        type: 'PAYMENT_GATEWAY',
+                        parameters: {
+                            gateway: 'stripe',
+                            stripeVersion: '2020-08-27',
+                            publishableKey: 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi',
+                        },
+                    },
+                }
+            ],
+            transactionInfo: {
+                totalPriceStatus: 'FINAL',
+                totalPrice: '10.00',
+                currencyCode: 'HUF',
+                countryCode: 'HU'
+            },
+            callbackIntents: ['PAYMENT_AUTHORIZATION']
+        };
+
+        paymentsClient.loadPaymentData(paymentDataRequest)
+            .then(function(paymentData) {
+                console.log('Payment data loaded successfully:', paymentData);
+            })
+            .catch(function(error) {
+                console.error('Error during payment:', error);
+            });
+    }
+
+    function onPaymentAuthorized(paymentData) {
+        console.log('Payment authorized:', paymentData);
+        return new Promise(function(resolve, reject) {
+            fetch('/api/fizetes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(paymentData)
+            })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(result) {
+                    if (result.success) {
+                        resolve({ transactionState: 'SUCCESS' });
+                    } else {
+                        reject({
+                            transactionState: 'ERROR',
+                            error: {
+                                intent: 'PAYMENT_AUTHORIZATION',
+                                message: result.error || 'Payment authorization failed.',
+                                reason: 'PAYMENT_DATA_INVALID'
+                            }
+                        });
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Server error during payment authorization:', error);
+                    reject({
+                        transactionState: 'ERROR',
+                        error: {
+                            intent: 'PAYMENT_AUTHORIZATION',
+                            message: 'Server communication error.',
+                            reason: 'PAYMENT_DATA_INVALID'
+                        }
+                    });
+                });
+        });
+    }
+
+    function onPaymentDataChanged(intermediatePaymentData) {
+        // Handle any changes to the payment data here
+        return {};
+    }
+
+</script>
+
 
 
 <script type="text/javascript">
     const module = {};
+
 </script>
 <script type="module">
     import { gog } from "/js/firebase.js";
@@ -220,6 +603,9 @@
     module.gog = gog;
 
 </script>
+
+<script async src="https://pay.google.com/gp/p/js/pay.js" onload="onGooglePayLoaded()"></script>
+
 </body>
 
 </html>

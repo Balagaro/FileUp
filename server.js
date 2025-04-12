@@ -14,12 +14,15 @@ const mysql = require('mysql');
 const server = require("http");
 const vhost=require('vhost');
 const moment = require("moment");
+
 const options = {
     key: fs.readFileSync(`./ssl/privkey.pem`),
     cert: fs.readFileSync(`./ssl/fullchain.pem`)
 };
 
+require('dotenv').config();
 
+const paypal = require('@paypal/checkout-server-sdk');
 
 let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 
@@ -36,78 +39,14 @@ var con = mysql.createConnection({
     user: "root",
     password: "",
     database: "suti"
-});
+});*/
 
-*/
+
 con.connect(function(err) {
     if (err) throw err;
     console.log("Database connected!");
-    /*
-    sql= "DROP TABLE IF EXISTS rendeles";
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        //console.log("Number of records deleted: " + result.affectedRows);
-    });
-    sql= "CREATE TABLE rendeles (id INT(11) NOT NULL AUTO_INCREMENT,client_id VARCHAR(25),prog INT(11) NOT NULL, PRIMARY KEY (id), UNIQUE KEY client (client_id))";
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        //console.log("Number of records deleted: " + result.affectedRows);
-    });
-    sql= "DROP TABLE IF EXISTS ordered";
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        //console.log("Number of records deleted: " + result.affectedRows);
-    });
-    //sql= "CREATE TABLE rendeles (id INT(11) NOT NULL AUTO_INCREMENT,client_id VARCHAR(25),prog INT(11) NOT NULL, PRIMARY KEY (id), UNIQUE KEY client (client_id))";
-    sql=`CREATE TABLE ordered (
-        order_id int(11) NOT NULL AUTO_INCREMENT,
-        sorszam int(11) NOT NULL,
-        ids varchar(500) NOT NULL,
-        vari varchar(500) NOT NULL ,
-        PRIMARY KEY (order_id),
-        KEY sorszam (sorszam)
-)`
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        //console.log("Number of records deleted: " + result.affectedRows);
-    });*/
 });
 
-//insert values
-/*
-sql = "INSERT INTO customers (name, address) VALUES ?";
-let values = [
-    ['John', 'Highway 71'],
-    ['Peter', 'Lowstreet 4'],
-    ['Amy', 'Apple st 652'],
-    ['Hannah', 'Mountain 21'],
-    ['Michael', 'Valley 345'],
-    ['Sandy', 'Ocean blvd 2'],
-    ['Betty', 'Green Grass 1'],
-    ['Richard', 'Sky st 331'],
-    ['Susan', 'One way 98'],
-    ['Vicky', 'Yellow Garden 2'],
-    ['Ben', 'Park Lane 38'],
-    ['William', 'Central st 954'],
-    ['Chuck', 'Main Road 989'],
-    ['Viola', 'Sideway 1633']
-];
-con.query(sql, [values], function (err, result) {
-    if (err) throw err;
-    //console.log("Number of records inserted: " + result.affectedRows);
-});
-*/
-//select
-/*
-sql="SELECT name, address FROM customers"
-con.query(sql, function (err, result, fields) {
-    if (err) throw err;
-    //console.log(result);
-  });
-
-
-console.log(result[2].address);
- */
 
 
 app.use(express.urlencoded({extended: true}));
@@ -155,47 +94,11 @@ app.post('/customise', (req, res) => {
         db = db.map(function (x) {
             return parseInt(x, 10);});
     }
-   //console.log(ids)
-   //console.log(db)
+
     let current,curres;
     let insert=[];
     res.render('custom', {id:ids, dbok:db, clientid:clientid, price:price})
 
-
-/*
-    let bebox="";
-    let addbox="";
-    let curres, vartypes;
-    for (l=0;l<ids.length;l++){
-        sql=`SELECT * FROM variations,tetelek where variations.tetel_id=tetelek.id and tetel_id=${con.escape(ids[l])}`
-        con.query(sql, function (err, result, fields) {
-            vartypes={}
-            if (result.length>0){
-            //console.log(result[0].megnev)
-            addbox=`
-            <div>
-            <div><img  src="./sutik/${result[0].picture}" alt=""></div>
-            <div>${result[0].megnev}</div>
-            </div>
-            <div>
-            `
-
-            for (s=0;s<result.length;s++){
-                curres=result[s]
-                //console.log(curres)
-                addbox+=`
-                <div>
-
-                </div>
-                `
-            }
-            addbox+="</div>"
-            //console.log(addbox)
-            bebox+=addbox
-            }});
-
-    }
-    res.send(bebox)*/
 
 });
 app.get('/admin', (req, res) => {
@@ -296,6 +199,61 @@ app.post('/rendeles', (req, res) => {
 
 
 });
+
+
+const environment = new paypal.core.SandboxEnvironment(
+    process.env.PAYPAL_CLIENT_ID,
+    process.env.PAYPAL_CLIENT_SECRET
+);
+const paypalClient = new paypal.core.PayPalHttpClient(environment);
+
+app.post('/api/fizetes', async (req, res) => {
+    try {
+        const paymentData = req.body;
+        const paypalToken = paymentData.paymentMethodData.tokenizationData.token;
+
+        const request = new paypal.orders.OrdersCreateRequest();
+        request.requestBody({
+            intent: 'CAPTURE',
+            purchase_units: [{
+                amount: {
+                    currency_code: 'HUF',
+                    value: '10'
+                }
+            }],
+            payment_source: {
+                paypal: {
+                    experience_context: {
+                        payment_method_preference: 'IMMEDIATE_PAYMENT_REQUIRED'
+                    }
+                }
+            }
+        });
+
+        const order = await paypalClient.execute(request);
+        const orderID = order.result.id;
+
+        // Itt a PayPal tranzakció azonosítóját (token) használhatod a PayPal API-val való interakcióhoz,
+        // például a fizetés jóváhagyásához (capture).
+
+        const captureRequest = new paypal.orders.OrdersCaptureRequest(orderID);
+        const captureResponse = await paypalClient.execute(captureRequest);
+
+        if (captureResponse.statusCode === 201) {
+            console.log('Sikeres PayPal fizetés:', captureResponse);
+            res.json({ success: true, orderID: orderID, captureID: captureResponse.result.id });
+        } else {
+            console.error('Hiba a PayPal fizetés véglegesítése során:', captureResponse);
+            res.status(500).json({ error: 'Hiba történt a PayPal fizetés véglegesítése során.' });
+        }
+
+    } catch (error) {
+        console.error('Hiba a PayPal fizetés feldolgozása során:', error);
+        res.status(500).json({ error: 'Hiba történt a PayPal fizetés feldolgozása során.' });
+    }
+});
+
+
 let ip2proxy = new IP2Proxy();
 ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");
 
