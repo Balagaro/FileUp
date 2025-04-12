@@ -4,21 +4,64 @@
 let paymentsClient;
 
 function onGooglePayLoaded() {
-    let currentPaymentDataRequest = {
-        transactionInfo: {
-            totalPrice: '0.00',
-            currencyCode: 'HUF',
-            countryCode: 'HU'
-        }
-    };
+    console.log(rendelesar)
     paymentsClient = new google.payments.api.PaymentsClient({
         environment: 'TEST',
         paymentDataCallbacks: {
             onPaymentAuthorized: function(paymentData) {
-                console.log("siker");
+                return new Promise(function(resolve, reject) {
+                    // Fizetési adatok elküldése a szervernek
+                    fetch('/api/fizetes', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            paymentData: paymentData, // Győződjön meg róla, hogy ez az objektum tartalmazza a szükséges adatokat
+                            transactionInfo: {
+                                totalPrice: `${rendelesar}`,
+                                currencyCode: 'HUF'
+                            }
+                        }),
+                    })
+
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Sikeres fizetés esetén futtassuk a kívánt kódot
+                                document.getElementById('paytype').value = 1;
+                                document.getElementById('formsub').submit();
+                                resolve({ transactionState: 'SUCCESS' });
+                            } else {
+                                // Hiba kezelése
+                                console.error('Fizetés sikertelen:', data.error);
+                                alert('A fizetés sikertelen volt. Kérjük, próbálja újra.');
+                                resolve({
+                                    transactionState: 'ERROR',
+                                    error: {
+                                        intent: 'PAYMENT_AUTHORIZATION',
+                                        message: data.error || 'Ismeretlen hiba',
+                                        reason: 'PAYMENT_DATA_INVALID'
+                                    }
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Hiba a fizetés során:', error);
+                            alert('Hiba történt a fizetés során. Kérjük, próbálja újra.');
+                            resolve({
+                                transactionState: 'ERROR',
+                                error: {
+                                    intent: 'PAYMENT_AUTHORIZATION',
+                                    message: error.message || 'Ismeretlen hiba',
+                                    reason: 'PAYMENT_DATA_INVALID'
+                                }
+                            });
+                        });
+                });
             },
             onPaymentCancelled: function() {
-                console.log('canceled')
+                console.log('canceled');
                 alert("Fizetés visszavonva");
             },
             onError: function(error) {
@@ -40,9 +83,9 @@ function onGooglePayLoaded() {
                 tokenizationSpecification: {
                     type: 'PAYMENT_GATEWAY',
                     parameters: {
-                        gateway: 'stripe',
-                        stripeVersion: '2025-03-31.basil',
-                        publishableKey: 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi',
+                        'gateway': 'stripe',
+                        'stripe:version': '2025-03-31.basil',
+                        'stripe:publishableKey': 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi',
                     },
                 },
             }
@@ -81,16 +124,16 @@ function onGooglePayLoaded() {
                     tokenizationSpecification: {
                         type: 'PAYMENT_GATEWAY',
                         parameters: {
-                            gateway: 'stripe',
-                            stripeVersion: '2025-03-31.basil',
-                            publishableKey: 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi',
+                            'gateway': 'stripe',
+                            'stripe:version': '2025-03-31.basil',
+                            'stripe:publishableKey': 'pk_test_51RD0lcKdDFtfHQ0YFGNwQtddDPijWcsQskrgCuFSE0RkjIzv2stkaO9Xg9jn7EBAKK6FVnkhUbarVaa7gkyO9BE100n5VhfPCi',
                         },
                     },
                 }
             ],
             transactionInfo: {
                 totalPriceStatus: 'FINAL',
-                totalPrice: '17500',
+                totalPrice: `${rendelesar}`,
                 currencyCode: 'HUF',
                 countryCode: 'HU'
             },
@@ -104,32 +147,7 @@ function onGooglePayLoaded() {
         paymentsClient.loadPaymentData(currentPaymentDataRequest)
             .then(function(paymentData) {
                 console.log('Payment data loaded successfully:', paymentData);
-
-                // Fizetési adatok elküldése a szervernek
-                fetch('/api/fizetes', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(paymentData),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Sikeres fizetés esetén futtassuk a kívánt kódot
-                            document.getElementById('paytype').value = 0;
-                            document.getElementById('formsub').submit();
-                        } else {
-                            // Hiba kezelése (pl. hibaüzenet megjelenítése)
-                            console.error('Fizetés sikertelen:', data.error);
-                            alert('A fizetés sikertelen volt. Kérjük, próbálja újra.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Hiba a fizetés során:', error);
-                        alert('Hiba történt a fizetés során. Kérjük, próbálja újra.');
-                    });
-
+                // A fizetés feldolgozása az onPaymentAuthorized visszahívásban történik
             })
             .catch(function(error) {
                 console.error('Error during payment:', error);
@@ -153,7 +171,6 @@ function onGooglePayLoaded() {
         }
     }
 }
-
 
 
 
@@ -184,9 +201,9 @@ socket.on('requed-var', function(into){
         console.log("into", into[0])
         for (dbsz=0;dbsz<darabszam;dbsz++){
 
-    if (into[0]===0){
+            if (into[0]===0){
 
-       inshtml= `
+                inshtml= `
     <div class="custom_line">
     <input style="position: absolute;display: none" type="text" name="tetel" value="${intoline[0]['tetel_id']}_${dbsz}">
     <div class="adpic"><img src="sutik/${intoline[0].picture}.png" alt="suti"></div>
@@ -195,20 +212,20 @@ socket.on('requed-var', function(into){
     
 </div>
     `
-        if (intoline[0]["type"]!==undefined){
-        for (d=0;d<intoline.length;d++){
-            inshtml+=`
+                if (intoline[0]["type"]!==undefined){
+                    for (d=0;d<intoline.length;d++){
+                        inshtml+=`
             <div class="cust_box" id="cust_${intoline[d]["tetel_id"]}_${intoline[d]["type"]}_${dbsz}">
             <div class="cust_title">${intoline[d]["type"]}</div>
             
             </div>
             `
-        }}
-        inshtml+="</div>"
-        document.querySelector('.out_adbles').insertAdjacentHTML('beforeend',inshtml)
-    }else{
-        if (into[0]===-1){
-            inshtml= `
+                    }}
+                inshtml+="</div>"
+                document.querySelector('.out_adbles').insertAdjacentHTML('beforeend',inshtml)
+            }else{
+                if (into[0]===-1){
+                    inshtml= `
     <div style="display: none; position: absolute" class="custom_line" >
     <input style="position: absolute;display: none" type="text" name="tetel" value="${intoline[0]['tetel_id']}_${dbsz}">
     <div class="adpic"><img src="sutik/${intoline[0].picture}.png" alt="suti"></div>
@@ -217,24 +234,24 @@ socket.on('requed-var', function(into){
     
 </div>
     `
-            if (intoline[0]["type"]!==undefined){
-                for (d=0;d<intoline.length;d++){
-                    inshtml+=`
+                    if (intoline[0]["type"]!==undefined){
+                        for (d=0;d<intoline.length;d++){
+                            inshtml+=`
             <div style="display: none; position: absolute" class="cust_box" id="cust_${intoline[d]["tetel_id"]}_${intoline[d]["type"]}_${dbsz}">
             <div  class="cust_title">${intoline[d]["type"]}</div>
             
             </div>
             `
-                }}
-            inshtml+="</div>"
-            document.querySelector('.out_adbles').insertAdjacentHTML('beforeend',inshtml)
+                        }}
+                    inshtml+="</div>"
+                    document.querySelector('.out_adbles').insertAdjacentHTML('beforeend',inshtml)
 
 
-        }else{
-    for (m=0;m<into[1].length;m++){
+                }else{
+                    for (m=0;m<into[1].length;m++){
 
-        console.log(`#cust_${into[1][m]['tetel_id']}_${into[1][m]['type']}_${dbsz}`)
-        inshtml=`
+                        console.log(`#cust_${into[1][m]['tetel_id']}_${into[1][m]['type']}_${dbsz}`)
+                        inshtml=`
         <div class="cust_inline">
         <label for="${into[1][m]['value']}_${into[1][m]['variation_id']}">${into[1][m]['value']}</label>
         <input name="vari" type="checkbox" id="${into[1][m]['value']}_${into[1][m]['variation_id']}" value='${into[1][m]['variation_id']}_${dbsz}' >
@@ -242,15 +259,12 @@ socket.on('requed-var', function(into){
          
 </div>
        `
-        document.querySelector(`#cust_${into[1][m]['tetel_id']}_${into[1][m]['type']}_${dbsz}`).insertAdjacentHTML('beforeend', inshtml)
-    }}
-}}}})
+                        document.querySelector(`#cust_${into[1][m]['tetel_id']}_${into[1][m]['type']}_${dbsz}`).insertAdjacentHTML('beforeend', inshtml)
+                    }}
+            }}}})
 
 
-document.getElementById('fortgomb').onclick = function(){
-    document.getElementById('paytype').value=1
-    document.getElementById('formsub').submit();
-}
+
 
 document.getElementById('fizeteskasszanal').onclick = function(){
 

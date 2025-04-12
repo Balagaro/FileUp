@@ -29,7 +29,7 @@ let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 let sql="";
 
 var con = mysql.createConnection({
-    host: "46.107.96.52",
+    host: "localhost",
     user: "SutiVasar",
     password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
     database: "sutivasar"
@@ -50,13 +50,13 @@ con.connect(function(err) {
 let payt;
 
 app.use(express.urlencoded({extended: true}));
-app.use(express.json());
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-
+app.use(express.json());
 
 
 const httpsServer = https.createServer(options, app);
@@ -219,22 +219,27 @@ app.post('/rendeles', (req, res) => {
 });
 
 
-const environment = new paypal.core.SandboxEnvironment(
-    process.env.PAYPAL_CLIENT_ID,
-    process.env.PAYPAL_CLIENT_SECRET
-);
+
 
 
 
     app.post('/api/fizetes', async (req, res) => {
-        console.log('fizet')
         try {
-            const paymentData = req.body;
-            const stripeToken = paymentData.paymentMethodData.tokenizationData.token; // A Stripe token a Google Pay-től
+            const { paymentData, transactionInfo } = req.body;
 
-            // A totalPrice-t centekben kell megadni, ezért szorozzuk 100-zal.
-            const amount = parseFloat(paymentData.transactionInfo.totalPrice) * 100;
-            const currency = paymentData.transactionInfo.currencyCode.toLowerCase(); // a stripe a kisbetűs currency code-ot várja
+            if (!paymentData || !paymentData.paymentMethodData || !paymentData.paymentMethodData.tokenizationData) {
+                throw new Error('Hiányzó vagy érvénytelen paymentData');
+            }
+
+            const tokenData = JSON.parse(paymentData.paymentMethodData.tokenizationData.token);
+            const stripeToken = tokenData.id;
+
+            if (!stripeToken) {
+                throw new Error('Hiányzó Stripe token');
+            }
+
+            const amount = parseFloat(transactionInfo.totalPrice) * 100;
+            const currency = transactionInfo.currencyCode.toLowerCase();
 
             const charge = await stripe.charges.create({
                 amount: amount,
@@ -244,16 +249,14 @@ const environment = new paypal.core.SandboxEnvironment(
             });
 
             if (charge.status === 'succeeded') {
-                console.log('Sikeres Stripe fizetés:', charge);
-                res.json({ success: true, chargeId: charge.id }); // Helyes válasz
+                res.json({ success: true, chargeId: charge.id });
             } else {
-                console.error('Hiba a Stripe fizetés során:', charge);
-                res.status(500).json({ success: false, error: 'Hiba történt a fizetés során.' }); // Helyes válasz
+                res.status(500).json({ success: false, error: 'Hiba történt a fizetés során.' });
             }
 
         } catch (error) {
             console.error('Hiba a Stripe fizetés feldolgozása során:', error);
-            res.status(500).json({ success: false, error: 'Hiba történt a Stripe fizetés feldolgozása során.' }); // Helyes válasz
+            res.status(500).json({ success: false, error: error.message });
         }
     });
 
