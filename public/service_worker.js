@@ -5,3 +5,13 @@ workbox.routing.registerRoute(
     ({request}) => request.destination === 'image',
     new workbox.strategies.NetworkFirst()
 );
+
+
+// sw.js
+self.addEventListener('push', function(event) {
+    const data = event.data.json();
+    self.registration.showNotification(data.title, {
+        body: data.body,
+        icon: '/docs/logo/fileuplogomini.png'
+    });
+});

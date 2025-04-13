@@ -32,11 +32,12 @@ socket.on('kaptalszamot', function (id){
 socket.on('gyeremacig', function (id){
     console.log("jovok", id)
     document.querySelector('.readyrendel').innerHTML=`
+<div class="readyrendtext">A rendelésed elkészült!</div>
 <div><img src="sutik/ready.png"></div>
     
-   <div class="readyrendtext">A rendelésed elkészült!</div>
+   
     `
-
+document.querySelector('.order_number').classList.add('order_ready_num');
 
 })
 
@@ -57,3 +58,4 @@ function eraseCookie(name) {
 
 eraseCookie('cart')
 eraseCookie('cartamount')
+eraseCookie('incartdb')

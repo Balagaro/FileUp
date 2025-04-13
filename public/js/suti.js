@@ -25,44 +25,56 @@ socket.on('storage-query',function(data){
 
 });
 
-function getCookie2(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
+
 function setCookie2(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-function checkCookie2(cname) {
-    let user = getCookie2(cname);
-    if (user != "") {
-        return user
-    } else {
-        return 0
+
+function getCookie(name) {
+    var dc = document.cookie;
+    var prefix = name + "=";
+    var begin = dc.indexOf("; " + prefix);
+    if (begin == -1) {
+        begin = dc.indexOf(prefix);
+        if (begin != 0) return null;
     }
+    else
+    {
+        begin += 2;
+        var end = document.cookie.indexOf(";", begin);
+        if (end == -1) {
+            end = dc.length;
+        }
+    }
+    // because unescape has been deprecated, replaced with decodeURI
+    //return unescape(dc.substring(begin + prefix.length, end));
+    return decodeURI(dc.substring(begin + prefix.length, end));
 }
-let incart, cartamount;
-console.log(getCookie2('cart'))
+
+let incart, cartamount, dbcart, incartdb;
+console.log(getCookie('incartdb'))
+
+if(getCookie2('incartdb')>0){
+        incartdb=parseInt(getCookie2('incartdb'))
+
+        //console.log(incartdb);
+        document.querySelector('.cartdb').innerHTML=incartdb
+    }else{
+    setCookie2('incartdb', 0,1)
+    //document.querySelector('.cartdb').innerHTML=0
+}
+
 if (getCookie2('cart')!==""){
     incart=(getCookie2('cart'))
     incart=incart.split(',')
     incart = incart.map(function (x) {
         return parseInt(x, 10);
     });
-    document.querySelector('.cartdb').innerHTML=incart.length
+    //console.log(incart);
+    //document.querySelector('.cartdb').innerHTML=incart.length
 }
 function alertison(aler){
     document.querySelector(".alerttext").innerHTML=`${queried[aler].megnev} bekerült a kosárba`
@@ -76,6 +88,8 @@ function addToCart(id) {
     document.querySelector('.cartdb').innerHTML=(document.querySelector('.cartdb').innerHTML*1)+1
     alertison(id)
 
+     incartdb=parseInt(getCookie2('incartdb'))
+    setCookie2('incartdb',incartdb+1)
     if (checkCookie2('cart')===0){
         //console.log(`set cookie to ${id}`)
         setCookie2('cartamount', 1,1)
@@ -139,10 +153,52 @@ function addToCart(id) {
 
 }
 
+const publicVapidKey = 'BL_7kUhN6JkcssijlznU-cye9dGFoOBfSBdIf1XP7VdAQgT_EhP6N3IuE4yqNpuYCudj_LjLUa-NJ9duTJbi0_o';
 
-Notification.requestPermission().then(function (permission) {
-    console.log(permission);
-});
+if ('serviceWorker' in navigator) {
+    registerServiceWorker().catch(err => console.error(err));
+}
+
+async function registerServiceWorker() {
+    // Service Worker regisztrálása
+    const register = await navigator.serviceWorker.register('/sw.js', {
+        scope: '/'
+    });
+
+
+
+    // Felhasználó feliratkoztatása
+    const subscription = await register.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    });
+
+    // Feliratkozás elküldése a szervernek
+    await fetch('/subscribe', {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
+// Segédfüggvény a VAPID kulcs átalakításához
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i)
+        outputArray[i] = rawData.charCodeAt(i);
+
+    return outputArray;
+}
+
 /*
 const maxVisibleActions = window.Notification?.maxActions;
 

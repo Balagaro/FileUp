@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="hu">
 
-<head>
+<head >
     <!--<script src="modules/grub/src/redirection-mobile.js"></script>
 
 
@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="css/suti.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WS5TP44M9P"></script>
+    <script src="/mobile/checkcookies.js"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -72,6 +73,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap" rel="stylesheet">
 
+
+    <script>
+        function getCookie2(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        function checkCookie2(cname) {
+            let user = getCookie2(cname);
+            if (user != "") {
+                return user
+            } else {
+                return 0
+            }
+        }
+        checkifcookies()
+    </script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const alertMsg = urlParams.get('alert');
+        if (alertMsg) alert(alertMsg);
+    </script>
 </head>
 
 <body onload="checkifcookies()">
@@ -177,7 +210,7 @@
 </div>
 <script type="text/javascript" src="modules/socket.io/client-dist/socket.io.js"></script>
 <script src="js/suti.js"></script>
-<script src="/mobile/checkcookies.js"></script>
+
 <script>
 
 
@@ -186,10 +219,10 @@
         document.getElementById('menuoszlop').classList.toggle('activeoszlop');
 
     }
-
+/*
     if ('serviceWorker' in navigator){
         navigator.serviceWorker.register('/service_worker.js')
-    }
+    }*/
 </script>
 <script type="javascript">
 
@@ -212,10 +245,10 @@
         document.getElementById('menuoszlop').classList.toggle('activeoszlop');
 
     }
-
+/*
     if ('serviceWorker' in navigator){
         navigator.serviceWorker.register('/service_worker.json')
-    }
+    }*/
 </script>
 
 

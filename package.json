@@ -41,6 +41,7 @@
     "stripe": "^18.0.0",
     "vhost": "^3.0.2",
     "wait-until": "^0.0.2",
+    "web-push": "^3.6.7",
     "winston": "^3.11.0",
     "winston-loki": "^6.0.8"
   },

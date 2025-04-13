@@ -201,6 +201,8 @@ if(checkCookie2("cart")===0){
     uploaddiv.innerHTML=`
     <div class="ureskosar">A kosár üres!</div>
     `
+
+    document.querySelector('.paydetails').classList.add('hidden');
 }else{
     incart=(getCookie2('cart'))
     incart=incart.split(',')
@@ -238,9 +240,10 @@ function eraseCookie(name) {
 function deleteAll(){
     eraseCookie('cart')
     eraseCookie('cartamount')
+    eraseCookie('incartdb')
 
     setTimeout(function () {
-        document.location.href="/";
+        window.location.href = 'https://www.tmgteahaz.shop';
     },500);
 }
 

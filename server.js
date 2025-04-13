@@ -29,7 +29,7 @@ let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 let sql="";
 
 var con = mysql.createConnection({
-    host: "localhost",
+    host: "46.107.96.52",
     user: "SutiVasar",
     password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
     database: "sutivasar"
@@ -40,6 +40,9 @@ var con = mysql.createConnection({
     password: "",
     database: "suti"
 });*/
+
+
+
 
 
 con.connect(function(err) {
@@ -57,6 +60,18 @@ app.use(function(req, res, next) {
     next();
 });
 app.use(express.json());
+
+
+const webPush = require('web-push');
+//const vapidKeys = webPush.generateVAPIDKeys();
+//console.log(vapidKeys);
+
+webPush.setVapidDetails(
+    'mailto:kiralybalazs321.com',
+    'BL_7kUhN6JkcssijlznU-cye9dGFoOBfSBdIf1XP7VdAQgT_EhP6N3IuE4yqNpuYCudj_LjLUa-NJ9duTJbi0_o',
+    '3VBI_mzNapCS4YFsKFLaHNQzAnCxhrFr8cRy18U7r-I'
+);
+
 
 
 const httpsServer = https.createServer(options, app);
@@ -80,7 +95,8 @@ app.post('/customise', (req, res) => {
     //console.log("req.body")
     let clientid
     let jolesz=false;
-
+    const skibimiku=req.body.skibidine
+    if (skibimiku==="ne"){res.redirect(303, '/');}else{
     clientid=generateShortID()
     sql=`SELECT * FROM history WHERE history.id="${clientid}"`
     con.query(sql, function (err, result, fields) {
@@ -93,6 +109,25 @@ app.post('/customise', (req, res) => {
     let ids=req.body.id
     let price=req.body.price
     let db=req.body.cartdb
+    let dbdarab
+
+        if (db===undefined){
+            res.redirect(303, '/?alert=' + encodeURIComponent('A kosarad üres!'));
+        }else{
+        if (typeof db==="string"){
+            dbdarab= parseInt(db, 10);
+        } else{
+            dbdarab=db.reduce((acc, val) => acc + Number(val), 0)
+        }
+
+
+        //console.log(db);
+
+    if (dbdarab>10){
+        res.redirect(303, '/?alert=' + encodeURIComponent('Kérlek, ne tegyél 10-nél több ételt egy rendelésbe.'));
+
+
+    }else{
     if (Array.isArray(ids)){
         ids = ids.map(function (x) {
             return parseInt(x, 10);
@@ -106,7 +141,7 @@ app.post('/customise', (req, res) => {
     let insert=[];
     res.render('custom', {id:ids, dbok:db, clientid:clientid, price:price})
 
-
+    }}}
 });
 app.get('/admin', (req, res) => {
     res.render('login', {nono:0});
@@ -132,7 +167,7 @@ app.post('/rendeles', (req, res) => {
     let client_id=req.body.clientid
     let price=req.body.price
     payt=req.body.paytype
-    console.log(payt)
+    //console.log(payt)
     price=parseInt(price.slice(0, -2))
    //console.log(client_id)
    //console.log('anyad')
@@ -154,7 +189,7 @@ app.post('/rendeles', (req, res) => {
             sql=`SELECT * FROM history WHERE history.id="${client_id}"`
             con.query(sql, function (err, result, fields) {
                 if (result.length===0){
-                    console.log(payt, "payt")
+                    //console.log(payt, "payt")
                     if (payt==="0"){
                         sql = `INSERT INTO rendeles(client_id, prog,ar,paytype) VALUES ("${client_id}",0,${con.escape(price)},'Amíg elkészítjük a rendelést, fizethetsz is a kasszánál!')`
                     }else{
@@ -255,12 +290,29 @@ app.post('/rendeles', (req, res) => {
             }
 
         } catch (error) {
-            console.error('Hiba a Stripe fizetés feldolgozása során:', error);
+            //console.error('Hiba a Stripe fizetés feldolgozása során:', error);
             res.status(500).json({ success: false, error: error.message });
         }
     });
 
+    app.post('/subscribe', (req, res) => {
+        const subscription = req.body;
 
+        // Értesítés tartalma
+        const payload = JSON.stringify({
+            title: 'Értesítési teszt',
+            body: 'Sikeresen feliratkoztál az értesítésekre!',
+            icon: '/icon.png'
+        });
+
+        // Értesítés küldése
+        webPush.sendNotification(subscription, payload)
+            .then(() => res.status(201).json({}))
+            .catch(err => {
+                console.error('Értesítés küldési hiba:', err);
+                res.sendStatus(500);
+            });
+    });
 
                 let ip2proxy = new IP2Proxy();
 ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");

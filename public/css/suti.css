@@ -318,6 +318,24 @@ body {
 
 
 }
+
+.hidden{
+    z-index: 10;
+    display: none;
+    position: absolute;
+}
+.hidden *{
+    z-index: 10;
+    display: none;
+    position: absolute;
+}
+.hidden input{
+    z-index: 10;
+    display: none;
+    position: absolute;
+}
+
+
 .background{
     background: url("/sutik/back.svg") 0 0 repeat;
     background-size: 100px;
@@ -476,14 +494,29 @@ html{
 
 }
 .cassapay{
-    width: 100%;
-    border-radius: 15px;
-    border: 0.5px solid grey;
+    width: 240px;
+
     height: 30px;
+    border-radius: 10px;
+    /*background-image: linear-gradient(to bottom right, #25ff01, yellow);*/
+    background: #00ff3a;
+    border: none;
+    box-shadow: 1px 1px 3px black;
 }
 .cassapay:active{
     scale: 1.05;
+    border: none;
+    box-shadow: none;
 }
+
+#google-pay-button{
+    margin-top: 20px;
+}
+
+.order_ready_num{
+    color: #00ff3a;
+}
+
 .paydetails{
     width: 60%;
 
