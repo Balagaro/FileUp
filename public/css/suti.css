@@ -645,3 +645,32 @@ html{
     font-size: 20px;
     margin-top: 20px;
 }
+
+.megjegyzes-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+}
+
+.megjegyzes-container label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.megjegyzes-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.megjegyzes-container textarea:focus {
+    border-color: #00b702;; /* Itt állíthatod be a kívánt színt */
+    outline: none;
+}
+

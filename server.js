@@ -157,6 +157,8 @@ app.get('/rendeles', (req, res) => {
 app.post('/rendeles', (req, res) => {
     let client_id=req.body.clientid
     let price=req.body.price
+    const megjegyzes = req.body.megjegyzes;
+    console.log(megjegyzes)
     payt=req.body.paytype
     //console.log(payt)
     price=parseInt(price.slice(0, -2))
@@ -182,11 +184,20 @@ app.post('/rendeles', (req, res) => {
                 if (result.length===0){
                     //console.log(payt, "payt")
                     if (payt==="0"){
-                        sql = `INSERT INTO rendeles(client_id, prog,ar,paytype) VALUES ("${client_id}",0,${con.escape(price)},'Amíg elkészítjük a rendelést, fizethetsz is a kasszánál!')`
-                    }else{
+                        if (megjegyzes===""){
+                            console.log('ok')
+                            sql = `INSERT INTO rendeles(client_id, prog,ar,paytype,megjegyzes) VALUES ("${client_id}",0,${con.escape(price)},'Amíg elkészítjük a rendelést, fizethetsz is a kasszánál!','')`
+                        }else{
+                            sql = `INSERT INTO rendeles(client_id, prog,ar,paytype,megjegyzes) VALUES ("${client_id}",0,${con.escape(price)},'Amíg elkészítjük a rendelést, fizethetsz is a kasszánál!','Megjegyzés: ${megjegyzes}')`
+                        }}else{
                         if (payt==="1"){
-                        sql = `INSERT INTO rendeles(client_id, prog,ar,paytype) VALUES ("${client_id}",0,${con.escape(price)},'Sikeres online fizetés.')`}}
-                    //sql = `INSERT INTO rendeles(client_id, prog,ar,paytype) VALUES ("${client_id}",0,${con.escape(price)},)`
+                            if (megjegyzes===""){
+                                sql = `INSERT INTO rendeles(client_id, prog,ar,paytype,megjegyzes) VALUES ("${client_id}",0,${con.escape(price)},'Sikeres online fizetés.',''`}
+                            }else{
+
+
+                        sql = `INSERT INTO rendeles(client_id, prog,ar,paytype,megjegyzes) VALUES ("${client_id}",0,${con.escape(price)},'Sikeres online fizetés.','Megjegyzés: ${megjegyzes})'`}}
+
                     con.query(sql, function (err, result) {
                         if (err) throw err;
                     });
@@ -450,7 +461,7 @@ io.on("connection", function(socket){
         sql=`SELECT * FROM rendeles,ordered WHERE rendeles.id=ordered.sorszam and rendeles.client_id=${con.escape(titok)}`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
-            //console.log(result)
+
             if (result.length===0){
                 socket.in('admin').emit('titkosuzenet', result[0])
 

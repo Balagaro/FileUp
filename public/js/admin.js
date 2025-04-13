@@ -523,7 +523,7 @@ socket.on('titkosuzenet', function (uzenet){
     <div class="sorszambox">${uzenet['sorszam']}</div></div>
     <div class="arbox">${uzenet['ar']}Ft</div>
     <input class="fizetette" type="checkbox">
-    
+    <div class="adminmegjbox">${uzenet['megjegyzes']}</div>
 </div>
     `}else{
         adduzenet=`
@@ -534,7 +534,7 @@ socket.on('titkosuzenet', function (uzenet){
     <div class="sorszambox">${uzenet['sorszam']}</div></div>
     <div class="arbox">${uzenet['ar']}Ft</div>
     <div class="onlinefiz">Online fizetve</div>
-    
+    <div class="adminmegjbox">${uzenet['megjegyzes']}</div>
 </div>`
     }
     document.querySelector('.rendelesek').insertAdjacentHTML('beforeend',adduzenet)
