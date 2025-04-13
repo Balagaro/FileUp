@@ -29,7 +29,7 @@ let admincreds={user:"SutiVasar",pass:"j6GBetnW1yN1kKgF6FHAm3Lr70S2lx"}
 let sql="";
 
 var con = mysql.createConnection({
-    host: "46.107.96.52",
+    host: "localhost",
     user: "SutiVasar",
     password: "j6GBetnW1yN1kKgF6FHAm3Lr70S2lx",
     database: "sutivasar"
@@ -62,15 +62,6 @@ app.use(function(req, res, next) {
 app.use(express.json());
 
 
-const webPush = require('web-push');
-//const vapidKeys = webPush.generateVAPIDKeys();
-//console.log(vapidKeys);
-
-webPush.setVapidDetails(
-    'mailto:kiralybalazs321.com',
-    'BL_7kUhN6JkcssijlznU-cye9dGFoOBfSBdIf1XP7VdAQgT_EhP6N3IuE4yqNpuYCudj_LjLUa-NJ9duTJbi0_o',
-    '3VBI_mzNapCS4YFsKFLaHNQzAnCxhrFr8cRy18U7r-I'
-);
 
 
 
@@ -295,24 +286,6 @@ app.post('/rendeles', (req, res) => {
         }
     });
 
-    app.post('/subscribe', (req, res) => {
-        const subscription = req.body;
-
-        // Értesítés tartalma
-        const payload = JSON.stringify({
-            title: 'Értesítési teszt',
-            body: 'Sikeresen feliratkoztál az értesítésekre!',
-            icon: '/icon.png'
-        });
-
-        // Értesítés küldése
-        webPush.sendNotification(subscription, payload)
-            .then(() => res.status(201).json({}))
-            .catch(err => {
-                console.error('Értesítés küldési hiba:', err);
-                res.sendStatus(500);
-            });
-    });
 
                 let ip2proxy = new IP2Proxy();
 ip2proxy.open("./IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL-PROVIDER.BIN");
