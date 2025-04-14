@@ -36,9 +36,9 @@ function checkCookie(cname) {
 
 
 
-//let modalbox = document.getElementById("modalbox");
-//let blockbox=document.querySelector('.block_cookies')
-function showModal(blockbox, modalbox){
+let modalbox = document.getElementById("modalbox");
+let blockbox=document.querySelector('.block_cookies')
+function showModal(){
     blockbox.classList.add("sutikvegig")
     setTimeout(() => {
         modalbox.style.display = "block"
@@ -49,14 +49,14 @@ function showModal(blockbox, modalbox){
 
 
 
-function checkifcookies(blockbox, modalbox){
+function checkifcookies(){
     const vane=checkCookie("cookies")
     if (vane===0){
-        showModal(blockbox, modalbox)
+        showModal()
     }
 }
 
-function closeModal_accept(blockbox, modalbox){
+function closeModal_accept(){
     modalbox.style.display = "none"
     modalbox.style.zIndex=-1;
     blockbox.classList.remove("sutikvegig")
@@ -64,5 +64,5 @@ function closeModal_accept(blockbox, modalbox){
 }
 
 function closeModal_decline(){
-    alert("Az Ön helyében meggondolnám!")
+    alert("Sajnos nem veheted igénybe a szolgáltatást!")
 }

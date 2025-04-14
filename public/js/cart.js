@@ -55,7 +55,7 @@ socket.on('storage-query',function(data){
                 <div class="titleprice">
                     <div class="adprice">${queried[incart[i]].ar}ft</div>
                     
-                    <div class="cart_db"><input onchange="changeQuantity(${queried[incart[i]].id})" inputmode="numeric" pattern="[0-9]*" type="text" id="cartdbid${queried[incart[i]].id}" class="cartdbin" maxlength="1" minlength="1" name="cartdb" value="${cartamount[i]}" min="1">db</div>
+                    <div class="cart_db"><input onchange="changeQuantity(${queried[incart[i]].id})" inputmode="numeric" pattern="[0-9]*" type="text" id="cartdbid${queried[incart[i]].id}" class="cartdbin" maxlength="1" minlength="1" step="1" name="cartdb" value="${cartamount[i]}" min="1">db</div>
                     <button onclick="removeItem(${queried[incart[i]].id})" class="deleteimg"><img src="./sutik/trash.svg" alt="torles"> </button>
                 </div></div>
                 

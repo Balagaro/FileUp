@@ -192,11 +192,11 @@ app.post('/rendeles', (req, res) => {
                         }}else{
                         if (payt==="1"){
                             if (megjegyzes===""){
-                                sql = `INSERT INTO rendeles(client_id, prog,ar,paytype,megjegyzes) VALUES ("${client_id}",0,${con.escape(price)},'Sikeres online fizetés.',''`}
+                                sql = `INSERT INTO rendeles(client_id, prog,ar,paytype,megjegyzes) VALUES ("${client_id}",0,${con.escape(price)},'Sikeres online fizetés.','')`}
                             }else{
 
 
-                        sql = `INSERT INTO rendeles(client_id, prog,ar,paytype,megjegyzes) VALUES ("${client_id}",0,${con.escape(price)},'Sikeres online fizetés.','Megjegyzés: ${megjegyzes})'`}}
+                        sql = `INSERT INTO rendeles(client_id, prog,ar,paytype,megjegyzes) VALUES ("${client_id}",0,${con.escape(price)},'Sikeres online fizetés.','Megjegyzés: ${megjegyzes}')`}}
 
                     con.query(sql, function (err, result) {
                         if (err) throw err;
@@ -256,46 +256,6 @@ app.post('/rendeles', (req, res) => {
 });
 
 
-
-
-
-
-    app.post('/api/fizetes', async (req, res) => {
-        try {
-            const { paymentData, transactionInfo } = req.body;
-
-            if (!paymentData || !paymentData.paymentMethodData || !paymentData.paymentMethodData.tokenizationData) {
-                throw new Error('Hiányzó vagy érvénytelen paymentData');
-            }
-
-            const tokenData = JSON.parse(paymentData.paymentMethodData.tokenizationData.token);
-            const stripeToken = tokenData.id;
-
-            if (!stripeToken) {
-                throw new Error('Hiányzó Stripe token');
-            }
-
-            const amount = parseFloat(transactionInfo.totalPrice) * 100;
-            const currency = transactionInfo.currencyCode.toLowerCase();
-
-            const charge = await stripe.charges.create({
-                amount: amount,
-                currency: currency,
-                source: stripeToken,
-                description: 'Google Pay fizetés',
-            });
-
-            if (charge.status === 'succeeded') {
-                res.json({ success: true, chargeId: charge.id });
-            } else {
-                res.status(500).json({ success: false, error: 'Hiba történt a fizetés során.' });
-            }
-
-        } catch (error) {
-            //console.error('Hiba a Stripe fizetés feldolgozása során:', error);
-            res.status(500).json({ success: false, error: error.message });
-        }
-    });
 
 
                 let ip2proxy = new IP2Proxy();

@@ -730,3 +730,9 @@ document.querySelector('.resetgomb').addEventListener('click', function (){
     console.log('halal')
     document.querySelector('.skibidimikulas').classList.toggle('hidemiku')
 })
+
+
+
+
+
+

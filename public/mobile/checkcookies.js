@@ -64,5 +64,5 @@ function closeModal_accept(){
 }
 
 function closeModal_decline(){
-    alert("Az Ön helyében meggondolnám")
+    alert("Sajnos nem veheted igénybe a szolgáltatást!")
 }
